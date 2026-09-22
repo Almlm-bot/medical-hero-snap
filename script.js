@@ -662,7 +662,7 @@
 
   const buildSectionTops = () => {
     sectionTops = sections.map(
-      (s) => s.getBoundingClientRect().top + page5.scrollTop
+      (s) => s.offsetTop
     );
   };
 
@@ -964,10 +964,7 @@
     e.preventDefault();
     const isHero = a.getAttribute("href") === "#s0";
     const idx = sections.indexOf(target);
-    const baseY =
-      idx >= 0
-        ? sectionTops[idx]
-        : target.getBoundingClientRect().top + page5.scrollTop;
+    const baseY = idx >= 0 ? sectionTops[idx] : target.offsetTop;
     const extraOffset =
       mqSmall.matches && !isHero
         ? Math.max(0, target.offsetHeight - page5.clientHeight)
