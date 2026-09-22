@@ -945,6 +945,342 @@ html, body { height: 100%; margin: 0; }
 }
 
 /* ════════════════════════════════════════════════
+   PAGE 4: Places gallery
+   ════════════════════════════════════════════════ */
+
+#page4 {
+  --p4-bg: #f3efe4;
+  --p4-ink: #1a1915;
+  --p4-muted: #8f8a80;
+  background: #f3efe4;
+  color: #1a1915;
+  isolation: isolate;
+}
+
+body.p4-detail-open .scroll-root {
+  overflow: hidden;
+}
+
+.p4-stage {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 7.5vh 4vw 0;
+  background: #f3efe4;
+}
+
+.p4-title {
+  margin: 0 auto;
+  max-width: 62rem;
+  text-align: center;
+  font-family: "Instrument Serif", "Times New Roman", serif;
+  font-weight: 400;
+  font-size: clamp(1.85rem, 3.55vw, 3.2rem);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  color: #1a1915;
+}
+
+.p4-line {
+  display: block;
+}
+
+.p4-line-end {
+  white-space: nowrap;
+}
+
+.p4-inline {
+  display: inline-flex;
+  align-items: flex-start;
+  height: 1em;
+  overflow: visible;
+  gap: 0.32em;
+  vertical-align: -0.06em;
+  margin: 0 0.1em;
+}
+
+.p4-paren {
+  font-size: 1em;
+  line-height: 1;
+  color: #1a1915;
+}
+
+.p4-aside {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.228em;
+  font-weight: 400;
+  line-height: 1.28;
+  letter-spacing: 0.01em;
+  color: #9a9488;
+  text-align: center;
+  max-width: 12em;
+  padding-top: 0.35em;
+}
+
+.p4-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: min(52vh, 28.5rem);
+  padding: 0 0.4rem;
+}
+
+.p4-shot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: stretch;
+  flex: 1 1 0;
+  height: 78%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  overflow: visible;
+}
+
+.p4-shot[data-place="a"] { height: 92%; }
+.p4-shot[data-place="b"] { height: 66%; }
+.p4-shot[data-place="c"] { flex: 1.48 1 0; height: 100%; }
+.p4-shot[data-place="d"] { height: 74%; }
+.p4-shot[data-place="e"] { height: 88%; }
+
+.p4-label {
+  position: static;
+  align-self: center;
+  flex-shrink: 0;
+  margin: 0 0 0.62rem;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  color: #8f8a80;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.p4-shot img {
+  display: block;
+  width: 100%;
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.55s ease, filter 0.35s ease;
+}
+
+.p4-shot:hover img,
+.p4-shot:focus-visible img {
+  transform: translateY(-6px);
+  filter: brightness(1.05);
+}
+
+.p4-shot:focus-visible {
+  outline: none;
+}
+
+.p4-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: #f3efe4;
+  color: #1a1915;
+  transform: translateY(100%);
+  transition: transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.p4-overlay.is-open {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.p4-back {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid rgba(26, 25, 21, 0.22);
+  background: #f3efe4;
+  color: #1a1915;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.p4-back svg {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+.p4-back:hover {
+  background: #1a1915;
+  color: #f3efe4;
+}
+
+.p4-detail {
+  display: none;
+  height: 100%;
+  grid-template-columns: 1.15fr 0.85fr;
+  background: #f3efe4;
+}
+
+.p4-overlay.is-open .p4-detail.is-active {
+  display: grid;
+}
+
+.p4-detail-media {
+  min-height: 0;
+  overflow: hidden;
+  background: #1a1915;
+}
+
+.p4-detail-media img {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+}
+
+.p4-detail-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4.5rem 3.5rem 3rem;
+  background: #f3efe4;
+  color: #1a1915;
+}
+
+.p4-detail-kicker {
+  margin: 0 0 1rem;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #8f8a80;
+}
+
+.p4-detail-copy h2 {
+  margin: 0;
+  font-family: "Instrument Serif", "Times New Roman", serif;
+  font-size: clamp(2.1rem, 4vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #1a1915;
+}
+
+.p4-detail-copy p:last-child {
+  margin: 1.35rem 0 0;
+  max-width: 32rem;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: #4d4a44;
+}
+
+@media (max-width: 56.25em) {
+  .p4-stage {
+    padding: 5vh 5vw 0;
+  }
+
+  .p4-title {
+    position: relative;
+    font-size: clamp(1.35rem, 6vw, 1.85rem);
+    max-width: 22rem;
+    padding-bottom: 8.25rem;
+  }
+
+  .p4-line-end {
+    position: relative;
+    white-space: normal;
+  }
+
+  .p4-inline {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    display: flex;
+    height: auto;
+    margin: 0.55rem 0 0;
+  }
+
+  .p4-aside {
+    font-size: 0.52rem;
+    max-width: 14rem;
+    padding-top: 0;
+  }
+
+  .p4-strip {
+    gap: 0.4rem;
+    height: 40vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0.7rem;
+    scrollbar-width: none;
+  }
+
+  .p4-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .p4-shot,
+  .p4-shot[data-place="a"],
+  .p4-shot[data-place="b"],
+  .p4-shot[data-place="d"],
+  .p4-shot[data-place="e"] {
+    flex: 0 0 48vw;
+    min-width: 48vw;
+    height: 86%;
+  }
+
+  .p4-shot[data-place="b"] { height: 70%; }
+  .p4-shot[data-place="d"] { height: 76%; }
+  .p4-shot[data-place="c"] {
+    flex: 0 0 68vw;
+    min-width: 68vw;
+    height: 100%;
+  }
+
+  .p4-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.42rem;
+  }
+
+  .p4-detail {
+    grid-template-columns: 1fr;
+    grid-template-rows: 46vh 1fr;
+  }
+
+  .p4-detail-copy {
+    padding: 1.75rem 1.4rem 2rem;
+  }
+
+  .p4-back {
+    top: 0.9rem;
+    left: 0.9rem;
+  }
+}
+
+/* ════════════════════════════════════════════════
    PAGE 5: CodePen Cube Gallery (Scoped)
    ════════════════════════════════════════════════ */
 
