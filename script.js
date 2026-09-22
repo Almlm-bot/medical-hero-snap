@@ -590,7 +590,8 @@
   if (discover) {
     discover.addEventListener('click', (e) => {
       e.preventDefault();
-      go(Math.min(pages.length - 1, idx + 1));
+      if (locked) return;
+      go(idx + 1);
     });
   }
   
