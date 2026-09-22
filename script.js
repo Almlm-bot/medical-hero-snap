@@ -856,23 +856,25 @@
       boundaryAccumulator = 0;
       boundaryDirection = 0;
       
-      stopAnchorAnim();
-      isSnapping = false;
-      
-      const currentFace = getNearestFaceIndex(tgt);
-      const direction = delta > 0 ? 1 : -1;
-      const absDelta = Math.abs(delta);
-      
-      if (absDelta > 50) {
-        const targetFace = Math.max(0, Math.min(N - 1, currentFace + direction));
-        if (targetFace !== currentFace) {
-          snapToFace(targetFace, performance.now());
-          return;
+      if (!isSnapping) {
+        stopAnchorAnim();
+        
+        const currentFace = getNearestFaceIndex(tgt);
+        const direction = delta > 0 ? 1 : -1;
+        const absDelta = Math.abs(delta);
+        
+        if (absDelta > 25) {
+          e.preventDefault();
+          const targetFace = Math.max(0, Math.min(N - 1, currentFace + direction));
+          if (targetFace !== currentFace) {
+            snapToFace(targetFace, performance.now());
+            return;
+          }
         }
+        
+        velocity += delta;
+        velocity = Math.max(-600, Math.min(600, velocity));
       }
-      
-      velocity += delta;
-      velocity = Math.max(-600, Math.min(600, velocity));
     },
     { passive: false }
   );
