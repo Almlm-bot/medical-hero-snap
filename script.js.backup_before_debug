@@ -407,19 +407,16 @@
     locked = true;
     acc = 0;
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
+    setTimeout(() => { locked = false; }, 900);
     
     // Track entry direction for page 5 - ALWAYS set when entering page 5
     if (i === 4) {
       page5EntryDirection = i > prevIdx ? 1 : -1;
+      if (window.page5SetEntry) {
+        window.page5SetEntry(page5EntryDirection);
+      }
       document.body.classList.add('is-page-5');
-      setTimeout(() => { 
-        locked = false;
-        if (window.page5SetEntry) {
-          window.page5SetEntry(page5EntryDirection);
-        }
-      }, 950);
     } else {
-      setTimeout(() => { locked = false; }, 900);
       document.body.classList.remove('is-page-5');
       if (window.page5ResetVelocity) {
         window.page5ResetVelocity();
@@ -712,7 +709,7 @@
   let velocity = 0;
   let entryDirection = 0;
   let boundaryAccumulator = 0;
-  const BOUNDARY_THRESH = 200;
+  const BOUNDARY_THRESH = 80;
   let lastBoundaryTime = 0;
   let boundaryDirection = 0;
 
@@ -721,14 +718,16 @@
 
   window.page5SetEntry = (dir) => {
     entryDirection = dir;
-    resize();
-    const targetScroll = dir > 0 ? 0 : maxScroll;
-    page5.scrollTo(0, targetScroll);
-    tgt = maxScroll > 0 ? targetScroll / maxScroll : 0;
-    smooth = tgt;
-    velocity = 0;
-    boundaryAccumulator = 0;
-    boundaryDirection = 0;
+    setTimeout(() => {
+      resize();
+      const targetScroll = dir > 0 ? 0 : maxScroll;
+      page5.scrollTo(0, targetScroll);
+      tgt = maxScroll > 0 ? targetScroll / maxScroll : 0;
+      smooth = tgt;
+      velocity = 0;
+      boundaryAccumulator = 0;
+      boundaryDirection = 0;
+    }, 100);
   };
 
   window.page5ResetVelocity = () => {
@@ -814,11 +813,9 @@
         if (boundaryDirection !== 1) {
           boundaryAccumulator = 0;
           boundaryDirection = 1;
-        console.log("Page5SetEntry called:", {dir, maxScroll, willScrollTo: dir > 0 ? 0 : "maxScroll"});
         }
         
         boundaryAccumulator += Math.abs(delta);
-        console.log("Bottom boundary:", {delta: Math.abs(delta), accumulated: boundaryAccumulator, thresh: BOUNDARY_THRESH});
         
         if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 250)) {
           boundaryAccumulator = 0;
