@@ -534,6 +534,8 @@
     sec.id = `s${i}`;
     dom.scrollEl.appendChild(sec);
   }
+  
+  console.log('[init] After section creation, sections in DOM:', dom.scrollEl.querySelectorAll("section").length);
 
   dom.strip.innerHTML = "";
   for (let i = 0; i < N; i++) {
@@ -545,6 +547,9 @@
 
   const sceneDots = [...page5.querySelectorAll(".scene-dot")];
   const sections = [...page5.querySelectorAll("#scroll_container section")];
+  
+  console.log('[init] sections.length:', sections.length, 'sections:', sections.map(s => s.id));
+  console.log('[init] sceneDots.length:', sceneDots.length);
 
   const faceImgIdx = new Array(6).fill(-1);
   let currentStop = -1;
@@ -661,9 +666,15 @@
   let sectionTops = [];
 
   const buildSectionTops = () => {
+    console.log('[buildSectionTops] sections.length:', sections.length, 'sections:', sections);
     sectionTops = sections.map(
-      (s) => s.getBoundingClientRect().top + page5.scrollTop
+      (s, i) => {
+        const top = s.getBoundingClientRect().top + page5.scrollTop;
+        console.log(`[buildSectionTops] section[${i}] id="${s.id}" top=${top}`);
+        return top;
+      }
     );
+    console.log('[buildSectionTops] Final sectionTops.length:', sectionTops.length, 'sectionTops:', sectionTops, 'page5.scrollTop:', page5.scrollTop);
   };
 
   const sectionIndexFromScroll = (y) => {
@@ -722,12 +733,15 @@
   const dynamicFriction = (v) => (Math.abs(v) > 200 ? 0.8 : 0.9);
 
   window.page5SetEntry = (dir) => {
+    console.log('[page5SetEntry] Called with dir:', dir, 'current scrollTop:', page5.scrollTop, 'maxScroll:', maxScroll);
     entryDirection = dir;
     resize();
     const targetScroll = dir > 0 ? 0 : maxScroll;
+    console.log('[page5SetEntry] Scrolling to:', targetScroll, 'maxScroll:', maxScroll);
     page5.scrollTo(0, targetScroll);
     tgt = maxScroll > 0 ? targetScroll / maxScroll : 0;
     smooth = tgt;
+    console.log('[page5SetEntry] Set tgt/smooth to:', tgt);
     velocity = 0;
     boundaryAccumulator = 0;
     boundaryDirection = 0;
@@ -966,14 +980,17 @@
     e.preventDefault();
     const isHero = a.getAttribute("href") === "#s0";
     const idx = sections.indexOf(target);
+    console.log('[click handler] Clicked:', a.getAttribute("href"), 'target:', target, 'idx:', idx, 'sections.length:', sections.length);
     const baseY =
       idx >= 0
         ? sectionTops[idx]
         : target.getBoundingClientRect().top + page5.scrollTop;
+    console.log('[click handler] baseY:', baseY, 'sectionTops[idx]:', sectionTops[idx]);
     const extraOffset =
       mqSmall.matches && !isHero
         ? Math.max(0, target.offsetHeight - page5.clientHeight)
         : 0;
+    console.log('[click handler] Scrolling to:', Math.max(0, baseY + extraOffset));
     smoothScrollToY(Math.max(0, baseY + extraOffset));
   });
 })();
