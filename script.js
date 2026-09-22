@@ -718,13 +718,16 @@
 
   window.page5SetEntry = (dir) => {
     entryDirection = dir;
-    const targetScroll = dir > 0 ? 0 : maxScroll;
-    page5.scrollTo(0, targetScroll);
-    tgt = targetScroll / maxScroll;
-    smooth = tgt;
-    velocity = 0;
-    boundaryAccumulator = 0;
-    boundaryDirection = 0;
+    setTimeout(() => {
+      resize();
+      const targetScroll = dir > 0 ? 0 : maxScroll;
+      page5.scrollTo(0, targetScroll);
+      tgt = maxScroll > 0 ? targetScroll / maxScroll : 0;
+      smooth = tgt;
+      velocity = 0;
+      boundaryAccumulator = 0;
+      boundaryDirection = 0;
+    }, 100);
   };
 
   window.page5ResetVelocity = () => {
@@ -871,9 +874,22 @@
     if (Math.abs(velocity) < 0.01) velocity = 0;
 
     if (Math.abs(velocity) > 0.2) {
-      const next = Math.max(0, Math.min(page5.scrollTop + velocity * ease, maxScroll));
-      page5.scrollTo(0, next);
-      tgt = next / maxScroll;
+      const currentScroll = page5.scrollTop;
+      const next = currentScroll + velocity * ease;
+      
+      if (next <= 0 && velocity < 0) {
+        velocity = 0;
+        page5.scrollTo(0, 0);
+        tgt = 0;
+      } else if (next >= maxScroll && velocity > 0) {
+        velocity = 0;
+        page5.scrollTo(0, maxScroll);
+        tgt = 1;
+      } else {
+        const clamped = Math.max(0, Math.min(next, maxScroll));
+        page5.scrollTo(0, clamped);
+        tgt = clamped / maxScroll;
+      }
     }
 
     smooth += (tgt - smooth) * (1 - Math.exp(-dt * 8));
