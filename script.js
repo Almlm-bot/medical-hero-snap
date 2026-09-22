@@ -398,8 +398,10 @@
   const page5 = document.getElementById('page5');
   let locked = false, acc = 0, idx = 0;
   const THRESH = 50;
+  let page5EntryDirection = 0;
   
-  function go(i) {
+  function go(i, fromPage5 = false) {
+    const prevIdx = idx;
     i = Math.max(0, Math.min(pages.length - 1, i));
     idx = i;
     locked = true;
@@ -407,11 +409,22 @@
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
     setTimeout(() => { locked = false; }, 900);
     
+    // Track entry direction for page 5
+    if (i === 4 && !fromPage5) {
+      page5EntryDirection = i > prevIdx ? 1 : -1;
+      if (window.page5SetEntry) {
+        window.page5SetEntry(page5EntryDirection);
+      }
+    }
+    
     // Toggle page 5 UI visibility (page 5 is at index 4)
     if (i === 4) {
       document.body.classList.add('is-page-5');
     } else {
       document.body.classList.remove('is-page-5');
+      if (window.page5ResetVelocity) {
+        window.page5ResetVelocity();
+      }
     }
   }
   
@@ -441,7 +454,7 @@
     if (e.key === 'End') { e.preventDefault(); go(pages.length - 1); }
   });
   
-  window.goToPage = go;
+  window.goToPage = (i, fromPage5) => go(i, fromPage5);
   window.getCurrentPageIndex = () => idx;
   
   // Initialize page 5 visibility on load
@@ -698,9 +711,28 @@
   let tgt = 0;
   let smooth = 0;
   let velocity = 0;
+  let entryDirection = 0;
+  let boundaryAccumulator = 0;
+  const BOUNDARY_THRESH = 60;
+  let lastBoundaryTime = 0;
 
   const ease = 0.1;
   const dynamicFriction = (v) => (Math.abs(v) > 200 ? 0.8 : 0.9);
+
+  window.page5SetEntry = (dir) => {
+    entryDirection = dir;
+    const targetScroll = dir > 0 ? 0 : maxScroll;
+    page5.scrollTo(0, targetScroll);
+    tgt = targetScroll / maxScroll;
+    smooth = tgt;
+    velocity = 0;
+    boundaryAccumulator = 0;
+  };
+
+  window.page5ResetVelocity = () => {
+    velocity = 0;
+    boundaryAccumulator = 0;
+  };
 
   window.addEventListener("resize", () => {
     resize();
@@ -726,6 +758,12 @@
     () => {
       tgt = maxScroll > 0 ? page5.scrollTop / maxScroll : 0;
       tgt = Math.max(0, Math.min(1, tgt));
+      
+      const atTop = page5.scrollTop <= 0;
+      const atBottom = page5.scrollTop >= maxScroll - 1;
+      if (!atTop && !atBottom) {
+        boundaryAccumulator = 0;
+      }
     },
     { passive: true }
   );
@@ -735,16 +773,41 @@
     (e) => {
       const atTop = page5.scrollTop <= 0;
       const atBottom = page5.scrollTop >= maxScroll - 1;
+      const now = Date.now();
       
-      if ((atTop && e.deltaY < 0) || (atBottom && e.deltaY > 0)) {
+      if (atTop && e.deltaY < 0) {
         e.preventDefault();
-        const dir = e.deltaY > 0 ? 1 : -1;
-        if (window.goToPage) {
-          window.goToPage(window.getCurrentPageIndex() + dir);
+        e.stopPropagation();
+        boundaryAccumulator += Math.abs(e.deltaY);
+        
+        if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 150)) {
+          boundaryAccumulator = 0;
+          lastBoundaryTime = now;
+          velocity = 0;
+          if (window.goToPage) {
+            window.goToPage(window.getCurrentPageIndex() - 1, true);
+          }
         }
         return;
       }
       
+      if (atBottom && e.deltaY > 0) {
+        e.preventDefault();
+        e.stopPropagation();
+        boundaryAccumulator += Math.abs(e.deltaY);
+        
+        if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 150)) {
+          boundaryAccumulator = 0;
+          lastBoundaryTime = now;
+          velocity = 0;
+          if (window.goToPage) {
+            window.goToPage(window.getCurrentPageIndex() + 1, true);
+          }
+        }
+        return;
+      }
+      
+      boundaryAccumulator = 0;
       e.stopPropagation();
       const linePx = 16;
       const pagePx = page5.clientHeight * 0.9;
