@@ -389,6 +389,127 @@
   });
 })();
 
+/* Page 1: CodePen OJzOWxq mega-menu + hero slider */
+(function () {
+  if (!window.gsap) return;
+  const burger = document.getElementById("p1-burger");
+  const overlay = document.querySelector(".p1-overlay");
+  if (!burger || !overlay) return;
+
+  let showMenu = false;
+  overlay.style.display = "none";
+
+  burger.addEventListener("click", () => {
+    showMenu = !showMenu;
+    if (showMenu) {
+      burger.classList.add("active");
+      overlay.style.display = "block";
+      document.body.classList.add("p1-menu-open");
+      gsap.to(overlay, {
+        duration: 1,
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        ease: "expo.in"
+      });
+    } else {
+      burger.classList.remove("active");
+      document.body.classList.remove("p1-menu-open");
+      gsap.to(overlay, {
+        duration: 1,
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+        ease: "expo.out",
+        onComplete: () => {
+          overlay.style.display = "none";
+        }
+      });
+    }
+  });
+
+  addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && showMenu) burger.click();
+  });
+
+  gsap.set(["#hero-1 h2", "#hero-1 h1", "#hero-1 h3"], {
+    clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
+  });
+  gsap.set(
+    [
+      "#hero-2 h2",
+      "#hero-3 h2",
+      "#hero-4 h2",
+      "#hero-5 h2",
+      "#hero-2 h1",
+      "#hero-3 h1",
+      "#hero-4 h1",
+      "#hero-5 h1",
+      "#hero-2 h3",
+      "#hero-3 h3",
+      "#hero-4 h3",
+      "#hero-5 h3"
+    ],
+    {
+      clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)"
+    }
+  );
+
+  const tl = gsap.timeline({
+    repeat: -1,
+    yoyo: true,
+    defaults: { ease: "expo.out" }
+  });
+  const del = 3;
+  for (let i = 1; i < 5; i++) {
+    tl.to(`#hero-${i} h2`, {
+      duration: 0.9,
+      clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)",
+      delay: del
+    })
+      .to(
+        `#hero-${i} h1`,
+        {
+          duration: 0.9,
+          clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)"
+        },
+        "-=0.3"
+      )
+      .to(
+        `#hero-${i} h3`,
+        {
+          duration: 0.9,
+          clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)"
+        },
+        "-=0.3"
+      )
+      .to(
+        `#hero-${i} .hi-${i}`,
+        {
+          duration: 0.7,
+          clipPath: "polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%)"
+        },
+        "-=1"
+      )
+      .to(`#hero-${i + 1} h2`, {
+        duration: 0.9,
+        clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
+      })
+      .to(
+        `#hero-${i + 1} h1`,
+        {
+          duration: 0.9,
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
+        },
+        "-=0.3"
+      )
+      .to(
+        `#hero-${i + 1} h3`,
+        {
+          duration: 0.9,
+          clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
+        },
+        "-=0.3"
+      );
+  }
+})();
+
 
 /* One wheel gesture = one full page (with nested scroll for page 5) */
 (function () {
@@ -430,9 +551,17 @@
   function isInsidePage5(target) {
     return page5 && page5.contains(target);
   }
+
+  const discover = document.querySelector('#page1 .discover');
+  if (discover) {
+    discover.addEventListener('click', (e) => {
+      e.preventDefault();
+      go(Math.min(pages.length - 1, idx + 1));
+    });
+  }
   
   root.addEventListener('wheel', (e) => {
-    if (document.body.classList.contains('p4-detail-open')) {
+    if (document.body.classList.contains('p4-detail-open') || document.body.classList.contains('p1-menu-open')) {
       e.preventDefault();
       return;
     }
@@ -449,7 +578,7 @@
   }, { passive: false });
   
   addEventListener('keydown', (e) => {
-    if (document.body.classList.contains('p4-detail-open')) return;
+    if (document.body.classList.contains('p4-detail-open') || document.body.classList.contains('p1-menu-open')) return;
     if (document.activeElement && isInsidePage5(document.activeElement)) return;
     if (locked) return;
     if (['ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(idx + 1); }
