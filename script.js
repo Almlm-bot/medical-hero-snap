@@ -767,24 +767,35 @@
   page5.addEventListener(
     "wheel",
     (e) => {
+      e.stopPropagation();
+      
       const scrollPos = page5.scrollTop;
-      const BOUNDARY_BUFFER = 10;
-      const nearTop = scrollPos <= BOUNDARY_BUFFER;
-      const nearBottom = scrollPos >= maxScroll - BOUNDARY_BUFFER;
+      const atTop = scrollPos <= 1;
+      const atBottom = scrollPos >= maxScroll - 1;
       const now = Date.now();
       
-      if (nearTop && e.deltaY < 0) {
+      const linePx = 16;
+      const pagePx = page5.clientHeight * 0.9;
+      const delta =
+        e.deltaMode === 1
+          ? e.deltaY * linePx
+          : e.deltaMode === 2
+          ? e.deltaY * pagePx
+          : e.deltaY;
+      
+      if (Math.abs(delta) < 5) return;
+      
+      if (atTop && delta < 0) {
         e.preventDefault();
-        e.stopPropagation();
         
         if (boundaryDirection !== -1) {
           boundaryAccumulator = 0;
           boundaryDirection = -1;
         }
         
-        boundaryAccumulator += Math.abs(e.deltaY);
+        boundaryAccumulator += Math.abs(delta);
         
-        if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 200)) {
+        if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 250)) {
           boundaryAccumulator = 0;
           boundaryDirection = 0;
           lastBoundaryTime = now;
@@ -796,18 +807,17 @@
         return;
       }
       
-      if (nearBottom && e.deltaY > 0) {
+      if (atBottom && delta > 0) {
         e.preventDefault();
-        e.stopPropagation();
         
         if (boundaryDirection !== 1) {
           boundaryAccumulator = 0;
           boundaryDirection = 1;
         }
         
-        boundaryAccumulator += Math.abs(e.deltaY);
+        boundaryAccumulator += Math.abs(delta);
         
-        if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 200)) {
+        if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 250)) {
           boundaryAccumulator = 0;
           boundaryDirection = 0;
           lastBoundaryTime = now;
@@ -822,16 +832,6 @@
       boundaryAccumulator = 0;
       boundaryDirection = 0;
       
-      e.stopPropagation();
-      const linePx = 16;
-      const pagePx = page5.clientHeight * 0.9;
-      const delta =
-        e.deltaMode === 1
-          ? e.deltaY * linePx
-          : e.deltaMode === 2
-          ? e.deltaY * pagePx
-          : e.deltaY;
-      if (Math.abs(delta) < 5) return;
       stopAnchorAnim();
       velocity += delta;
       velocity = Math.max(-600, Math.min(600, velocity));
@@ -874,22 +874,9 @@
     if (Math.abs(velocity) < 0.01) velocity = 0;
 
     if (Math.abs(velocity) > 0.2) {
-      const currentScroll = page5.scrollTop;
-      const next = currentScroll + velocity * ease;
-      
-      if (next <= 0 && velocity < 0) {
-        velocity = 0;
-        page5.scrollTo(0, 0);
-        tgt = 0;
-      } else if (next >= maxScroll && velocity > 0) {
-        velocity = 0;
-        page5.scrollTo(0, maxScroll);
-        tgt = 1;
-      } else {
-        const clamped = Math.max(0, Math.min(next, maxScroll));
-        page5.scrollTo(0, clamped);
-        tgt = clamped / maxScroll;
-      }
+      const next = Math.max(0, Math.min(page5.scrollTop + velocity * ease, maxScroll));
+      page5.scrollTo(0, next);
+      tgt = maxScroll > 0 ? next / maxScroll : 0;
     }
 
     smooth += (tgt - smooth) * (1 - Math.exp(-dt * 8));
