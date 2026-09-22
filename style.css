@@ -1108,51 +1108,6 @@ html, body { height: 100%; margin: 0; }
 }
 
 @layer page5-ui {
-  #page5 #hud {
-    position: fixed;
-    top: var(--ui-inset);
-    right: var(--ui-inset);
-    z-index: var(--z-ui);
-    text-align: right;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #hud {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  #page5 #hud .progress-bar {
-    width: 7.5rem;
-    height: var(--hairline);
-    background: var(--muted);
-    margin-block-start: 0.5rem;
-    margin-inline-start: auto;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #page5 #hud .progress-fill {
-    position: absolute;
-    inset-block: 0;
-    inset-inline-start: 0;
-    width: 0%;
-    background: var(--accent);
-    transition: width 0.1s linear;
-  }
-
-  #page5 #hud .scene-label {
-    font-size: 0.6rem;
-    color: var(--accent);
-    margin-block-start: 0.4rem;
-  }
-
   #page5 #scene_strip {
     position: fixed;
     left: var(--nav-x);
@@ -1573,11 +1528,6 @@ html, body { height: 100%; margin: 0; }
 
 @layer page5-responsive {
   @media (width <= 56.25em) {
-    #page5 #hud {
-      top: 1rem;
-      right: 1rem;
-    }
-
     #page5 #scene_strip {
       display: none;
     }
