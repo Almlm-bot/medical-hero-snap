@@ -997,10 +997,23 @@
 
   const shots = [...page4.querySelectorAll('.p4-shot')];
   const details = [...overlay.querySelectorAll('.p4-detail')];
+  const places = details.map((el) => el.dataset.place);
   const backBtn = overlay.querySelector('.p4-back');
+  const prevBtn = overlay.querySelector('.p4-nav-prev');
+  const nextBtn = overlay.querySelector('.p4-nav-next');
+
+  const showPlace = (id) => {
+    overlay.dataset.place = id;
+    details.forEach((el) => el.classList.toggle('is-active', el.dataset.place === id));
+  };
+
+  const stepPlace = (dir) => {
+    const i = Math.max(0, places.indexOf(overlay.dataset.place));
+    showPlace(places[(i + dir + places.length) % places.length]);
+  };
 
   const openPlace = (id) => {
-    details.forEach((el) => el.classList.toggle('is-active', el.dataset.place === id));
+    showPlace(id);
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.classList.add('p4-detail-open');
@@ -1016,18 +1029,26 @@
   };
 
   shots.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      overlay.dataset.place = btn.dataset.place;
-      openPlace(btn.dataset.place);
-    });
+    btn.addEventListener('click', () => openPlace(btn.dataset.place));
   });
 
   backBtn.addEventListener('click', closePlace);
+  prevBtn.addEventListener('click', () => stepPlace(-1));
+  nextBtn.addEventListener('click', () => stepPlace(1));
 
   addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+    if (!overlay.classList.contains('is-open')) return;
+    if (e.key === 'Escape') {
       e.preventDefault();
       closePlace();
+    }
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      stepPlace(-1);
+    }
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      stepPlace(1);
     }
   });
 })();
