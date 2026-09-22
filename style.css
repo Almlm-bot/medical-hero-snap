@@ -1068,13 +1068,13 @@ html, body { height: 100%; margin: 0; }
   position: relative;
   overflow-y: auto;
   overflow-x: hidden;
-  perspective: 1200px;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Theme Toggle */
 .theme-toggle {
-  position: fixed;
+  position: absolute;
   top: 20px;
   right: 20px;
   width: 50px;
@@ -1117,7 +1117,7 @@ html, body { height: 100%; margin: 0; }
 
 /* HUD Progress */
 .cube-hud {
-  position: fixed;
+  position: absolute;
   top: 20px;
   left: 20px;
   z-index: 1000;
@@ -1161,7 +1161,7 @@ html, body { height: 100%; margin: 0; }
 
 /* Scene Dots */
 .scene-dots {
-  position: fixed;
+  position: absolute;
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
@@ -1200,20 +1200,20 @@ html, body { height: 100%; margin: 0; }
 /* Cube Scene */
 .cube-scene {
   width: 100%;
-  min-height: 600vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 600vh;
   position: relative;
 }
 
 .cube-wrapper {
   position: sticky;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 400px;
   height: 400px;
   perspective: 1200px;
+  z-index: 5;
+  margin: 0 auto;
 }
 
 .cube {
@@ -1303,7 +1303,7 @@ html, body { height: 100%; margin: 0; }
 
 /* Text Card */
 .text-card {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1351,16 +1351,28 @@ html, body { height: 100%; margin: 0; }
     height: 280px;
   }
 
-  .cube-face.front,
-  .cube-face.back,
-  .cube-face.right,
-  .cube-face.left {
-    transform: rotateY(var(--rot-y, 0deg)) translateZ(140px);
+  .cube-face.front  {
+    transform: rotateY(0deg) translateZ(140px);
   }
 
-  .cube-face.top,
+  .cube-face.back   {
+    transform: rotateY(180deg) translateZ(140px);
+  }
+
+  .cube-face.right  {
+    transform: rotateY(90deg) translateZ(140px);
+  }
+
+  .cube-face.left   {
+    transform: rotateY(-90deg) translateZ(140px);
+  }
+
+  .cube-face.top    {
+    transform: rotateX(90deg) translateZ(140px);
+  }
+
   .cube-face.bottom {
-    transform: rotateX(var(--rot-x, 90deg)) translateZ(140px);
+    transform: rotateX(-90deg) translateZ(140px);
   }
 
   .face-caption h2 {
