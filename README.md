@@ -1,27 +1,18 @@
-# Medical Hero — CodePen KwNawQq Replica
+# medical-hero-snap
 
-Classroom webpage: medical/tech hero (first page) + blank full-page sections with mouse-wheel snap scrolling.
+Classroom webpage: CodePen [KwNawQq](https://codepen.io/dermalhealth/pen/KwNawQq) medical hero replica with full-page snap scrolling.
 
-## Live preview
+## View online
 
-https://hero-snap-live.vercel.app
+- GitHub Pages: https://almlm-bot.github.io/medical-hero-snap/
+- Vercel (may need VPN in mainland China): https://hero-snap-live.vercel.app
 
-## Source
+## View offline (recommended in mainland China)
 
-Replica of [CodePen KwNawQq](https://codepen.io/dermalhealth/pen/KwNawQq) (FUTURE MEDICINE / SmartCare / wave-wrap), then extended with blank pages and one-page-per-wheel snap scroll (both directions).
+Download this repo as ZIP, unzip, open `index.html` in a browser. Assets are bundled under `assets/` and `vendor/` so no external CDN is required.
 
 ## Files
 
-| File | Role |
-|------|------|
-| `index.html` | Page structure (hero + blank pages 2–5) |
-| `style.css` | Layout and visuals |
-| `script.js` | GSAP animations + snap scroll |
-
-## Local preview
-
-Open `index.html` in a browser, or serve the folder:
-
-```bash
-npx --yes serve .
-```
+- `index.html` / `style.css` / `script.js` — page
+- `assets/` — images
+- `vendor/` — GSAP
