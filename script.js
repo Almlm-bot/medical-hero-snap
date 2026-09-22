@@ -432,6 +432,10 @@
   }
   
   root.addEventListener('wheel', (e) => {
+    if (document.body.classList.contains('p4-detail-open')) {
+      e.preventDefault();
+      return;
+    }
     if (isInsidePage5(e.target)) {
       return;
     }
@@ -445,6 +449,7 @@
   }, { passive: false });
   
   addEventListener('keydown', (e) => {
+    if (document.body.classList.contains('p4-detail-open')) return;
     if (document.activeElement && isInsidePage5(document.activeElement)) return;
     if (locked) return;
     if (['ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(idx + 1); }
@@ -987,6 +992,51 @@
     if (window.getCurrentPageIndex && window.goToPage) {
       const currentIdx = window.getCurrentPageIndex();
       window.goToPage(currentIdx + 1);
+    }
+  });
+})();
+
+/* ════════════════════════════════════════════════
+   PAGE 4: Places A–E detail overlay
+   ════════════════════════════════════════════════ */
+(function () {
+  const page4 = document.getElementById('page4');
+  const overlay = document.getElementById('p4-overlay');
+  if (!page4 || !overlay) return;
+
+  const shots = [...page4.querySelectorAll('.p4-shot')];
+  const details = [...overlay.querySelectorAll('.p4-detail')];
+  const backBtn = overlay.querySelector('.p4-back');
+
+  const openPlace = (id) => {
+    details.forEach((el) => el.classList.toggle('is-active', el.dataset.place === id));
+    overlay.classList.add('is-open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('p4-detail-open');
+    backBtn.focus();
+  };
+
+  const closePlace = () => {
+    overlay.classList.remove('is-open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('p4-detail-open');
+    const active = page4.querySelector(`.p4-shot[data-place="${overlay.dataset.place}"]`);
+    if (active) active.focus();
+  };
+
+  shots.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      overlay.dataset.place = btn.dataset.place;
+      openPlace(btn.dataset.place);
+    });
+  });
+
+  backBtn.addEventListener('click', closePlace);
+
+  addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) {
+      e.preventDefault();
+      closePlace();
     }
   });
 })();
