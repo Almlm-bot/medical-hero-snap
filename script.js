@@ -510,7 +510,7 @@
       { rx: 0, ry: -90 },
       { rx: 0, ry: -180 },
       { rx: 0, ry: -270 },
-      { rx: -90, ry: -270 }
+      { rx: -90, ry: -360 }
     ];
     const out = base.slice(0, Math.min(n, 6));
     for (let i = 6; i < n; i++) {
