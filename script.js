@@ -390,13 +390,114 @@
 })();
 
 
-/* One wheel gesture = one full page (both directions) */
+/* ════════════════════════════════════════════════
+     PAGE 5 - 3D CUBE GALLERY
+     ════════════════════════════════════════════════ */
+(function () {
+  const page5 = document.getElementById('page5');
+  if (!page5) return;
+
+  const cubeContainer = page5.querySelector('.cube-container');
+  const cube = page5.querySelector('.cube');
+  const progressBar = page5.querySelector('.progress-bar');
+  const currentFaceEl = page5.querySelector('.current-face');
+  const dots = page5.querySelectorAll('.dot');
+  const themeToggle = page5.querySelector('.theme-toggle');
+  const textCard = page5.querySelector('.text-card');
+
+  let currentFace = 0;
+  const faces = 6;
+
+  // Rotation configurations for each face
+  const rotations = [
+    { x: 0, y: 0 },       // Face 1 (front)
+    { x: 0, y: -180 },    // Face 2 (back)
+    { x: 0, y: -90 },     // Face 3 (right)
+    { x: 0, y: 90 },      // Face 4 (left)
+    { x: -90, y: 0 },     // Face 5 (top)
+    { x: 90, y: 0 }       // Face 6 (bottom)
+  ];
+
+  // Update cube rotation based on scroll
+  function updateCube() {
+    const scrollTop = cubeContainer.scrollTop;
+    const scrollHeight = cubeContainer.scrollHeight - cubeContainer.clientHeight;
+    const scrollProgress = Math.min(scrollTop / scrollHeight, 1);
+    
+    // Calculate which face should be shown
+    const faceProgress = scrollProgress * (faces - 1);
+    const targetFace = Math.round(faceProgress);
+    
+    // Smooth interpolation between faces
+    const faceIndex = Math.floor(faceProgress);
+    const nextFaceIndex = Math.min(faceIndex + 1, faces - 1);
+    const t = faceProgress - faceIndex;
+    
+    const currentRot = rotations[faceIndex];
+    const nextRot = rotations[nextFaceIndex];
+    
+    const rotX = currentRot.x + (nextRot.x - currentRot.x) * t;
+    const rotY = currentRot.y + (nextRot.y - currentRot.y) * t;
+    
+    cube.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+    
+    // Update HUD
+    progressBar.style.width = `${scrollProgress * 100}%`;
+    
+    // Update current face if changed
+    if (targetFace !== currentFace) {
+      currentFace = targetFace;
+      currentFaceEl.textContent = currentFace + 1;
+      
+      // Update dots
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentFace);
+      });
+      
+      // Show text card briefly on face change
+      textCard.classList.add('show');
+      setTimeout(() => textCard.classList.remove('show'), 2000);
+    }
+  }
+
+  // Scroll event listener for cube container
+  cubeContainer.addEventListener('scroll', updateCube);
+
+  // Dot navigation
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      const scrollHeight = cubeContainer.scrollHeight - cubeContainer.clientHeight;
+      const targetScroll = (i / (faces - 1)) * scrollHeight;
+      cubeContainer.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    });
+  });
+
+  // Theme toggle
+  themeToggle.addEventListener('click', () => {
+    page5.classList.toggle('dark-theme');
+  });
+
+  // Initialize
+  updateCube();
+  
+  // Show text card on initial load
+  setTimeout(() => {
+    textCard.classList.add('show');
+    setTimeout(() => textCard.classList.remove('show'), 3000);
+  }, 500);
+})();
+
+/* One wheel gesture = one full page (both directions) with Page 5 nested scroll */
 (function () {
   const root = document.querySelector('.scroll-root');
   if (!root) return;
   const pages = [...root.querySelectorAll('.scroll-page')];
+  const page5 = document.getElementById('page5');
+  const cubeContainer = page5?.querySelector('.cube-container');
+  
   let locked = false, acc = 0, idx = 0;
   const THRESH = 50;
+  
   function go(i) {
     i = Math.max(0, Math.min(pages.length - 1, i));
     idx = i;
@@ -405,7 +506,53 @@
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
     setTimeout(() => { locked = false; }, 900);
   }
+  
+  // Get current page index
+  function getCurrentPageIndex() {
+    const scrollTop = root.scrollTop;
+    for (let i = 0; i < pages.length; i++) {
+      const pageTop = pages[i].offsetTop;
+      const pageBottom = pageTop + pages[i].offsetHeight;
+      if (scrollTop >= pageTop - 10 && scrollTop < pageBottom - 10) {
+        return i;
+      }
+    }
+    return 0;
+  }
+  
   root.addEventListener('wheel', (e) => {
+    idx = getCurrentPageIndex();
+    
+    // Special handling for page 5 (cube gallery)
+    if (idx === 4 && page5 && cubeContainer) {
+      const scrollTop = cubeContainer.scrollTop;
+      const scrollHeight = cubeContainer.scrollHeight - cubeContainer.clientHeight;
+      const isAtTop = scrollTop <= 1;
+      const isAtBottom = scrollTop >= scrollHeight - 1;
+      
+      // If scrolling up at top of cube, allow going to previous page
+      if (e.deltaY < 0 && isAtTop) {
+        e.preventDefault();
+        if (!locked) {
+          go(idx - 1);
+        }
+        return;
+      }
+      
+      // If scrolling down at bottom of cube, allow going to next page
+      if (e.deltaY > 0 && isAtBottom) {
+        e.preventDefault();
+        if (!locked) {
+          go(idx + 1);
+        }
+        return;
+      }
+      
+      // Otherwise, let the cube container handle the scroll
+      return;
+    }
+    
+    // Normal page navigation for other pages
     e.preventDefault();
     if (locked) return;
     acc += e.deltaY;
@@ -414,11 +561,31 @@
     acc = 0;
     go(idx + dir);
   }, { passive: false });
+  
   addEventListener('keydown', (e) => {
     if (locked) return;
-    if (['ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(idx + 1); }
-    if (['ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); go(idx - 1); }
-    if (e.key === 'Home') { e.preventDefault(); go(0); }
-    if (e.key === 'End') { e.preventDefault(); go(pages.length - 1); }
+    idx = getCurrentPageIndex();
+    
+    // Allow arrow keys to work within page 5 cube scroll
+    if (idx === 4 && page5 && ['ArrowDown', 'ArrowUp'].includes(e.key)) {
+      return; // Let the cube container handle it
+    }
+    
+    if (['ArrowDown', 'PageDown', ' '].includes(e.key)) { 
+      e.preventDefault(); 
+      go(idx + 1); 
+    }
+    if (['ArrowUp', 'PageUp'].includes(e.key)) { 
+      e.preventDefault(); 
+      go(idx - 1); 
+    }
+    if (e.key === 'Home') { 
+      e.preventDefault(); 
+      go(0); 
+    }
+    if (e.key === 'End') { 
+      e.preventDefault(); 
+      go(pages.length - 1); 
+    }
   });
 })();
