@@ -1197,20 +1197,66 @@ body.p4-detail-open .scroll-root {
 
 @media (max-width: 56.25em) {
   .p4-stage {
-    padding: 5.5vh 5vw 0;
+    padding: 5vh 5vw 0;
   }
 
   .p4-title {
-    font-size: clamp(1.45rem, 6.2vw, 2.1rem);
+    position: relative;
+    font-size: clamp(1.35rem, 6vw, 1.85rem);
+    max-width: 22rem;
+    padding-bottom: 8.25rem;
   }
 
   .p4-line-end {
+    position: relative;
     white-space: normal;
   }
 
+  .p4-inline {
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform: translateX(-50%);
+    display: flex;
+    height: auto;
+    margin: 0.55rem 0 0;
+  }
+
+  .p4-aside {
+    font-size: 0.52rem;
+    max-width: 14rem;
+    padding-top: 0;
+  }
+
   .p4-strip {
-    gap: 0.28rem;
-    height: 44vh;
+    gap: 0.4rem;
+    height: 40vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0.7rem;
+    scrollbar-width: none;
+  }
+
+  .p4-strip::-webkit-scrollbar {
+    display: none;
+  }
+
+  .p4-shot,
+  .p4-shot[data-place="a"],
+  .p4-shot[data-place="b"],
+  .p4-shot[data-place="d"],
+  .p4-shot[data-place="e"] {
+    flex: 0 0 48vw;
+    min-width: 48vw;
+    height: 86%;
+  }
+
+  .p4-shot[data-place="b"] { height: 70%; }
+  .p4-shot[data-place="d"] { height: 76%; }
+  .p4-shot[data-place="c"] {
+    flex: 0 0 68vw;
+    min-width: 68vw;
+    height: 100%;
   }
 
   .p4-label {
