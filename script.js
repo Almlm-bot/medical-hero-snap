@@ -406,6 +406,13 @@
     acc = 0;
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
     setTimeout(() => { locked = false; }, 900);
+    
+    // Toggle page 5 UI visibility (page 5 is at index 4)
+    if (i === 4) {
+      document.body.classList.add('is-page-5');
+    } else {
+      document.body.classList.remove('is-page-5');
+    }
   }
   
   function isInsidePage5(target) {
@@ -436,6 +443,13 @@
   
   window.goToPage = go;
   window.getCurrentPageIndex = () => idx;
+  
+  // Initialize page 5 visibility on load
+  if (idx === 4) {
+    document.body.classList.add('is-page-5');
+  } else {
+    document.body.classList.remove('is-page-5');
+  }
 })();
 
 /* ════════════════════════════════════════════════
