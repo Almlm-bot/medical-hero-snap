@@ -715,9 +715,30 @@
   const BOUNDARY_THRESH = 200;
   let lastBoundaryTime = 0;
   let boundaryDirection = 0;
+  
+  let targetFaceIndex = 0;
+  let isSnapping = false;
+  let snapAnimStart = 0;
+  const SNAP_DURATION = 600;
+  const VELOCITY_SETTLE_THRESHOLD = 10;
 
   const ease = 0.1;
   const dynamicFriction = (v) => (Math.abs(v) > 200 ? 0.8 : 0.9);
+  
+  const getNearestFaceIndex = (s) => Math.round(s * (N - 1));
+  
+  const faceIndexToScroll = (idx) => {
+    return Math.max(0, Math.min(1, idx / (N - 1))) * maxScroll;
+  };
+  
+  const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+  
+  const snapToFace = (faceIdx, now) => {
+    targetFaceIndex = Math.max(0, Math.min(N - 1, faceIdx));
+    isSnapping = true;
+    snapAnimStart = now;
+    velocity = 0;
+  };
 
   window.page5SetEntry = (dir) => {
     entryDirection = dir;
@@ -729,6 +750,8 @@
     velocity = 0;
     boundaryAccumulator = 0;
     boundaryDirection = 0;
+    targetFaceIndex = dir > 0 ? 0 : N - 1;
+    isSnapping = false;
   };
 
   window.page5ResetVelocity = () => {
@@ -814,11 +837,9 @@
         if (boundaryDirection !== 1) {
           boundaryAccumulator = 0;
           boundaryDirection = 1;
-        console.log("Page5SetEntry called:", {dir, maxScroll, willScrollTo: dir > 0 ? 0 : "maxScroll"});
         }
         
         boundaryAccumulator += Math.abs(delta);
-        console.log("Bottom boundary:", {delta: Math.abs(delta), accumulated: boundaryAccumulator, thresh: BOUNDARY_THRESH});
         
         if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 250)) {
           boundaryAccumulator = 0;
@@ -835,9 +856,25 @@
       boundaryAccumulator = 0;
       boundaryDirection = 0;
       
-      stopAnchorAnim();
-      velocity += delta;
-      velocity = Math.max(-600, Math.min(600, velocity));
+      if (!isSnapping) {
+        stopAnchorAnim();
+        
+        const currentFace = getNearestFaceIndex(tgt);
+        const direction = delta > 0 ? 1 : -1;
+        const absDelta = Math.abs(delta);
+        
+        if (absDelta > 25) {
+          e.preventDefault();
+          const targetFace = Math.max(0, Math.min(N - 1, currentFace + direction));
+          if (targetFace !== currentFace) {
+            snapToFace(targetFace, performance.now());
+            return;
+          }
+        }
+        
+        velocity += delta;
+        velocity = Math.max(-600, Math.min(600, velocity));
+      }
     },
     { passive: false }
   );
@@ -873,17 +910,43 @@
     const dt = Math.min((now - lastNow) / 1000, 0.05);
     lastNow = now;
 
-    velocity *= Math.pow(dynamicFriction(velocity), dt * 60);
-    if (Math.abs(velocity) < 0.01) velocity = 0;
+    if (isSnapping) {
+      const elapsed = now - snapAnimStart;
+      const progress = Math.min(1, elapsed / SNAP_DURATION);
+      const easedProgress = easeOutExpo(progress);
+      
+      const targetScroll = faceIndexToScroll(targetFaceIndex);
+      const startScroll = page5.scrollTop;
+      const nextScroll = startScroll + (targetScroll - startScroll) * easedProgress;
+      
+      page5.scrollTo(0, nextScroll);
+      tgt = maxScroll > 0 ? nextScroll / maxScroll : 0;
+      smooth = tgt;
+      
+      if (progress >= 1) {
+        isSnapping = false;
+        page5.scrollTo(0, targetScroll);
+        tgt = maxScroll > 0 ? targetScroll / maxScroll : 0;
+        smooth = tgt;
+      }
+    } else {
+      velocity *= Math.pow(dynamicFriction(velocity), dt * 60);
+      if (Math.abs(velocity) < 0.01) velocity = 0;
 
-    if (Math.abs(velocity) > 0.2) {
-      const next = Math.max(0, Math.min(page5.scrollTop + velocity * ease, maxScroll));
-      page5.scrollTo(0, next);
-      tgt = maxScroll > 0 ? next / maxScroll : 0;
+      if (Math.abs(velocity) > 0.2) {
+        const next = Math.max(0, Math.min(page5.scrollTop + velocity * ease, maxScroll));
+        page5.scrollTo(0, next);
+        tgt = maxScroll > 0 ? next / maxScroll : 0;
+      } else if (Math.abs(velocity) < VELOCITY_SETTLE_THRESHOLD && !isAnchorScrolling) {
+        const currentFace = getNearestFaceIndex(tgt);
+        if (Math.abs(tgt - currentFace / (N - 1)) > 0.02) {
+          snapToFace(currentFace, now);
+        }
+      }
+
+      smooth += (tgt - smooth) * (1 - Math.exp(-dt * 8));
+      smooth = Math.max(0, Math.min(1, smooth));
     }
-
-    smooth += (tgt - smooth) * (1 - Math.exp(-dt * 8));
-    smooth = Math.max(0, Math.min(1, smooth));
 
     updateHUD(smooth);
     checkImageSwaps(smooth);
@@ -938,8 +1001,20 @@
     const target = page5.querySelector(a.getAttribute("href"));
     if (!target) return;
     e.preventDefault();
-    const isHero = a.getAttribute("href") === "#s0";
+    
     const idx = sections.indexOf(target);
+    if (idx >= 0 && idx < N) {
+      const isBackBtn = a.classList.contains('cta-back');
+      const isTurnBtn = a.classList.contains('cta') && !a.classList.contains('cta-back');
+      
+      if (isBackBtn || isTurnBtn) {
+        stopAnchorAnim();
+        snapToFace(idx, performance.now());
+        return;
+      }
+    }
+    
+    const isHero = a.getAttribute("href") === "#s0";
     const baseY =
       idx >= 0
         ? sectionTops[idx]
