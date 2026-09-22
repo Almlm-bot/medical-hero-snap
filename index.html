@@ -377,7 +377,103 @@
 <section class="scroll-page blank" aria-label="Page 2"></section>
 <section class="scroll-page blank" aria-label="Page 3"></section>
 <section class="scroll-page blank" aria-label="Page 4"></section>
-<section class="scroll-page blank" aria-label="Page 5"></section>
+<section class="scroll-page" id="page5" aria-label="Page 5">
+  <div class="cube-container">
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" aria-label="Toggle theme">
+      <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+      <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+
+    <!-- HUD Progress -->
+    <div class="cube-hud">
+      <div class="hud-progress">
+        <div class="progress-bar"></div>
+      </div>
+      <div class="hud-text">
+        <span class="current-face">1</span> / 6
+      </div>
+    </div>
+
+    <!-- Scene Dots Navigation -->
+    <div class="scene-dots">
+      <button class="dot active" data-face="0" aria-label="Face 1"></button>
+      <button class="dot" data-face="1" aria-label="Face 2"></button>
+      <button class="dot" data-face="2" aria-label="Face 3"></button>
+      <button class="dot" data-face="3" aria-label="Face 4"></button>
+      <button class="dot" data-face="4" aria-label="Face 5"></button>
+      <button class="dot" data-face="5" aria-label="Face 6"></button>
+    </div>
+
+    <!-- 3D Cube -->
+    <div class="cube-scene">
+      <div class="cube-wrapper">
+        <div class="cube">
+          <div class="cube-face front" data-face="1">
+            <img src="./assets/cube/face-1.svg" alt="Face 1">
+            <div class="face-caption">
+              <h2>Walking The Cow</h2>
+              <p>First Movement</p>
+            </div>
+          </div>
+          <div class="cube-face back" data-face="2">
+            <img src="./assets/cube/face-2.svg" alt="Face 2">
+            <div class="face-caption">
+              <h2>Second Sight</h2>
+              <p>Rotate through space</p>
+            </div>
+          </div>
+          <div class="cube-face right" data-face="3">
+            <img src="./assets/cube/face-3.svg" alt="Face 3">
+            <div class="face-caption">
+              <h2>Third Dimension</h2>
+              <p>Explore the cube</p>
+            </div>
+          </div>
+          <div class="cube-face left" data-face="4">
+            <img src="./assets/cube/face-4.svg" alt="Face 4">
+            <div class="face-caption">
+              <h2>Fourth Wall</h2>
+              <p>Beyond the surface</p>
+            </div>
+          </div>
+          <div class="cube-face top" data-face="5">
+            <img src="./assets/cube/face-5.svg" alt="Face 5">
+            <div class="face-caption">
+              <h2>Fifth Element</h2>
+              <p>Rise above</p>
+            </div>
+          </div>
+          <div class="cube-face bottom" data-face="6">
+            <img src="./assets/cube/face-6.svg" alt="Face 6">
+            <div class="face-caption">
+              <h2>Sixth Sense</h2>
+              <p>Complete the journey</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Text Card (appears on current face) -->
+    <div class="text-card">
+      <h3 class="card-title">Six Faces</h3>
+      <p class="card-description">Scroll to rotate through the cube faces</p>
+    </div>
+  </div>
+</section>
 <section class="scroll-page blank" aria-label="Page 6"></section>
 </div>
 <script src="./vendor/gsap.min.js"></script>
