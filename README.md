@@ -2,6 +2,13 @@
 
 Classroom webpage: CodePen [KwNawQq](https://codepen.io/dermalhealth/pen/KwNawQq) medical hero replica with full-page snap scrolling.
 
+## Pages
+
+- **Page 1:** Medical Hero with GSAP animations (CodePen KwNawQq)
+- **Pages 2-4:** Blank placeholder pages
+- **Page 5:** 3D Cube Gallery — faithful source port of CodePen [ZYpyoRV](https://codepen.io/luis-lessrain/pen/ZYpyoRV) with scroll-driven cube rotation, theme toggle, and nested scroll handoff
+- **Page 6:** Blank placeholder page
+
 ## View online
 
 - GitHub Pages: https://almlm-bot.github.io/medical-hero-snap/
@@ -14,5 +21,5 @@ Download this repo as ZIP, unzip, open `index.html` in a browser. Assets are bun
 ## Files
 
 - `index.html` / `style.css` / `script.js` — page
-- `assets/` — images
+- `assets/` — images (including `cube/` for page 5)
 - `vendor/` — GSAP
