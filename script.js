@@ -951,3 +951,19 @@
     smoothScrollToY(Math.max(0, baseY + extraOffset));
   });
 })();
+
+/* ════════════════════════════════════════════════
+   "Discover more" button navigation to next page
+   ════════════════════════════════════════════════ */
+(function () {
+  const discoverLink = document.querySelector('.discover');
+  if (!discoverLink) return;
+  
+  discoverLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (window.getCurrentPageIndex && window.goToPage) {
+      const currentIdx = window.getCurrentPageIndex();
+      window.goToPage(currentIdx + 1);
+    }
+  });
+})();
