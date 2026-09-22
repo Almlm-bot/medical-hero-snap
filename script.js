@@ -590,8 +590,6 @@
   if (discover) {
     discover.addEventListener('click', (e) => {
       e.preventDefault();
-      if (locked) return;
-      go(idx + 1);
     });
   }
   
