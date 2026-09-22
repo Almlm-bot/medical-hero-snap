@@ -1033,6 +1033,22 @@ html, body { height: 100%; margin: 0; }
     align-items: center;
     padding: 6rem calc(5rem + var(--ui-inset)) 6rem 5rem;
   }
+
+  #page5 #scroll_container section .text-card {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  #page5 #scroll_container section:not(.is-active) .text-card {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(0.75rem);
+  }
+
+  #page5 #scroll_container section.is-active .text-card {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+  }
 }
 
 @layer page5-cube {
@@ -1134,29 +1150,9 @@ html, body { height: 100%; margin: 0; }
     pointer-events: auto;
   }
 
-  #page5 #hud .progress-bar {
-    width: 7.5rem;
-    height: var(--hairline);
-    background: var(--muted);
-    margin-block-start: 0.5rem;
-    margin-inline-start: auto;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #page5 #hud .progress-fill {
-    position: absolute;
-    inset-block: 0;
-    inset-inline-start: 0;
-    width: 0%;
-    background: var(--accent);
-    transition: width 0.1s linear;
-  }
-
   #page5 #hud .scene-label {
     font-size: 0.6rem;
     color: var(--accent);
-    margin-block-start: 0.4rem;
   }
 
   #page5 #scene_strip {
