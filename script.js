@@ -528,7 +528,6 @@
     cube: page5.querySelector("#cube"),
     faces: [...page5.querySelectorAll(".face")],
     scrollEl: page5.querySelector("#scroll_container"),
-    strip: page5.querySelector("#scene_strip"),
     sceneName: page5.querySelector("#scene_name"),
     captionNum: page5.querySelector("#face_caption_num"),
     captionName: page5.querySelector("#face_caption_name"),
@@ -541,15 +540,7 @@
     dom.scrollEl.appendChild(sec);
   }
 
-  dom.strip.innerHTML = "";
-  for (let i = 0; i < N; i++) {
-    const a = document.createElement("a");
-    a.href = `#s${i}`;
-    a.className = "scene-dot" + (i === 0 ? " active" : "");
-    dom.strip.appendChild(a);
-  }
-
-  const sceneDots = [...page5.querySelectorAll(".scene-dot")];
+  const sceneDots = [];
   const sections = [...page5.querySelectorAll("#scroll_container section")];
 
   const faceImgIdx = new Array(6).fill(-1);
