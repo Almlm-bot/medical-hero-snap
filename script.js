@@ -524,9 +524,6 @@
     faces: [...page5.querySelectorAll(".face")],
     scrollEl: page5.querySelector("#scroll_container"),
     strip: page5.querySelector("#scene_strip"),
-    hudPct: page5.querySelector("#hud_pct"),
-    progFill: page5.querySelector("#prog_fill"),
-    sceneName: page5.querySelector("#scene_name"),
     captionNum: page5.querySelector("#face_caption_num"),
     captionName: page5.querySelector("#face_caption_name"),
     themeToggle: page5.querySelector("#theme_toggle")
@@ -627,15 +624,11 @@
   let lastFaceIdx = -1;
 
   const updateHUD = (s) => {
-    const p = Math.round(s * 100);
     const si = sectionIndexFromScroll(page5.scrollTop);
     currentStop = si;
-    dom.hudPct.textContent = String(p).padStart(3, "0") + "%";
-    dom.progFill.style.width = `${p}%`;
     if (si !== lastFaceIdx) {
       lastFaceIdx = si;
       const name = FACE_NAMES[si] ?? "";
-      dom.sceneName.textContent = name;
       dom.captionNum.textContent = String(si + 1).padStart(2, "0");
       dom.captionName.textContent = name;
       sceneDots.forEach((d, i) => d.classList.toggle("active", i === si));
@@ -644,8 +637,17 @@
 
   const easeIO = (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
 
-  const setCubeTransform = (s) => {
+  const setCubeTransform = (s, snap = false) => {
     if (N < 2 || STOPS.length < 2) return;
+    
+    if (snap) {
+      // Snap to nearest stop
+      const si = Math.round(s * (N - 1));
+      const stop = STOPS[si];
+      dom.cube.style.transform = `rotateX(${stop.rx}deg) rotateY(${stop.ry}deg)`;
+      return;
+    }
+    
     const t = s * (N - 1);
     const i = Math.min(Math.floor(t), N - 2);
     const f = easeIO(t - i);
@@ -660,7 +662,7 @@
 
   const buildSectionTops = () => {
     sectionTops = sections.map(
-      (s) => s.getBoundingClientRect().top + page5.scrollTop
+      (s) => s.offsetTop
     );
   };
 
@@ -814,11 +816,9 @@
         if (boundaryDirection !== 1) {
           boundaryAccumulator = 0;
           boundaryDirection = 1;
-        console.log("Page5SetEntry called:", {dir, maxScroll, willScrollTo: dir > 0 ? 0 : "maxScroll"});
         }
         
         boundaryAccumulator += Math.abs(delta);
-        console.log("Bottom boundary:", {delta: Math.abs(delta), accumulated: boundaryAccumulator, thresh: BOUNDARY_THRESH});
         
         if (boundaryAccumulator >= BOUNDARY_THRESH && (now - lastBoundaryTime > 250)) {
           boundaryAccumulator = 0;
@@ -861,6 +861,8 @@
   revealEls.forEach((el) => io.observe(el));
 
   let lastNow = performance.now();
+  let idleFrames = 0;
+  const IDLE_THRESHOLD = 30; // frames of minimal movement before snapping
 
   const frame = (now) => {
     requestAnimationFrame(frame);
@@ -880,14 +882,31 @@
       const next = Math.max(0, Math.min(page5.scrollTop + velocity * ease, maxScroll));
       page5.scrollTo(0, next);
       tgt = maxScroll > 0 ? next / maxScroll : 0;
+      idleFrames = 0;
     }
 
+    const prevSmooth = smooth;
     smooth += (tgt - smooth) * (1 - Math.exp(-dt * 8));
     smooth = Math.max(0, Math.min(1, smooth));
-
+    
+    const movement = Math.abs(smooth - prevSmooth);
+    
     updateHUD(smooth);
     checkImageSwaps(smooth);
-    setCubeTransform(smooth);
+    
+    // If movement is minimal, increment idle counter
+    if (movement < 0.0001 && Math.abs(velocity) < 0.1) {
+      idleFrames++;
+    } else {
+      idleFrames = 0;
+    }
+    
+    // Snap to exact stop when idle
+    if (idleFrames >= IDLE_THRESHOLD && !isAnchorScrolling) {
+      setCubeTransform(smooth, true);
+    } else {
+      setCubeTransform(smooth, false);
+    }
   };
 
   requestAnimationFrame(frame);
@@ -910,6 +929,7 @@
     stopAnchorAnim();
     velocity = 0;
     isAnchorScrolling = true;
+    idleFrames = 0;
     const startY = page5.scrollTop;
     const diff = targetY - startY;
     const start = performance.now();
@@ -924,6 +944,10 @@
       } else {
         anchorAnim = null;
         isAnchorScrolling = false;
+        // Force immediate HUD update and cube snap when animation completes
+        updateHUD(smooth);
+        setCubeTransform(smooth, true);
+        idleFrames = IDLE_THRESHOLD;
       }
     };
     anchorAnim = requestAnimationFrame(tick);
@@ -940,10 +964,7 @@
     e.preventDefault();
     const isHero = a.getAttribute("href") === "#s0";
     const idx = sections.indexOf(target);
-    const baseY =
-      idx >= 0
-        ? sectionTops[idx]
-        : target.getBoundingClientRect().top + page5.scrollTop;
+    const baseY = idx >= 0 ? sectionTops[idx] : target.offsetTop;
     const extraOffset =
       mqSmall.matches && !isHero
         ? Math.max(0, target.offsetHeight - page5.clientHeight)
