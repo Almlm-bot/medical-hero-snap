@@ -1112,20 +1112,17 @@ html, body { height: 100%; margin: 0; }
 
 @layer page5-layout {
   #page5 #scene {
-    position: fixed;
-    inset: 0;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
     z-index: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     perspective: 1100px;
     pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #scene {
-    opacity: 1;
   }
 
   #page5 #scroll_container {
@@ -1221,7 +1218,7 @@ html, body { height: 100%; margin: 0; }
 
 @layer page5-ui {
   #page5 #hud {
-    position: fixed;
+    position: sticky;
     top: var(--ui-inset);
     right: var(--ui-inset);
     z-index: var(--z-ui);
@@ -1230,14 +1227,8 @@ html, body { height: 100%; margin: 0; }
     letter-spacing: 0.15em;
     color: var(--muted);
     text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #hud {
-    opacity: 1;
-    pointer-events: auto;
+    margin-left: auto;
+    width: fit-content;
   }
 
   #page5 #hud .progress-bar {
@@ -1266,22 +1257,14 @@ html, body { height: 100%; margin: 0; }
   }
 
   #page5 #scene_strip {
-    position: fixed;
+    position: sticky;
     left: var(--nav-x);
-    top: 50%;
+    top: 50vh;
     translate: -50% -50%;
     z-index: var(--z-ui);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #scene_strip {
-    opacity: 1;
-    pointer-events: auto;
   }
 
   #page5 .scene-dot {
@@ -1307,8 +1290,9 @@ html, body { height: 100%; margin: 0; }
   }
 
   #page5 #theme_toggle {
-    position: fixed;
+    position: sticky;
     bottom: var(--ui-inset);
+    top: calc(100vh - var(--ui-inset) - 2rem);
     left: var(--nav-x);
     translate: -50% 0;
     z-index: var(--z-ui);
@@ -1321,14 +1305,7 @@ html, body { height: 100%; margin: 0; }
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: background 0.3s, opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #theme_toggle {
-    opacity: 1;
-    pointer-events: auto;
+    transition: background 0.3s;
   }
 
   #page5 #theme_toggle:hover {
@@ -1354,20 +1331,15 @@ html, body { height: 100%; margin: 0; }
   }
 
   #page5 #face_caption {
-    position: fixed;
+    position: sticky;
     bottom: var(--ui-inset);
+    top: calc(100vh - var(--ui-inset) - 4rem);
     left: 50%;
     translate: -50% 0;
     z-index: var(--z-ui);
     text-align: center;
     pointer-events: none;
     user-select: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #face_caption {
-    opacity: 1;
   }
 
   #page5 #face_caption_num {
@@ -1388,9 +1360,9 @@ html, body { height: 100%; margin: 0; }
   }
 
   #page5 #credit {
-    position: fixed;
+    position: sticky;
     right: var(--ui-inset);
-    top: 50%;
+    top: 50vh;
     transform: translateY(-50%) rotate(-90deg);
     transform-origin: right center;
     z-index: var(--z-ui);
@@ -1398,14 +1370,8 @@ html, body { height: 100%; margin: 0; }
     font-size: 0.65rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #credit {
-    opacity: 1;
-    pointer-events: auto;
+    margin-left: auto;
+    width: fit-content;
   }
 
   #page5 #credit a {
