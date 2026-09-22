@@ -1140,6 +1140,41 @@ body.p4-detail-open .scroll-root {
   color: #f3efe4;
 }
 
+.p4-nav {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid rgba(26, 25, 21, 0.22);
+  border-radius: 50%;
+  background: #f3efe4;
+  color: #1a1915;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.p4-nav svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.p4-nav-prev {
+  left: 1.25rem;
+}
+
+.p4-nav-next {
+  right: 1.25rem;
+}
+
+.p4-nav:hover {
+  background: #1a1915;
+  color: #f3efe4;
+}
+
 .p4-detail {
   display: none;
   height: 100%;
@@ -1284,6 +1319,19 @@ body.p4-detail-open .scroll-root {
   .p4-back {
     top: 0.9rem;
     left: 0.9rem;
+  }
+
+  .p4-nav {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .p4-nav-prev {
+    left: 0.7rem;
+  }
+
+  .p4-nav-next {
+    right: 0.7rem;
   }
 }
 
