@@ -1,6 +1,40 @@
 (function () {
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
+  const hasLegacyHero = !!document.querySelector(".wave-wrap");
+  if (!hasLegacyHero) {
+    document.querySelectorAll(".clay-card").forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        gsap.to(card, {
+          rotateY: x * 4,
+          rotateX: -y * 4,
+          duration: 0.5,
+          ease: "power2.out",
+          transformPerspective: 900
+        });
+      });
+      card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+          rotateY: 0,
+          rotateX: 0,
+          duration: 0.7,
+          ease: "elastic.out(1,.6)"
+        });
+      });
+    });
+    const resItems = document.querySelectorAll(".res-item");
+    resItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        resItems.forEach((r) => r.classList.remove("active"));
+        item.classList.add("active");
+      });
+    });
+    return;
+  }
   // ─── INITIAL STATES ───
   gsap.set(".header > *", {
     y: -20,
