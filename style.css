@@ -1087,13 +1087,13 @@ body.p4-detail-open .scroll-root {
 }
 
 .p4-overlay {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 50;
+  z-index: 80;
   background: #f3efe4;
   color: #1a1915;
   transform: translateY(100%);
-  transition: transform 2.2s cubic-bezier(0.33, 0.2, 0.67, 0.8);
+  transition: transform 1.25s cubic-bezier(0.32, 0.72, 0.25, 1);
   pointer-events: none;
   overflow: hidden;
   isolation: isolate;
@@ -1341,8 +1341,17 @@ body.p4-detail-open .scroll-root {
 }
 
 @layer page5-layout {
+  #page5 .p5-pin {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    margin-bottom: -100vh;
+    z-index: 0;
+    pointer-events: none;
+  }
+
   #page5 #scene {
-    position: fixed;
+    position: absolute;
     inset: 0;
     z-index: 0;
     display: flex;
@@ -1350,12 +1359,6 @@ body.p4-detail-open .scroll-root {
     justify-content: center;
     perspective: 1100px;
     pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #scene {
-    opacity: 1;
   }
 
   #page5 #scroll_container {
@@ -1467,7 +1470,7 @@ body.p4-detail-open .scroll-root {
 
 @layer page5-ui {
   #page5 #hud {
-    position: fixed;
+    position: absolute;
     top: var(--ui-inset);
     right: var(--ui-inset);
     z-index: var(--z-ui);
@@ -1476,13 +1479,6 @@ body.p4-detail-open .scroll-root {
     letter-spacing: 0.15em;
     color: var(--muted);
     text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #hud {
-    opacity: 1;
     pointer-events: auto;
   }
 
@@ -1492,7 +1488,7 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #scene_strip {
-    position: fixed;
+    position: absolute;
     left: var(--nav-x);
     top: 50%;
     translate: -50% -50%;
@@ -1500,13 +1496,6 @@ body.p4-detail-open .scroll-root {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #scene_strip {
-    opacity: 1;
     pointer-events: auto;
   }
 
@@ -1533,7 +1522,7 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #theme_toggle {
-    position: fixed;
+    position: absolute;
     bottom: var(--ui-inset);
     left: var(--nav-x);
     translate: -50% 0;
@@ -1547,14 +1536,8 @@ body.p4-detail-open .scroll-root {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: background 0.3s, opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #theme_toggle {
-    opacity: 1;
     pointer-events: auto;
+    transition: background 0.3s;
   }
 
   #page5 #theme_toggle:hover {
@@ -1580,7 +1563,7 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #face_caption {
-    position: fixed;
+    position: absolute;
     bottom: var(--ui-inset);
     left: 50%;
     translate: -50% 0;
@@ -1588,12 +1571,6 @@ body.p4-detail-open .scroll-root {
     text-align: center;
     pointer-events: none;
     user-select: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #face_caption {
-    opacity: 1;
   }
 
   #page5 #face_caption_num {
@@ -1614,7 +1591,7 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #credit {
-    position: fixed;
+    position: absolute;
     right: var(--ui-inset);
     top: 50%;
     transform: translateY(-50%) rotate(-90deg);
@@ -1624,13 +1601,6 @@ body.p4-detail-open .scroll-root {
     font-size: 0.65rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  
-  body.is-page-5 #page5 #credit {
-    opacity: 1;
     pointer-events: auto;
   }
 

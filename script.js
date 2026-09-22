@@ -411,16 +411,16 @@
     // Track entry direction for page 5 - ALWAYS set when entering page 5
     if (i === 4) {
       page5EntryDirection = i > prevIdx ? 1 : -1;
-      document.body.classList.add('is-page-5');
       setTimeout(() => { 
         locked = false;
+        document.body.classList.add('is-page-5');
         if (window.page5SetEntry) {
           window.page5SetEntry(page5EntryDirection);
         }
       }, 950);
     } else {
-      setTimeout(() => { locked = false; }, 900);
       document.body.classList.remove('is-page-5');
+      setTimeout(() => { locked = false; }, 900);
       if (window.page5ResetVelocity) {
         window.page5ResetVelocity();
       }
@@ -1013,7 +1013,7 @@
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.classList.add('p4-detail-open');
-    backBtn.focus();
+    backBtn.focus({ preventScroll: true });
   };
 
   const closePlace = () => {
@@ -1021,7 +1021,7 @@
     overlay.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('p4-detail-open');
     const active = page4.querySelector(`.p4-shot[data-place="${overlay.dataset.place}"]`);
-    if (active) active.focus();
+    if (active) active.focus({ preventScroll: true });
   };
 
   shots.forEach((btn) => {
