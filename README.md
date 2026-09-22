@@ -2,7 +2,12 @@
 
 Classroom webpage: CodePen [KwNawQq](https://codepen.io/dermalhealth/pen/KwNawQq) medical hero replica with full-page snap scrolling.
 
-**Page 5** features a 3D CSS cube gallery inspired by CodePen [ZYpyoRV](https://codepen.io/luis-lessrain/pen/ZYpyoRV) ("Six Faces / Walking The Cow") with scroll-driven rotation, HUD progress indicator, scene navigation dots, theme toggle, and text cards.
+## Pages
+
+- **Page 1:** Medical Hero with GSAP animations (CodePen KwNawQq)
+- **Pages 2-4:** Blank placeholder pages
+- **Page 5:** 3D Cube Gallery — faithful source port of CodePen [ZYpyoRV](https://codepen.io/luis-lessrain/pen/ZYpyoRV) with scroll-driven cube rotation, theme toggle, and nested scroll handoff
+- **Page 6:** Blank placeholder page
 
 ## View online
 
