@@ -1294,18 +1294,27 @@ body.p4-detail-open .scroll-root {
 }
 
 .p4-detail[data-place="a"] .p4-detail-copy,
-.p4-detail[data-place="b"] .p4-detail-copy {
+.p4-detail[data-place="b"] .p4-detail-copy,
+.p4-detail[data-place="c"] .p4-detail-copy,
+.p4-detail[data-place="d"] .p4-detail-copy,
+.p4-detail[data-place="e"] .p4-detail-copy {
   padding: 4.5rem 5.5rem 3rem 3.5rem;
 }
 
 .p4-detail[data-place="a"] .p4-detail-kicker,
-.p4-detail[data-place="b"] .p4-detail-kicker {
+.p4-detail[data-place="b"] .p4-detail-kicker,
+.p4-detail[data-place="c"] .p4-detail-kicker,
+.p4-detail[data-place="d"] .p4-detail-kicker,
+.p4-detail[data-place="e"] .p4-detail-kicker {
   letter-spacing: 0.14em;
   text-transform: none;
 }
 
 .p4-detail[data-place="a"] .p4-detail-copy h2,
-.p4-detail[data-place="b"] .p4-detail-copy h2 {
+.p4-detail[data-place="b"] .p4-detail-copy h2,
+.p4-detail[data-place="c"] .p4-detail-copy h2,
+.p4-detail[data-place="d"] .p4-detail-copy h2,
+.p4-detail[data-place="e"] .p4-detail-copy h2 {
   font-family: "Noto Serif SC", serif;
   font-weight: 700;
   font-size: clamp(1.85rem, 3.2vw, 2.55rem);
@@ -1314,7 +1323,10 @@ body.p4-detail-open .scroll-root {
 }
 
 .p4-detail[data-place="a"] .p4-detail-body,
-.p4-detail[data-place="b"] .p4-detail-body {
+.p4-detail[data-place="b"] .p4-detail-body,
+.p4-detail[data-place="c"] .p4-detail-body,
+.p4-detail[data-place="d"] .p4-detail-body,
+.p4-detail[data-place="e"] .p4-detail-body {
   margin: 1.05rem 0 0;
   max-width: 30rem;
   font-family: "Noto Sans SC", sans-serif;
