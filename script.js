@@ -485,7 +485,7 @@
     "./assets/cube/face-06.webp"
   ];
 
-  const IMAGE_ASPECTS = [714 / 470, 1, 1, 1, 1, 1];
+  const IMAGE_ASPECTS = [1, 1, 1, 1, 1, 1];
 
   const FACE_NAMES = [
     "罗马浴场馆藏",
