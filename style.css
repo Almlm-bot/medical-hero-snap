@@ -1826,6 +1826,49 @@ body.p4-detail-open .scroll-root {
     justify-content: flex-start;
   }
 
+  #page5 #s2 {
+    padding-bottom: 7.5rem;
+  }
+
+  #page5 #s2 .text-card {
+    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 6.5rem)));
+    padding: 1.75rem 1.5rem 1.6rem;
+    overflow: visible;
+    text-align: left;
+  }
+
+  #page5 #s2 .h-line {
+    margin-block-end: 1rem;
+  }
+
+  #page5 #s2 .tag {
+    margin-block-end: 0.9rem;
+  }
+
+  #page5 #s2 h2 {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 700;
+    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+    letter-spacing: 0.04em;
+    line-height: 1.32;
+  }
+
+  #page5 #s2 .body-text {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.74rem;
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+    margin-block-start: 1rem;
+  }
+
+  #page5 #s2 .body-text + .body-text {
+    margin-block-start: 0.95rem;
+  }
+
+  #page5 #s2 .cta-row {
+    margin-block-start: 1.35rem;
+  }
+
   #page5 .stat-row {
     display: flex;
     gap: 2.5rem;

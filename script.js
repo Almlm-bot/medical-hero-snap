@@ -490,7 +490,7 @@
   const FACE_NAMES = [
     "罗马浴场馆藏",
     "苏利斯・密涅瓦女神鎏金青铜头像",
-    "MOO WALK",
+    "苏利斯・密涅瓦女神鎏金青铜头像",
     "BAD ART",
     "NO RULES",
     "SUPER"
