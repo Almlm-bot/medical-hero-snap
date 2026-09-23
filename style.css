@@ -2016,6 +2016,10 @@ body.p4-detail-open .scroll-root {
     justify-content: flex-start;
   }
 
+  #page5 .nowrap {
+    white-space: nowrap;
+  }
+
   #page5 .stat-row {
     display: flex;
     gap: 2.5rem;
