@@ -1722,9 +1722,11 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 .tag {
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    font-weight: 500;
     color: var(--accent);
     margin-block-end: 1.1rem;
   }
