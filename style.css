@@ -1945,6 +1945,18 @@ body.p4-detail-open .scroll-root {
     text-transform: none;
   }
 
+  #page5 #s4 .body-text {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.74rem;
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+    margin-block-start: 1rem;
+  }
+
+  #page5 #s4 .body-text + .body-text {
+    margin-block-start: 0.95rem;
+  }
+
   #page5 #s4 .cta-row {
     margin-block-start: 1.35rem;
   }
@@ -1979,6 +1991,14 @@ body.p4-detail-open .scroll-root {
     letter-spacing: 0.08em;
     line-height: 1.25;
     text-transform: none;
+  }
+
+  #page5 #s5 .body-text {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.74rem;
+    line-height: 1.85;
+    letter-spacing: 0.02em;
+    margin-block-start: 1rem;
   }
 
   #page5 #s5 .cta-row {
