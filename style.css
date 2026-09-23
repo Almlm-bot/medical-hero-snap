@@ -1293,6 +1293,36 @@ body.p4-detail-open .scroll-root {
   color: #4d4a44;
 }
 
+.p4-detail[data-place="a"] .p4-detail-copy {
+  padding: 4.5rem 5.5rem 3rem 3.5rem;
+}
+
+.p4-detail[data-place="a"] .p4-detail-kicker {
+  letter-spacing: 0.14em;
+  text-transform: none;
+}
+
+.p4-detail[data-place="a"] .p4-detail-copy h2 {
+  font-family: "Noto Serif SC", serif;
+  font-weight: 700;
+  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+  letter-spacing: 0.08em;
+  line-height: 1.28;
+}
+
+.p4-detail[data-place="a"] .p4-detail-body {
+  margin: 1.05rem 0 0;
+  max-width: 30rem;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.84rem;
+  font-weight: 400;
+  line-height: 1.92;
+  letter-spacing: 0.03em;
+  color: #4d4a44;
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+
 @media (max-width: 56.25em) {
   .p4-stage {
     padding: 5vh 5vw 0;
