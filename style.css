@@ -1655,12 +1655,13 @@ body.p4-detail-open .scroll-root {
 
   #page5 #face_caption_name {
     font-family: "Noto Serif SC", "Bebas Neue", serif;
-    font-size: clamp(1.4rem, 4vw, 2.6rem);
-    letter-spacing: 0.12em;
+    font-size: clamp(1rem, 2.6vw, 1.85rem);
+    letter-spacing: 0.06em;
     color: var(--muted);
     opacity: 0.5;
-    line-height: 1.15;
+    line-height: 1.2;
     font-weight: 700;
+    max-width: min(90vw, 42rem);
   }
 
   #page5 #credit {
@@ -1775,6 +1776,26 @@ body.p4-detail-open .scroll-root {
     font-size: 0.78rem;
     letter-spacing: 0.18em;
     text-transform: none;
+  }
+
+  #page5 #s1 .text-card {
+    max-width: 28rem;
+    overflow: visible;
+  }
+
+  #page5 #s1 h2 {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 700;
+    font-size: clamp(1.55rem, 3.2vw, 2.35rem);
+    letter-spacing: 0.06em;
+    line-height: 1.22;
+  }
+
+  #page5 #s1 .body-text {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.74rem;
+    line-height: 1.75;
+    letter-spacing: 0.02em;
   }
 
   #page5 .stat-row {
