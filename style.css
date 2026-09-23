@@ -1785,7 +1785,7 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #s1 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 7.5rem)));
+    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 8.5rem)));
     padding: 1.75rem 1.5rem 1.6rem;
     overflow: visible;
     text-align: left;
@@ -1804,7 +1804,7 @@ body.p4-detail-open .scroll-root {
   #page5 #s1 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.45rem, 2.5vw, 2.05rem);
+    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
     letter-spacing: 0.04em;
     line-height: 1.32;
   }
