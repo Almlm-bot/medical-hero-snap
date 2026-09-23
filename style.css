@@ -1882,11 +1882,12 @@ body.p4-detail-open .scroll-root {
     padding: 0.6rem 1.25rem;
     border: var(--hairline) solid var(--accent);
     color: var(--accent);
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: none;
     text-decoration: none;
+    white-space: nowrap;
     cursor: pointer;
     transition: background 0.2s, color 0.2s;
   }
@@ -1909,11 +1910,12 @@ body.p4-detail-open .scroll-root {
     border: var(--hairline) solid
       color-mix(in srgb, var(--muted) 45%, transparent);
     color: var(--muted);
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: none;
     text-decoration: none;
+    white-space: nowrap;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
   }
 
