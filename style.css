@@ -1096,11 +1096,17 @@ body.p4-detail-open .scroll-root {
   transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.p4-shot[data-place="a"] { --h: 92%; }
-.p4-shot[data-place="b"] { --h: 66%; }
-.p4-shot[data-place="c"] { flex: 1.48 1 0; --h: 100%; }
-.p4-shot[data-place="d"] { --h: 74%; }
-.p4-shot[data-place="e"] { --h: 88%; }
+.p4-shot[data-place="a"] { --h: 78%; }
+.p4-shot[data-place="b"] { flex: 1.42 1 0; --h: 58%; }
+.p4-shot[data-place="c"] { flex: 1.18 1 0; --h: 86%; }
+.p4-shot[data-place="d"] { --h: 68%; }
+.p4-shot[data-place="e"] { flex: 1.5 1 0; --h: 54%; }
+
+.p4-shot[data-place="a"] img { object-position: center 42%; }
+.p4-shot[data-place="b"] img { object-position: center 58%; }
+.p4-shot[data-place="c"] img { object-position: center 40%; }
+.p4-shot[data-place="d"] img { object-position: center 48%; }
+.p4-shot[data-place="e"] img { object-position: center; }
 
 .p4-shot:hover,
 .p4-shot:focus-visible {
@@ -1244,7 +1250,9 @@ body.p4-detail-open .scroll-root {
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  background: #1a1915;
 }
 
 .p4-detail-copy {
@@ -1333,20 +1341,25 @@ body.p4-detail-open .scroll-root {
 
   .p4-shot,
   .p4-shot[data-place="a"],
-  .p4-shot[data-place="b"],
-  .p4-shot[data-place="d"],
-  .p4-shot[data-place="e"] {
+  .p4-shot[data-place="c"],
+  .p4-shot[data-place="d"] {
     flex: 0 0 48vw;
     min-width: 48vw;
-    --h: 86%;
+    --h: 78%;
   }
 
-  .p4-shot[data-place="b"] { --h: 70%; }
-  .p4-shot[data-place="d"] { --h: 76%; }
-  .p4-shot[data-place="c"] {
+  .p4-shot[data-place="d"] { --h: 70%; }
+  .p4-shot[data-place="b"],
+  .p4-shot[data-place="e"] {
     flex: 0 0 68vw;
     min-width: 68vw;
-    --h: 100%;
+    --h: 64%;
+  }
+  .p4-shot[data-place="e"] { --h: 60%; }
+  .p4-shot[data-place="c"] {
+    flex: 0 0 56vw;
+    min-width: 56vw;
+    --h: 86%;
   }
 
   .p4-label {
