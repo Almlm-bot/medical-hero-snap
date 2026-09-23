@@ -1922,39 +1922,42 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #s4 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 6.5rem)));
-    padding: 1.75rem 1.5rem 1.6rem;
+    max-width: min(25.5rem, max(20rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 3.25rem)));
+    padding: 1.6rem 1.45rem 1.45rem;
     overflow: visible;
     text-align: left;
   }
 
   #page5 #s4 .h-line {
-    margin-block-end: 1rem;
+    margin-block-end: 0.85rem;
   }
 
   #page5 #s4 .tag {
-    margin-block-end: 0.9rem;
+    margin-block-end: 0.75rem;
   }
 
   #page5 #s4 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.7rem, 2.8vw, 2.25rem);
-    letter-spacing: 0.08em;
-    line-height: 1.25;
+    font-size: clamp(1.45rem, 2.3vw, 1.85rem);
+    letter-spacing: 0.06em;
+    line-height: 1.28;
     text-transform: none;
   }
 
   #page5 #s4 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.74rem;
-    line-height: 1.85;
-    letter-spacing: 0.02em;
-    margin-block-start: 1rem;
+    font-size: 0.8rem;
+    line-height: 1.92;
+    letter-spacing: 0.03em;
+    margin-block-start: 0.85rem;
+    text-wrap: pretty;
+    text-align: justify;
+    text-justify: inter-ideograph;
   }
 
   #page5 #s4 .body-text + .body-text {
-    margin-block-start: 0.95rem;
+    margin-block-start: 0.7rem;
   }
 
   #page5 #s4 .cta-row {
@@ -1968,37 +1971,44 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #s5 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 8.5rem)));
-    padding: 1.75rem 1.5rem 1.6rem;
+    max-width: min(24rem, max(19.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 5.5rem)));
+    padding: 1.6rem 1.45rem 1.45rem;
     overflow: visible;
     text-align: left;
   }
 
   #page5 #s5 .h-line {
-    margin-block-end: 1rem;
+    margin-block-end: 0.85rem;
     margin-inline-start: 0;
     transform-origin: left;
   }
 
   #page5 #s5 .tag {
-    margin-block-end: 0.9rem;
+    margin-block-end: 0.75rem;
   }
 
   #page5 #s5 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.7rem, 2.8vw, 2.25rem);
-    letter-spacing: 0.08em;
-    line-height: 1.25;
+    font-size: clamp(1.45rem, 2.3vw, 1.85rem);
+    letter-spacing: 0.06em;
+    line-height: 1.28;
     text-transform: none;
   }
 
   #page5 #s5 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.74rem;
-    line-height: 1.85;
-    letter-spacing: 0.02em;
-    margin-block-start: 1rem;
+    font-size: 0.8rem;
+    line-height: 1.92;
+    letter-spacing: 0.03em;
+    margin-block-start: 0.85rem;
+    text-wrap: pretty;
+    text-align: justify;
+    text-justify: inter-ideograph;
+  }
+
+  #page5 #s5 .body-text + .body-text {
+    margin-block-start: 0.7rem;
   }
 
   #page5 #s5 .cta-row {
