@@ -1462,6 +1462,11 @@ body.p4-detail-open .scroll-root {
     justify-content: center;
     perspective: 1100px;
     pointer-events: none;
+    transition: padding 0.55s ease;
+  }
+
+  #page5:has(#s1.is-active) #scene {
+    padding-right: min(26vw, 20rem);
   }
 
   #page5 #scroll_container {
@@ -1778,24 +1783,49 @@ body.p4-detail-open .scroll-root {
     text-transform: none;
   }
 
+  #page5 #s1 {
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: max(2.25rem, var(--ui-inset));
+    padding-bottom: 7.5rem;
+  }
+
   #page5 #s1 .text-card {
-    max-width: 28rem;
+    max-width: min(22.5rem, 34vw);
+    padding: 1.5rem 1.35rem 1.45rem;
     overflow: visible;
+  }
+
+  #page5 #s1 .h-line {
+    margin-block-end: 0.8rem;
+  }
+
+  #page5 #s1 .tag {
+    margin-block-end: 0.7rem;
   }
 
   #page5 #s1 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.55rem, 3.2vw, 2.35rem);
-    letter-spacing: 0.06em;
-    line-height: 1.22;
+    font-size: clamp(1.3rem, 2.4vw, 1.85rem);
+    letter-spacing: 0.04em;
+    line-height: 1.28;
   }
 
   #page5 #s1 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.74rem;
-    line-height: 1.75;
+    font-size: 0.68rem;
+    line-height: 1.7;
     letter-spacing: 0.02em;
+    margin-block-start: 0.75rem;
+  }
+
+  #page5 #s1 .body-text + .body-text {
+    margin-block-start: 0.65rem;
+  }
+
+  #page5 #s1 .cta-row {
+    margin-block-start: 1.1rem;
   }
 
   #page5 .stat-row {
@@ -2027,6 +2057,18 @@ body.p4-detail-open .scroll-root {
       min-height: 100vh;
       align-items: center;
       padding: 4rem 1.5rem;
+    }
+
+    #page5:has(#s1.is-active) #scene {
+      padding-right: 0;
+    }
+
+    #page5 #s1 {
+      padding: 0 1.5rem 5rem;
+    }
+
+    #page5 #s1 .text-card {
+      max-width: 100%;
     }
 
     #page5 :is(.text-card, .text-card.right, .text-card.center) {
