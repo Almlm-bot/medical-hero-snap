@@ -514,7 +514,8 @@
     if (!isDocked()) return;
     document.body.classList.add('header-expanded');
     header.setAttribute('aria-expanded', 'true');
-    armHide();
+    if (header.matches(':hover')) clearHide();
+    else armHide();
   };
 
   const dock = () => {
@@ -535,7 +536,8 @@
     slot.style.height = '';
   };
 
-  window.headerOnPageChange = (nextIdx) => {
+  window.headerOnPageChange = (nextIdx, prevIdx) => {
+    if (nextIdx === prevIdx) return;
     if (nextIdx === 0) undock();
     else dock();
   };

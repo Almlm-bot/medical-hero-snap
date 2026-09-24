@@ -202,6 +202,7 @@ body.header-docked .header {
   width: var(--header-ball);
   height: var(--header-ball);
   padding: 0;
+  gap: 0;
   justify-content: center;
   overflow: hidden;
   cursor: pointer;
@@ -217,6 +218,7 @@ body.header-docked .header {
 body.header-docked .logo {
   padding: 0;
   gap: 0;
+  margin: 0;
 }
 
 body.header-docked .logo-text,
@@ -225,6 +227,17 @@ body.header-docked .header-cta {
   opacity: 0 !important;
   visibility: hidden;
   pointer-events: none;
+  flex: 0 0 0;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  border: none;
+  box-shadow: none;
 }
 
 body.header-docked .logo-mark {
@@ -239,6 +252,7 @@ body.header-docked.header-expanded .header {
   height: auto;
   min-height: var(--header-ball);
   padding: 12px 14px;
+  gap: 16px;
   overflow: visible;
   cursor: default;
   justify-content: space-between;
@@ -248,6 +262,7 @@ body.header-docked.header-expanded .header {
 body.header-docked.header-expanded .logo {
   padding: 8px 16px 8px 12px;
   gap: 10px;
+  cursor: pointer;
 }
 
 body.header-docked.header-expanded .logo-text,
@@ -256,6 +271,18 @@ body.header-docked.header-expanded .header-cta {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
+  width: auto;
+  max-width: none;
+  height: auto;
+  overflow: visible;
+}
+
+body.header-docked.header-expanded .nav-pills {
+  flex: 1;
+}
+
+body.header-docked.header-expanded .header-cta {
+  flex: 0 0 auto;
 }
 
 body.header-docked.header-expanded .logo-mark {
