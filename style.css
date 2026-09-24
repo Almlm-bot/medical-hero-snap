@@ -2386,22 +2386,26 @@ body.p4-detail-open .scroll-root {
 }
 
 .p6-viewport {
+  position: relative;
   width: var(--p6-card-w);
   overflow: visible;
 }
 
 .p6-track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
-  transition: transform 0.8s cubic-bezier(0.22, 1.35, 0.36, 1);
+  position: relative;
+  width: var(--p6-card-w);
+  height: calc(var(--p6-card-w) * 4 / 3 + 2.1rem);
 }
 
 .p6-slide {
-  flex: 0 0 var(--p6-card-w);
+  position: absolute;
+  top: 0;
+  left: 0;
   width: var(--p6-card-w);
   perspective: 45rem;
   perspective-origin: 50% 50%;
+  will-change: transform;
+  transition: transform 0.8s cubic-bezier(0.22, 1.35, 0.36, 1);
 }
 
 .p6-card {
