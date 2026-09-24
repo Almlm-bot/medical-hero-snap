@@ -187,6 +187,58 @@ img {
   border-radius: 999px;
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset,
     0 8px 28px rgba(20, 40, 80, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    padding 0.45s ease,
+    border-radius 0.45s ease,
+    left 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.nav-docked .header {
+  position: fixed;
+  top: 20px;
+  left: max(clamp(20px, 3vw, 40px), calc((100vw - 1360px) / 2 + clamp(20px, 3vw, 40px)));
+  z-index: 70;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  gap: 0;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: none;
+}
+
+body.nav-docked:not(.nav-open) .header .nav-pills,
+body.nav-docked:not(.nav-open) .header .header-cta,
+body.nav-docked:not(.nav-open) .header .logo-text {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body.nav-docked:not(.nav-open) .header .logo {
+  padding: 0;
+}
+
+body.nav-docked.nav-open .header {
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(min(1360px, 100vw) - 2 * clamp(20px, 3vw, 40px));
+  height: auto;
+  padding: 12px 14px;
+  gap: 16px;
+  justify-content: space-between;
+  border-radius: 999px;
+  overflow: visible;
+  cursor: default;
+}
+
+body.nav-docked.nav-open .header .logo {
+  padding: 8px 16px 8px 12px;
 }
 
 .logo {
