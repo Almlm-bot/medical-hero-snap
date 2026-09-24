@@ -243,7 +243,8 @@ body.header-docked:not(.header-page1):not(.header-expanded) .logo-text {
 }
 
 body.header-docked .nav-pills,
-body.header-docked .header-cta {
+body.header-docked .header-cta,
+body.header-docked .header-theme {
   opacity: 0 !important;
   visibility: hidden;
   pointer-events: none;
@@ -349,7 +350,8 @@ body.header-docked.header-expanded .logo-text {
 }
 
 body.header-docked.header-expanded .nav-pills,
-body.header-docked.header-expanded .header-cta {
+body.header-docked.header-expanded .header-cta,
+body.is-page-5.header-docked.header-expanded .header-theme {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
@@ -374,6 +376,22 @@ body.header-docked.header-expanded .nav-pill {
 body.header-docked.header-expanded .header-cta {
   flex: 0 0 auto;
   padding: 3px 3px 3px 14px;
+}
+
+body.is-page-5.header-docked.header-expanded .header-theme {
+  display: inline-flex;
+  flex: 0 0 2.15rem;
+  width: 2.15rem;
+  min-width: 2.15rem;
+  height: 2.15rem;
+  margin: 0 6px 0 8px;
+  padding: 0;
+  background: rgba(10, 10, 12, 0.06);
+  border-radius: 50%;
+}
+
+body.is-page-5.header-docked.header-expanded .header-theme:hover {
+  background: rgba(10, 10, 12, 0.12);
 }
 
 body.header-docked.header-expanded .cta-dot {
@@ -499,6 +517,49 @@ body.header-docked #page6 .p6-carousel {
   transform: translateY(-1px);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset,
     0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.header-theme {
+  display: none;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 2.15rem;
+  height: 2.15rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(10, 10, 12, 0.06);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.header-theme svg {
+  width: 0.9rem;
+  height: 0.9rem;
+  position: absolute;
+  transition: opacity 0.3s ease, rotate 0.3s ease;
+}
+
+.header-theme .icon-sun {
+  opacity: 1;
+  rotate: 0deg;
+}
+
+.header-theme .icon-moon {
+  opacity: 0;
+  rotate: 90deg;
+}
+
+body:has(#page5[data-theme="light"]) .header-theme .icon-sun {
+  opacity: 0;
+  rotate: -90deg;
+}
+
+body:has(#page5[data-theme="light"]) .header-theme .icon-moon {
+  opacity: 1;
+  rotate: 0deg;
 }
 
 .cta-dot {
@@ -2088,47 +2149,6 @@ body.p4-detail-open .scroll-root {
     text-transform: none;
   }
 
-  #page5 #theme_toggle {
-    position: absolute;
-    bottom: var(--ui-inset);
-    left: var(--nav-x);
-    translate: -50% 0;
-    z-index: var(--z-ui);
-    width: 2rem;
-    height: 2rem;
-    border: none;
-    background: color-mix(in srgb, var(--muted) 35%, transparent);
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: auto;
-    transition: background 0.3s;
-  }
-
-  #page5 #theme_toggle:hover {
-    background: color-mix(in srgb, var(--muted) 55%, transparent);
-  }
-
-  #page5 #theme_toggle svg {
-    width: 0.875rem;
-    height: 0.875rem;
-    position: absolute;
-    transition: opacity 0.3s ease, rotate 0.3s ease;
-    color: var(--accent);
-  }
-
-  #page5 #theme_toggle .icon-sun {
-    opacity: 1;
-    rotate: 0deg;
-  }
-
-  #page5 #theme_toggle .icon-moon {
-    opacity: 0;
-    rotate: 90deg;
-  }
-
   #page5 #face_caption {
     position: absolute;
     bottom: var(--ui-inset);
@@ -2702,20 +2722,6 @@ body.p4-detail-open .scroll-root {
     color: rgba(0, 0, 0, 0.07);
   }
 
-  #page5[data-theme="light"] #theme_toggle svg {
-    color: var(--fg);
-  }
-  
-  #page5[data-theme="light"] #theme_toggle .icon-sun {
-    opacity: 0;
-    rotate: -90deg;
-  }
-  
-  #page5[data-theme="light"] #theme_toggle .icon-moon {
-    opacity: 1;
-    rotate: 0deg;
-  }
-
   #page5[data-theme="light"] #face_caption_name {
     opacity: 0.35;
   }
@@ -2726,12 +2732,6 @@ body.p4-detail-open .scroll-root {
     #page5 #hud {
       top: 1rem;
       right: 1rem;
-    }
-
-    #page5 #theme_toggle {
-      bottom: 1rem;
-      left: 1.25rem;
-      translate: 0 0;
     }
 
     #page5 #face_caption {

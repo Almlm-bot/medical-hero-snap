@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css?v=20260923r38"/>
+<link rel="stylesheet" href="./style.css?v=20260923r39"/>
 </head>
 <body>
 <div class="scroll-root">
@@ -75,6 +75,16 @@
         Image analysis
       </a>
     </nav>
+
+    <button class="header-theme" id="theme_toggle" type="button" aria-label="切换明暗">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
+      </svg>
+    </button>
 
     <a class="header-cta" href="#" aria-label="Start now">
       <span class="cta-text">Start now</span>
@@ -529,16 +539,6 @@
     <div class="scene-label" id="scene_name">罗马浴场馆藏</div>
   </div>
 
-  <button id="theme_toggle" aria-label="Toggle light/dark mode">
-    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-    </svg>
-    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" />
-    </svg>
-  </button>
-
   <div id="face_caption">
     <div id="face_caption_num">01</div>
     <div id="face_caption_name">罗马浴场馆藏</div>
@@ -854,6 +854,6 @@
 </div>
 <script src="./vendor/gsap.min.js?v=20260922r9"></script>
 <script src="./vendor/ScrollTrigger.min.js?v=20260922r9"></script>
-<script src="./script.js?v=20260923r38"></script>
+<script src="./script.js?v=20260923r39"></script>
 </body>
 </html>

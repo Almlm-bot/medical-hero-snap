@@ -2,7 +2,7 @@
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
   // ─── INITIAL STATES ───
-  gsap.set(".header > *", {
+  gsap.set(".header > *:not(.header-theme)", {
     y: -20,
     opacity: 0
   });
@@ -62,7 +62,7 @@
     },
     delay: 0.15
   });
-  tl.to(".header > *", {
+  tl.to(".header > *:not(.header-theme)", {
     y: 0,
     opacity: 1,
     duration: 0.7,
@@ -649,6 +649,7 @@
   };
 
   header.addEventListener('click', (e) => {
+    if (e.target.closest('#theme_toggle')) return;
     if (!isDocked()) return;
     if (!isExpanded()) {
       e.preventDefault();
@@ -729,7 +730,7 @@
     sceneName: page5.querySelector("#scene_name"),
     captionNum: page5.querySelector("#face_caption_num"),
     captionName: page5.querySelector("#face_caption_name"),
-    themeToggle: page5.querySelector("#theme_toggle")
+    themeToggle: document.getElementById("theme_toggle")
   };
 
   for (let i = dom.scrollEl.querySelectorAll("section").length; i < N; i++) {
@@ -889,10 +890,14 @@
   applyTheme(getSystemTheme());
   mq.addEventListener("change", (e) => applyTheme(e.matches ? "dark" : "light"));
 
-  dom.themeToggle.addEventListener("click", () => {
-    const cur = page5.getAttribute("data-theme") || getSystemTheme();
-    applyTheme(cur === "dark" ? "light" : "dark");
-  });
+  if (dom.themeToggle) {
+    dom.themeToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const cur = page5.getAttribute("data-theme") || getSystemTheme();
+      applyTheme(cur === "dark" ? "light" : "dark");
+    });
+  }
 
   let maxScroll = 1;
   let lastScrollHeight = 0;
