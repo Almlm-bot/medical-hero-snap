@@ -197,15 +197,17 @@ body.header-docked .header {
   --header-ball: 2.85rem;
   --header-bar-h: 3.15rem;
   --header-ease: cubic-bezier(0.22, 0.82, 0.2, 1);
+  --header-mark: 1.7rem;
   position: fixed;
   top: var(--header-top, 20px);
   left: var(--header-left, 20px);
   z-index: 60;
   width: var(--header-ball);
   height: var(--header-ball);
-  padding: 0;
-  gap: 0;
-  justify-content: center;
+  padding: calc((var(--header-ball) - var(--header-mark)) / 2);
+  gap: 16px;
+  justify-content: flex-start;
+  align-items: center;
   overflow: hidden;
   cursor: pointer;
   transform: none;
@@ -221,8 +223,9 @@ body.header-docked .header {
 
 body.header-docked .logo {
   padding: 0;
-  gap: 0;
+  gap: 10px;
   margin: 0;
+  flex-shrink: 0;
   transition: padding 0.9s var(--header-ease, cubic-bezier(0.22, 0.82, 0.2, 1)),
     gap 0.9s var(--header-ease, cubic-bezier(0.22, 0.82, 0.2, 1));
 }
@@ -231,29 +234,54 @@ body.header-docked .logo-text,
 body.header-docked .nav-pills,
 body.header-docked .header-cta {
   opacity: 0 !important;
-  visibility: hidden;
   pointer-events: none;
-  flex: 0 0 0;
-  width: 0;
-  min-width: 0;
-  max-width: 0;
-  height: 0;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  gap: 0;
-  border: none;
-  box-shadow: none;
+  flex: 0 0 auto;
   transition: opacity 0.28s ease;
 }
 
 body.header-docked .logo-mark {
-  width: 1.7rem;
-  height: 1.7rem;
+  width: var(--header-mark);
+  height: var(--header-mark);
   border-radius: 50%;
+  flex-shrink: 0;
   transition: width 0.9s cubic-bezier(0.22, 0.82, 0.2, 1),
     height 0.9s cubic-bezier(0.22, 0.82, 0.2, 1),
     border-radius 0.9s cubic-bezier(0.22, 0.82, 0.2, 1);
+}
+
+body.header-docked.header-page1 .header {
+  left: var(--header-page1-left, 72px);
+  width: var(--header-page1-width, min(1360px, calc(100vw - 40px)));
+  height: var(--header-page1-height, 76px);
+  padding: var(--header-page1-padding, 12px 14px);
+  gap: 16px;
+  overflow: hidden;
+  cursor: default;
+  justify-content: space-between;
+  transform: none;
+}
+
+body.header-docked.header-page1 .logo {
+  padding: 8px 16px 8px 12px;
+  gap: 10px;
+}
+
+body.header-docked.header-page1 .logo-text,
+body.header-docked.header-page1 .nav-pills,
+body.header-docked.header-page1 .header-cta {
+  opacity: 1 !important;
+  pointer-events: auto;
+  transition: opacity 0.45s ease 0.28s;
+}
+
+body.header-docked.header-page1 .nav-pills {
+  flex: 1;
+}
+
+body.header-docked.header-page1 .logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
 }
 
 body.header-docked.header-expanded .header {
@@ -279,12 +307,7 @@ body.header-docked.header-expanded .logo-text,
 body.header-docked.header-expanded .nav-pills,
 body.header-docked.header-expanded .header-cta {
   opacity: 1 !important;
-  visibility: visible;
   pointer-events: auto;
-  width: auto;
-  max-width: none;
-  height: auto;
-  overflow: visible;
   transition: opacity 0.5s ease 0.42s;
 }
 
