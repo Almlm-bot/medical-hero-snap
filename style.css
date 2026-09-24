@@ -1258,17 +1258,21 @@ html, body { height: 100%; margin: 0; }
   object-position: center 42%;
 }
 
+.p2-side .p2-shot:first-child img {
+  object-position: center 70%;
+}
+
 .p2-cap {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 1;
-  padding: 2.4rem 1.15rem 1.05rem;
+  padding: 1.7rem 1.2rem 0.95rem;
   background: linear-gradient(
     to top,
-    rgba(10, 10, 12, 0.62) 0%,
-    rgba(10, 10, 12, 0.18) 55%,
+    rgba(10, 10, 12, 0.5) 0%,
+    rgba(10, 10, 12, 0.12) 58%,
     transparent 100%
   );
   color: #fff;
@@ -1308,17 +1312,17 @@ html, body { height: 100%; margin: 0; }
   flex-direction: column;
   justify-content: center;
   min-height: 0;
-  padding: clamp(1.4rem, 3.6vw, 3rem) clamp(1.35rem, 3.2vw, 2.75rem);
+  padding: clamp(1.5rem, 4vw, 3.4rem) clamp(1.6rem, 3.6vw, 3.1rem);
   background: #fff;
   color: #1a1915;
 }
 
 .p2-kicker {
-  margin: 0 0 0.7rem;
+  margin: 0 0 0.85rem;
   font-family: Inter, system-ui, sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: none;
   color: #1a1915;
 }
@@ -1326,7 +1330,7 @@ html, body { height: 100%; margin: 0; }
 .p2-copy h2 {
   margin: 0;
   font-family: "Noto Serif SC", "Instrument Serif", serif;
-  font-size: clamp(1.45rem, 2.4vw, 2.05rem);
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1.28;
@@ -1394,6 +1398,11 @@ html, body { height: 100%; margin: 0; }
     grid-template-columns: 1fr;
     height: auto;
     min-height: 100%;
+  }
+
+  .p2-side {
+    display: grid;
+    grid-template-rows: auto auto;
   }
 
   .p2-hero {
