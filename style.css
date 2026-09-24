@@ -194,11 +194,13 @@ img {
 }
 
 body.header-docked .header {
-  --header-ball: 3.6rem;
+  --header-ball: 2.85rem;
+  --header-bar-h: 3.15rem;
+  --header-ease: cubic-bezier(0.22, 0.82, 0.2, 1);
   position: fixed;
   top: var(--header-top, 20px);
   left: var(--header-left, 20px);
-  z-index: 80;
+  z-index: 60;
   width: var(--header-ball);
   height: var(--header-ball);
   padding: 0;
@@ -208,17 +210,21 @@ body.header-docked .header {
   cursor: pointer;
   transform: none;
   transition:
-    width 0.55s cubic-bezier(0.22, 1.15, 0.36, 1),
-    height 0.55s cubic-bezier(0.22, 1.15, 0.36, 1),
-    left 0.55s cubic-bezier(0.22, 1.15, 0.36, 1),
-    transform 0.55s cubic-bezier(0.22, 1.15, 0.36, 1),
-    padding 0.4s ease;
+    width 1.05s var(--header-ease),
+    height 1.05s var(--header-ease),
+    left 1.05s var(--header-ease),
+    transform 1.05s var(--header-ease),
+    padding 0.9s var(--header-ease),
+    gap 0.9s var(--header-ease),
+    border-radius 1.05s var(--header-ease);
 }
 
 body.header-docked .logo {
   padding: 0;
   gap: 0;
   margin: 0;
+  transition: padding 0.9s var(--header-ease, cubic-bezier(0.22, 0.82, 0.2, 1)),
+    gap 0.9s var(--header-ease, cubic-bezier(0.22, 0.82, 0.2, 1));
 }
 
 body.header-docked .logo-text,
@@ -238,30 +244,34 @@ body.header-docked .header-cta {
   gap: 0;
   border: none;
   box-shadow: none;
+  transition: opacity 0.28s ease;
 }
 
 body.header-docked .logo-mark {
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.7rem;
+  height: 1.7rem;
   border-radius: 50%;
+  transition: width 0.9s cubic-bezier(0.22, 0.82, 0.2, 1),
+    height 0.9s cubic-bezier(0.22, 0.82, 0.2, 1),
+    border-radius 0.9s cubic-bezier(0.22, 0.82, 0.2, 1);
 }
 
 body.header-docked.header-expanded .header {
   left: 50%;
-  width: min(1360px, calc(100vw - 40px));
-  height: auto;
-  min-height: var(--header-ball);
-  padding: 12px 14px;
-  gap: 16px;
-  overflow: visible;
+  width: min(58rem, calc(100vw - 6.5rem));
+  height: var(--header-bar-h);
+  min-height: var(--header-bar-h);
+  padding: 5px 8px 5px 6px;
+  gap: 8px;
+  overflow: hidden;
   cursor: default;
   justify-content: space-between;
   transform: translateX(-50%);
 }
 
 body.header-docked.header-expanded .logo {
-  padding: 8px 16px 8px 12px;
-  gap: 10px;
+  padding: 4px 10px 4px 6px;
+  gap: 8px;
   cursor: pointer;
 }
 
@@ -275,25 +285,47 @@ body.header-docked.header-expanded .header-cta {
   max-width: none;
   height: auto;
   overflow: visible;
+  transition: opacity 0.5s ease 0.42s;
 }
 
 body.header-docked.header-expanded .nav-pills {
   flex: 1;
+  gap: 2px;
+}
+
+body.header-docked.header-expanded .nav-pill {
+  padding: 7px 12px;
+  font-size: 13px;
+  gap: 6px;
 }
 
 body.header-docked.header-expanded .header-cta {
   flex: 0 0 auto;
+  padding: 3px 3px 3px 14px;
+}
+
+body.header-docked.header-expanded .cta-dot {
+  width: 30px;
+  height: 30px;
 }
 
 body.header-docked.header-expanded .logo-mark {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 8px;
 }
 
 body.p4-detail-open.header-docked .header {
   opacity: 0;
   pointer-events: none;
+}
+
+body.header-docked #page4 .p4-stage {
+  padding-top: max(7.5vh, calc(var(--header-top, 20px) + 4.35rem));
+}
+
+body.header-docked #page6 .p6-carousel {
+  padding-top: calc(var(--header-top, 20px) + 3.6rem);
 }
 
 .logo {
