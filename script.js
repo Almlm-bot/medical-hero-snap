@@ -451,6 +451,10 @@
   addEventListener('keydown', (e) => {
     if (document.body.classList.contains('p4-detail-open')) return;
     if (document.activeElement && isInsidePage5(document.activeElement)) return;
+    const page6 = document.getElementById('page6');
+    const inPage6Field = page6 && document.activeElement && page6.contains(document.activeElement) &&
+      /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
+    if (inPage6Field) return;
     if (locked) return;
     if (['ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); go(idx + 1); }
     if (['ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); go(idx - 1); }
@@ -1051,4 +1055,83 @@
       stepPlace(1);
     }
   });
+})();
+
+/* ════════════════════════════════════════════════
+   PAGE 6: Tilted carousel (CodePen VYmmdMK)
+   ════════════════════════════════════════════════ */
+(function () {
+  const page6 = document.getElementById('page6');
+  if (!page6) return;
+
+  const track = page6.querySelector('#p6-track');
+  const slides = [...page6.querySelectorAll('.p6-slide')];
+  const dotsWrap = page6.querySelector('#p6-dots');
+  const prevBtn = page6.querySelector('#p6-prev');
+  const nextBtn = page6.querySelector('#p6-next');
+  const topBtn = page6.querySelector('#p6-top');
+  const form = page6.querySelector('#p6-signup');
+  const n = slides.length;
+  let active = Math.min(2, n - 1);
+
+  slides.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'p6-dot';
+    btn.setAttribute('aria-label', `第 ${i + 1} 张`);
+    btn.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(btn);
+  });
+
+  const dots = [...dotsWrap.querySelectorAll('.p6-dot')];
+
+  const goTo = (index) => {
+    active = Math.max(0, Math.min(n - 1, index));
+    track.style.transform = `translateX(${-active * (100 / n)}%)`;
+    slides.forEach((slide, i) => {
+      const card = slide.querySelector('.p6-card');
+      const isOn = i === active;
+      slide.classList.toggle('is-active', isOn);
+      card.style.transform = `rotateY(${(active - i) * 60}deg) scale(${isOn ? 1 : 0.85})`;
+    });
+    dots.forEach((dot, i) => {
+      const on = i === active;
+      dot.classList.toggle('is-active', on);
+      dot.setAttribute('aria-current', on ? 'true' : 'false');
+    });
+    prevBtn.disabled = active === 0;
+    nextBtn.disabled = active === n - 1;
+  };
+
+  prevBtn.addEventListener('click', () => goTo(active - 1));
+  nextBtn.addEventListener('click', () => goTo(active + 1));
+  slides.forEach((slide, i) => {
+    slide.querySelector('.p6-photo').addEventListener('click', () => goTo(i));
+  });
+
+  addEventListener('keydown', (e) => {
+    if (window.getCurrentPageIndex && window.getCurrentPageIndex() !== 5) return;
+    if (document.body.classList.contains('p4-detail-open')) return;
+    if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      goTo(active - 1);
+    }
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      goTo(active + 1);
+    }
+  });
+
+  topBtn.addEventListener('click', () => {
+    if (window.goToPage) window.goToPage(0);
+  });
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+    });
+  }
+
+  goTo(active);
 })();
