@@ -233,10 +233,24 @@ body.header-docked .logo {
 body.header-docked .logo-text,
 body.header-docked .nav-pills,
 body.header-docked .header-cta {
-  opacity: 0 !important;
+  opacity: 1 !important;
   pointer-events: none;
   flex: 0 0 auto;
-  transition: opacity 0.5s ease;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  transition: opacity 0.4s ease 0.45s;
+}
+
+body.header-docked .nav-pill,
+body.header-docked .cta-text {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+body.header-docked:not(.header-page1):not(.header-expanded) .logo-text,
+body.header-docked:not(.header-page1):not(.header-expanded) .nav-pills,
+body.header-docked:not(.header-page1):not(.header-expanded) .header-cta {
+  opacity: 0 !important;
 }
 
 body.header-docked .logo-mark {
