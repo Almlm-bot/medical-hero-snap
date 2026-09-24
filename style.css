@@ -98,51 +98,54 @@ img {
 }
 
 /* ════════════════════════════════════════════════
-     PAGE 1 NIGHT BATHS BACKGROUND
+     WAVE PNG (the hero visual)
      ════════════════════════════════════════════════ */
-.p1-bg {
+.wave-wrap {
   position: absolute;
-  top: 0;
-  left: 50%;
-  z-index: 0;
-  width: 100vw;
-  height: 100%;
-  transform: translateX(-50%);
+  inset: -60px -180px auto 0;
+  top: -60px;
+  right: -160px;
+  z-index: 2;
   pointer-events: none;
-  overflow: hidden;
-}
-
-.p1-bg img {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: center 44%;
-  display: block;
-  transform-origin: center center;
+  width: min(1300px, 92vw);
+  height: auto;
+  filter: drop-shadow(0 30px 40px rgba(20, 80, 160, 0.1));
   will-change: transform;
 }
 
-.p1-bg::after {
-  content: "";
+.wave-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transform-origin: center;
+}
+
+/* Soft pastel blob behind the wave to deepen the gradient */
+.wave-glow {
   position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(236, 236, 239, 0.7) 0%,
-      rgba(236, 236, 239, 0.42) 24%,
-      rgba(236, 236, 239, 0.14) 48%,
-      rgba(236, 236, 239, 0.05) 68%,
-      rgba(8, 12, 20, 0.12) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(236, 236, 239, 0.2) 0%,
-      transparent 18%,
-      transparent 82%,
-      rgba(8, 12, 20, 0.22) 100%
-    );
+  top: 0;
+  right: -120px;
+  width: 60%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    closest-side,
+    rgba(40, 190, 255, 0.35),
+    transparent 70%
+  );
+  filter: blur(60px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.wave-glow.b {
+  top: 35%;
+  right: 10%;
+  width: 40%;
+  background: radial-gradient(
+    closest-side,
+    rgba(70, 230, 180, 0.3),
+    transparent 70%
+  );
 }
 
 /* ════════════════════════════════════════════════
@@ -1094,14 +1097,9 @@ body.header-docked #page6 .p6-carousel {
     font-size: clamp(110px, 28vw, 200px);
   }
 
-  .p1-bg::after {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(236, 236, 239, 0.55) 0%,
-        rgba(236, 236, 239, 0.22) 28%,
-        rgba(236, 236, 239, 0.08) 100%
-      );
+  .wave-wrap {
+    right: -250px;
+    opacity: 0.85;
   }
 }
 
