@@ -44,11 +44,7 @@
     y: 16,
     opacity: 0
   });
-  gsap.set(".wave-wrap", {
-    x: 120,
-    opacity: 0
-  });
-  gsap.set(".wave-glow", {
+  gsap.set(".p1-bg", {
     opacity: 0
   });
   gsap.set(".bg-text", {
@@ -69,22 +65,12 @@
     stagger: 0.07
   })
     .to(
-      ".wave-glow",
+      ".p1-bg",
       {
         opacity: 1,
-        duration: 1.2
+        duration: 1.4
       },
       "-=.5"
-    )
-    .to(
-      ".wave-wrap",
-      {
-        x: 0,
-        opacity: 1,
-        duration: 1.4,
-        ease: "power3.out"
-      },
-      "-=1.2"
     )
     .to(
       ".bg-text",
@@ -188,30 +174,6 @@
       "-=.4"
     );
   // ─── WAVE FLOAT (gentle continuous) ───
-  gsap.to(".wave-wrap", {
-    y: -18,
-    rotation: -1.2,
-    duration: 5.5,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  });
-  gsap.to(".wave-glow", {
-    y: 12,
-    scale: 1.05,
-    duration: 6,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  });
-  gsap.to(".wave-glow.b", {
-    y: -16,
-    x: -10,
-    duration: 7,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  });
   // Badge slow drift
   gsap.to(".badge", {
     y: "+=8",
@@ -238,16 +200,15 @@
     ease: "sine.inOut"
   });
   // ─── SCROLL PARALLAX ───
-  gsap.to(".wave-wrap", {
+  gsap.to(".p1-bg img", {
     scrollTrigger: {
-      trigger: "body",
+      trigger: "#page1",
       start: "top top",
-      end: "+=1200",
+      end: "bottom top",
       scrub: 1.2
     },
-    y: -240,
-    rotation: 6,
-    scale: 1.08
+    y: 70,
+    scale: 1.04
   });
   gsap.to(".bg-text", {
     scrollTrigger: {
@@ -290,24 +251,11 @@
       }
     );
   });
-  // ─── INTERACTIVE: WAVE MOUSE PARALLAX ───
+  // ─── INTERACTIVE: MOUSE PARALLAX ───
   if (!window.matchMedia("(pointer: coarse)").matches) {
     document.addEventListener("mousemove", (e) => {
       const x = e.clientX / window.innerWidth - 0.5;
       const y = e.clientY / window.innerHeight - 0.5;
-      gsap.to(".wave-wrap", {
-        x: x * 30,
-        duration: 1.2,
-        ease: "power3.out",
-        overwrite: "auto"
-      });
-      gsap.to(".wave-glow", {
-        x: x * 60,
-        y: y * 40,
-        duration: 1.4,
-        ease: "power3.out",
-        overwrite: "auto"
-      });
       gsap.to(".badge", {
         x: x * -16,
         y: y * -10,
