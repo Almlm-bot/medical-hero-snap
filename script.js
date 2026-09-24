@@ -400,10 +400,55 @@
   const THRESH = 50;
   let page5EntryDirection = 0;
   
+  let navIdle = 0;
+  function clearNavIdle() {
+    clearTimeout(navIdle);
+    navIdle = 0;
+  }
+  function syncNavDock(pageIndex) {
+    document.body.classList.toggle('nav-docked', pageIndex > 0);
+    document.body.classList.remove('nav-open');
+    clearNavIdle();
+  }
+  function armNavIdle() {
+    clearNavIdle();
+    navIdle = setTimeout(() => {
+      document.body.classList.remove('nav-open');
+      navIdle = 0;
+    }, 5000);
+  }
+
+  const header = document.querySelector('.header');
+  if (header) {
+    header.addEventListener('click', (e) => {
+      if (!document.body.classList.contains('nav-docked')) return;
+      const open = document.body.classList.contains('nav-open');
+      const onLogo = e.target.closest('.logo');
+      if (!open) {
+        e.preventDefault();
+        document.body.classList.add('nav-open');
+        clearNavIdle();
+        return;
+      }
+      if (onLogo) {
+        e.preventDefault();
+        document.body.classList.remove('nav-open');
+        clearNavIdle();
+      }
+    });
+    header.addEventListener('mouseenter', () => {
+      if (document.body.classList.contains('nav-open')) clearNavIdle();
+    });
+    header.addEventListener('mouseleave', () => {
+      if (document.body.classList.contains('nav-open')) armNavIdle();
+    });
+  }
+
   function go(i, fromPage5 = false) {
     const prevIdx = idx;
     i = Math.max(0, Math.min(pages.length - 1, i));
     idx = i;
+    syncNavDock(idx);
     locked = true;
     acc = 0;
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
