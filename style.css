@@ -1056,19 +1056,25 @@ body.p4-detail-open .scroll-root {
 }
 
 .p4-aside {
-  width: 13.5em;
+  width: 21.5em;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.25em;
+  font-size: 0.3em;
   font-weight: 400;
-  line-height: 1.42;
-  letter-spacing: 0.02em;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
   color: #8f8a80;
   text-align: center;
-  padding-top: 0.3em;
+  padding-top: 0.22em;
+  white-space: normal;
 }
 
 .p4-aside span {
   display: block;
+}
+
+.p4-aside strong {
+  font-weight: 700;
+  color: #3a362f;
 }
 
 .p4-strip {
