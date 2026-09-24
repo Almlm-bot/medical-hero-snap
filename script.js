@@ -407,6 +407,8 @@
     locked = true;
     acc = 0;
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
+
+    if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
     
     // Track entry direction for page 5 - ALWAYS set when entering page 5
     if (i === 4) {
@@ -471,6 +473,90 @@
   } else {
     document.body.classList.remove('is-page-5');
   }
+})();
+
+/* ════════════════════════════════════════════════
+   HEADER: dock to a left ball after page 1
+   ════════════════════════════════════════════════ */
+(function () {
+  const header = document.querySelector('.header');
+  const slot = document.querySelector('.header-slot');
+  const logo = header && header.querySelector('.logo');
+  if (!header || !slot) return;
+
+  const IDLE_MS = 5000;
+  let hideTimer = 0;
+
+  const isDocked = () => document.body.classList.contains('header-docked');
+  const isExpanded = () => document.body.classList.contains('header-expanded');
+
+  const clearHide = () => {
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      hideTimer = 0;
+    }
+  };
+
+  const armHide = () => {
+    clearHide();
+    if (!isDocked() || !isExpanded()) return;
+    hideTimer = window.setTimeout(() => collapse(), IDLE_MS);
+  };
+
+  const collapse = () => {
+    if (!isDocked()) return;
+    document.body.classList.remove('header-expanded');
+    header.setAttribute('aria-expanded', 'false');
+    clearHide();
+  };
+
+  const expand = () => {
+    if (!isDocked()) return;
+    document.body.classList.add('header-expanded');
+    header.setAttribute('aria-expanded', 'true');
+    armHide();
+  };
+
+  const dock = () => {
+    if (!isDocked()) {
+      const rect = header.getBoundingClientRect();
+      slot.style.height = `${rect.height}px`;
+      document.body.style.setProperty('--header-top', `${rect.top}px`);
+      document.body.style.setProperty('--header-left', getComputedStyle(document.querySelector('.page')).paddingLeft || '20px');
+      document.body.classList.add('header-docked');
+    }
+    collapse();
+  };
+
+  const undock = () => {
+    clearHide();
+    document.body.classList.remove('header-docked', 'header-expanded');
+    header.setAttribute('aria-expanded', 'true');
+    slot.style.height = '';
+  };
+
+  window.headerOnPageChange = (nextIdx) => {
+    if (nextIdx === 0) undock();
+    else dock();
+  };
+
+  header.addEventListener('click', (e) => {
+    if (!isDocked()) return;
+    if (!isExpanded()) {
+      e.preventDefault();
+      expand();
+      return;
+    }
+    if (logo && logo.contains(e.target)) {
+      e.preventDefault();
+      collapse();
+    }
+  });
+
+  header.addEventListener('mouseenter', clearHide);
+  header.addEventListener('mouseleave', () => {
+    if (isDocked() && isExpanded()) armHide();
+  });
 })();
 
 /* ════════════════════════════════════════════════
