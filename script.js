@@ -485,9 +485,10 @@
   if (!header || !slot) return;
 
   const IDLE_MS = 5000;
-  const MORPH_MS = 1050;
+  const MORPH_MS = 1250;
   let hideTimer = 0;
   let morphTimer = 0;
+  let attachRaf = 0;
 
   const isDocked = () => document.body.classList.contains('header-docked');
   const isExpanded = () => document.body.classList.contains('header-expanded');
@@ -503,6 +504,10 @@
     if (morphTimer) {
       clearTimeout(morphTimer);
       morphTimer = 0;
+    }
+    if (attachRaf) {
+      cancelAnimationFrame(attachRaf);
+      attachRaf = 0;
     }
   };
 
@@ -569,6 +574,7 @@
   };
 
   const dropIntoSlot = () => {
+    clearMorph();
     header.style.transition = 'none';
     document.body.classList.remove('header-docked', 'header-expanded', 'header-page1');
     header.setAttribute('aria-expanded', 'true');
@@ -577,6 +583,26 @@
     slot.style.height = '';
     header.offsetWidth;
     header.style.transition = '';
+  };
+
+  const watchAttach = () => {
+    const start = performance.now();
+    const tick = (now) => {
+      attachRaf = 0;
+      if (!isDocked() || !document.body.classList.contains('header-page1')) return;
+      const sr = slot.getBoundingClientRect();
+      const hr = header.getBoundingClientRect();
+      const aligned =
+        Math.abs(sr.top - hr.top) < 12 &&
+        Math.abs(sr.left - hr.left) < 16 &&
+        Math.abs(sr.width - hr.width) < 64;
+      if (aligned || now - start > MORPH_MS) {
+        dropIntoSlot();
+        return;
+      }
+      attachRaf = requestAnimationFrame(tick);
+    };
+    attachRaf = requestAnimationFrame(tick);
   };
 
   const dock = () => {
@@ -613,7 +639,7 @@
     document.body.classList.remove('header-expanded');
     document.body.classList.add('header-page1');
     header.setAttribute('aria-expanded', 'true');
-    morphTimer = window.setTimeout(dropIntoSlot, MORPH_MS);
+    watchAttach();
   };
 
   window.headerOnPageChange = (nextIdx, prevIdx) => {

@@ -196,7 +196,7 @@ img {
 body.header-docked .header {
   --header-ball: 2.85rem;
   --header-bar-h: 3.15rem;
-  --header-ease: cubic-bezier(0.22, 0.82, 0.2, 1);
+  --header-ease: cubic-bezier(0.45, 0.08, 0.18, 1);
   --header-mark: 1.7rem;
   position: fixed;
   top: var(--header-top, 20px);
@@ -212,13 +212,13 @@ body.header-docked .header {
   cursor: pointer;
   transform: none;
   transition:
-    width 1.05s var(--header-ease),
-    height 1.05s var(--header-ease),
-    left 1.05s var(--header-ease),
-    transform 1.05s var(--header-ease),
-    padding 0.9s var(--header-ease),
-    gap 0.9s var(--header-ease),
-    border-radius 1.05s var(--header-ease);
+    width 1.15s var(--header-ease),
+    height 1.15s var(--header-ease),
+    left 1.15s var(--header-ease),
+    transform 1.15s var(--header-ease),
+    padding 1s var(--header-ease),
+    gap 1s var(--header-ease),
+    border-radius 1.15s var(--header-ease);
 }
 
 body.header-docked .logo {
@@ -236,7 +236,7 @@ body.header-docked .header-cta {
   opacity: 0 !important;
   pointer-events: none;
   flex: 0 0 auto;
-  transition: opacity 0.28s ease;
+  transition: opacity 0.5s ease;
 }
 
 body.header-docked .logo-mark {
