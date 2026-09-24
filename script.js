@@ -1064,7 +1064,6 @@
   const page6 = document.getElementById('page6');
   if (!page6) return;
 
-  const track = page6.querySelector('#p6-track');
   const slides = [...page6.querySelectorAll('.p6-slide')];
   const dotsWrap = page6.querySelector('#p6-dots');
   const prevBtn = page6.querySelector('#p6-prev');
@@ -1085,22 +1084,34 @@
 
   const dots = [...dotsWrap.querySelectorAll('.p6-dot')];
 
+  const wrap = (index) => ((index % n) + n) % n;
+
+  const offsetOf = (i) => {
+    let d = i - active;
+    const half = n / 2;
+    if (d > half) d -= n;
+    if (d < -half) d += n;
+    return d;
+  };
+
   const goTo = (index) => {
-    active = Math.max(0, Math.min(n - 1, index));
-    track.style.transform = `translateX(${-active * (100 / n)}%)`;
+    active = wrap(index);
     slides.forEach((slide, i) => {
       const card = slide.querySelector('.p6-card');
-      const isOn = i === active;
+      const offset = offsetOf(i);
+      const isOn = offset === 0;
       slide.classList.toggle('is-active', isOn);
-      card.style.transform = `rotateY(${(active - i) * 60}deg) scale(${isOn ? 1 : 0.85})`;
+      slide.style.transform = `translateX(${offset * 100}%)`;
+      slide.style.zIndex = String(isOn ? 8 : 6 - Math.abs(offset));
+      card.style.transform = `rotateY(${-offset * 60}deg) scale(${isOn ? 1 : 0.85})`;
     });
     dots.forEach((dot, i) => {
       const on = i === active;
       dot.classList.toggle('is-active', on);
       dot.setAttribute('aria-current', on ? 'true' : 'false');
     });
-    prevBtn.disabled = active === 0;
-    nextBtn.disabled = active === n - 1;
+    prevBtn.disabled = false;
+    nextBtn.disabled = false;
   };
 
   prevBtn.addEventListener('click', () => goTo(active - 1));
