@@ -518,13 +518,37 @@
     else armHide();
   };
 
+  const pagePadLeft = () => {
+    const page = document.querySelector('.page');
+    return (page && getComputedStyle(page).paddingLeft) || '20px';
+  };
+
+  const clearInlineGeom = () => {
+    header.style.left = '';
+    header.style.width = '';
+    header.style.height = '';
+    header.style.padding = '';
+    header.style.top = '';
+  };
+
   const dock = () => {
     if (!isDocked()) {
       const rect = header.getBoundingClientRect();
+      const cs = getComputedStyle(header);
       slot.style.height = `${rect.height}px`;
       document.body.style.setProperty('--header-top', `${rect.top}px`);
-      document.body.style.setProperty('--header-left', getComputedStyle(document.querySelector('.page')).paddingLeft || '20px');
+      document.body.style.setProperty('--header-left', pagePadLeft());
+      header.style.left = `${rect.left}px`;
+      header.style.top = `${rect.top}px`;
+      header.style.width = `${rect.width}px`;
+      header.style.height = `${rect.height}px`;
+      header.style.padding = cs.padding;
+      document.body.appendChild(header);
       document.body.classList.add('header-docked');
+      header.setAttribute('aria-expanded', 'false');
+      header.offsetWidth;
+      clearInlineGeom();
+      return;
     }
     collapse();
   };
@@ -533,6 +557,8 @@
     clearHide();
     document.body.classList.remove('header-docked', 'header-expanded');
     header.setAttribute('aria-expanded', 'true');
+    clearInlineGeom();
+    if (header.parentElement !== slot) slot.appendChild(header);
     slot.style.height = '';
   };
 
