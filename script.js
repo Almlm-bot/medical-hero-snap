@@ -1196,9 +1196,12 @@
   const shots = [...page4.querySelectorAll('.p4-shot')];
   const details = [...overlay.querySelectorAll('.p4-detail')];
   const places = details.map((el) => el.dataset.place);
-  const backBtn = overlay.querySelector('.p4-back');
+  const backBtns = [...overlay.querySelectorAll('.p4-back')];
   const prevBtn = overlay.querySelector('.p4-nav-prev');
   const nextBtn = overlay.querySelector('.p4-nav-next');
+
+  const activeBack = () =>
+    overlay.querySelector('.p4-detail.is-active .p4-back') || backBtns[0];
 
   const showPlace = (id) => {
     overlay.dataset.place = id;
@@ -1215,7 +1218,7 @@
     overlay.classList.add('is-open');
     overlay.setAttribute('aria-hidden', 'false');
     document.body.classList.add('p4-detail-open');
-    backBtn.focus({ preventScroll: true });
+    activeBack()?.focus({ preventScroll: true });
   };
 
   const closePlace = () => {
@@ -1230,7 +1233,7 @@
     btn.addEventListener('click', () => openPlace(btn.dataset.place));
   });
 
-  backBtn.addEventListener('click', closePlace);
+  backBtns.forEach((btn) => btn.addEventListener('click', closePlace));
   prevBtn.addEventListener('click', () => stepPlace(-1));
   nextBtn.addEventListener('click', () => stepPlace(1));
 

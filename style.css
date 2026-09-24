@@ -1387,59 +1387,44 @@ body.p4-detail-open .scroll-root {
   transition: transform 0.85s cubic-bezier(0.32, 0.72, 0.25, 1);
 }
 
+.p4-cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-top: 1.75rem;
+}
+
 .p4-back {
-  position: absolute;
-  top: 1.35rem;
-  left: 1.35rem;
-  z-index: 3;
   display: inline-flex;
   align-items: center;
-  gap: 0.42rem;
-  padding: 0.42rem 0.82rem 0.42rem 0.68rem;
-  border: 1px solid rgba(243, 239, 228, 0.14);
-  border-radius: 999px;
-  background: rgba(16, 14, 12, 0.28);
-  backdrop-filter: blur(14px) saturate(130%);
-  -webkit-backdrop-filter: blur(14px) saturate(130%);
-  color: #f3efe4;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 0.62rem;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  gap: 0.6rem;
+  padding: 0.6rem 1.25rem;
+  border: 0.0625rem solid color-mix(in srgb, #8f8a80 45%, transparent);
+  background: transparent;
+  color: #8f8a80;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: none;
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(-6px);
-  transition:
-    opacity 0.55s ease 0.42s,
-    transform 0.55s ease 0.42s,
-    background 0.25s ease,
-    border-color 0.25s ease;
-}
-
-.p4-overlay.is-open .p4-back {
-  opacity: 1;
-  transform: none;
-}
-
-.p4-overlay:not(.is-open) .p4-back {
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
 
 .p4-back svg {
-  width: 0.68rem;
-  height: 0.68rem;
-  opacity: 0.85;
+  width: 0.6875rem;
+  height: 0.6875rem;
 }
 
 .p4-back:hover {
-  background: rgba(16, 14, 12, 0.5);
-  border-color: rgba(243, 239, 228, 0.28);
-  color: #f3efe4;
+  background: color-mix(in srgb, #8f8a80 12%, transparent);
+  border-color: #8f8a80;
+  color: #1a1915;
 }
 
 .p4-back:focus-visible {
-  outline: 1px solid rgba(243, 239, 228, 0.7);
+  outline: 1px solid #1a1915;
   outline-offset: 3px;
 }
 
@@ -1674,9 +1659,8 @@ body.p4-detail-open .scroll-root {
     padding: 1.75rem 1.4rem 2rem;
   }
 
-  .p4-back {
-    top: 0.9rem;
-    left: 0.9rem;
+  .p4-cta-row {
+    margin-top: 1.35rem;
   }
 
   .p4-nav {
