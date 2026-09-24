@@ -230,27 +230,35 @@ body.header-docked .logo {
     gap 0.9s var(--header-ease, cubic-bezier(0.22, 0.82, 0.2, 1));
 }
 
-body.header-docked .logo-text,
-body.header-docked .nav-pills,
-body.header-docked .header-cta {
+body.header-docked .logo-text {
   opacity: 1 !important;
   pointer-events: none;
   flex: 0 0 auto;
-  flex-wrap: nowrap;
   white-space: nowrap;
-  transition: opacity 0.4s ease 0.45s;
+  transition: opacity 0.3s ease 0.55s;
 }
 
-body.header-docked .nav-pill,
-body.header-docked .cta-text {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-body.header-docked:not(.header-page1):not(.header-expanded) .logo-text,
-body.header-docked:not(.header-page1):not(.header-expanded) .nav-pills,
-body.header-docked:not(.header-page1):not(.header-expanded) .header-cta {
+body.header-docked:not(.header-page1):not(.header-expanded) .logo-text {
   opacity: 0 !important;
+}
+
+body.header-docked .nav-pills,
+body.header-docked .header-cta {
+  opacity: 0 !important;
+  visibility: hidden;
+  pointer-events: none;
+  flex: 0 0 0;
+  width: 0;
+  min-width: 0;
+  max-width: 0;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  border: none;
+  box-shadow: none;
+  transition: opacity 0.12s ease;
 }
 
 body.header-docked .logo-mark {
@@ -280,16 +288,33 @@ body.header-docked.header-page1 .logo {
   gap: 10px;
 }
 
-body.header-docked.header-page1 .logo-text,
+body.header-docked.header-page1 .logo-text {
+  opacity: 1 !important;
+  pointer-events: auto;
+  transition: opacity 0.35s ease 0.2s;
+}
+
 body.header-docked.header-page1 .nav-pills,
 body.header-docked.header-page1 .header-cta {
   opacity: 1 !important;
+  visibility: visible;
   pointer-events: auto;
-  transition: opacity 0.45s ease 0.28s;
+  width: auto;
+  max-width: none;
+  height: auto;
+  overflow: visible;
+  transition: opacity 0.4s ease 0.55s;
 }
 
 body.header-docked.header-page1 .nav-pills {
   flex: 1;
+  gap: 4px;
+}
+
+body.header-docked.header-page1 .header-cta {
+  flex: 0 0 auto;
+  padding: 6px 6px 6px 22px;
+  gap: 8px;
 }
 
 body.header-docked.header-page1 .logo-mark {
@@ -317,12 +342,22 @@ body.header-docked.header-expanded .logo {
   cursor: pointer;
 }
 
-body.header-docked.header-expanded .logo-text,
+body.header-docked.header-expanded .logo-text {
+  opacity: 1 !important;
+  pointer-events: auto;
+  transition: opacity 0.4s ease 0.35s;
+}
+
 body.header-docked.header-expanded .nav-pills,
 body.header-docked.header-expanded .header-cta {
   opacity: 1 !important;
+  visibility: visible;
   pointer-events: auto;
-  transition: opacity 0.5s ease 0.42s;
+  width: auto;
+  max-width: none;
+  height: auto;
+  overflow: visible;
+  transition: opacity 0.45s ease 0.5s;
 }
 
 body.header-docked.header-expanded .nav-pills {
