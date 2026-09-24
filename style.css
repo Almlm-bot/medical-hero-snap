@@ -1498,15 +1498,6 @@ body.p4-detail-open .scroll-root {
   color: #1a1915;
 }
 
-.p4-detail-kicker {
-  margin: 0 0 1rem;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #8f8a80;
-}
-
 .p4-detail-copy h2 {
   margin: 0;
   font-family: "Instrument Serif", "Times New Roman", serif;
@@ -1533,15 +1524,6 @@ body.p4-detail-open .scroll-root {
 .p4-detail[data-place="d"] .p4-detail-copy,
 .p4-detail[data-place="e"] .p4-detail-copy {
   padding: 4.5rem 5.5rem 3rem 3.5rem;
-}
-
-.p4-detail[data-place="a"] .p4-detail-kicker,
-.p4-detail[data-place="b"] .p4-detail-kicker,
-.p4-detail[data-place="c"] .p4-detail-kicker,
-.p4-detail[data-place="d"] .p4-detail-kicker,
-.p4-detail[data-place="e"] .p4-detail-kicker {
-  letter-spacing: 0.14em;
-  text-transform: none;
 }
 
 .p4-detail[data-place="a"] .p4-detail-copy h2,
