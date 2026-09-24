@@ -1299,6 +1299,7 @@ body.p4-detail-open .scroll-root {
 .p4-detail[data-place="d"] .p4-detail-copy,
 .p4-detail[data-place="e"] .p4-detail-copy {
   padding: 4.5rem 5.5rem 3rem 3.5rem;
+  transform: translateY(-3.25rem);
 }
 
 .p4-detail[data-place="a"] .p4-detail-kicker,
