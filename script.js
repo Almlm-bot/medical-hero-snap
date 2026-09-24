@@ -485,7 +485,10 @@
   if (!header || !slot) return;
 
   const IDLE_MS = 5000;
+  const MORPH_MS = 1250;
   let hideTimer = 0;
+  let morphTimer = 0;
+  let attachRaf = 0;
 
   const isDocked = () => document.body.classList.contains('header-docked');
   const isExpanded = () => document.body.classList.contains('header-expanded');
@@ -497,6 +500,17 @@
     }
   };
 
+  const clearMorph = () => {
+    if (morphTimer) {
+      clearTimeout(morphTimer);
+      morphTimer = 0;
+    }
+    if (attachRaf) {
+      cancelAnimationFrame(attachRaf);
+      attachRaf = 0;
+    }
+  };
+
   const armHide = () => {
     clearHide();
     if (!isDocked() || !isExpanded()) return;
@@ -505,13 +519,14 @@
 
   const collapse = () => {
     if (!isDocked()) return;
-    document.body.classList.remove('header-expanded');
+    document.body.classList.remove('header-expanded', 'header-page1');
     header.setAttribute('aria-expanded', 'false');
     clearHide();
   };
 
   const expand = () => {
     if (!isDocked()) return;
+    document.body.classList.remove('header-page1');
     document.body.classList.add('header-expanded');
     header.setAttribute('aria-expanded', 'true');
     if (header.matches(':hover')) clearHide();
@@ -529,25 +544,86 @@
     header.style.height = '';
     header.style.padding = '';
     header.style.top = '';
+    header.style.position = '';
+    header.style.margin = '';
+    header.style.zIndex = '';
+    header.style.boxSizing = '';
+    header.style.transition = '';
+  };
+
+  const lockFixed = (rect, padding) => {
+    header.style.position = 'fixed';
+    header.style.top = `${rect.top}px`;
+    header.style.left = `${rect.left}px`;
+    header.style.width = `${rect.width}px`;
+    header.style.height = `${rect.height}px`;
+    header.style.padding = padding;
+    header.style.margin = '0';
+    header.style.zIndex = '60';
+    header.style.boxSizing = 'border-box';
+  };
+
+  const rememberPage1 = (rect, padding) => {
+    const b = document.body.style;
+    b.setProperty('--header-top', `${rect.top}px`);
+    b.setProperty('--header-left', pagePadLeft());
+    b.setProperty('--header-page1-left', `${rect.left}px`);
+    b.setProperty('--header-page1-width', `${rect.width}px`);
+    b.setProperty('--header-page1-height', `${rect.height}px`);
+    b.setProperty('--header-page1-padding', padding);
+  };
+
+  const dropIntoSlot = () => {
+    clearMorph();
+    header.style.transition = 'none';
+    document.body.classList.remove('header-docked', 'header-expanded', 'header-page1');
+    header.setAttribute('aria-expanded', 'true');
+    clearInlineGeom();
+    if (header.parentElement !== slot) slot.appendChild(header);
+    slot.style.height = '';
+    header.offsetWidth;
+    header.style.transition = '';
+  };
+
+  const watchAttach = () => {
+    const start = performance.now();
+    const tick = (now) => {
+      attachRaf = 0;
+      if (!isDocked() || !document.body.classList.contains('header-page1')) return;
+      const sr = slot.getBoundingClientRect();
+      const hr = header.getBoundingClientRect();
+      const aligned =
+        Math.abs(sr.top - hr.top) < 12 &&
+        Math.abs(sr.left - hr.left) < 16 &&
+        Math.abs(sr.width - hr.width) < 64;
+      if (aligned || now - start > MORPH_MS) {
+        dropIntoSlot();
+        return;
+      }
+      attachRaf = requestAnimationFrame(tick);
+    };
+    attachRaf = requestAnimationFrame(tick);
   };
 
   const dock = () => {
+    clearMorph();
     if (!isDocked()) {
       const rect = header.getBoundingClientRect();
       const cs = getComputedStyle(header);
       slot.style.height = `${rect.height}px`;
-      document.body.style.setProperty('--header-top', `${rect.top}px`);
-      document.body.style.setProperty('--header-left', pagePadLeft());
-      header.style.left = `${rect.left}px`;
-      header.style.top = `${rect.top}px`;
-      header.style.width = `${rect.width}px`;
-      header.style.height = `${rect.height}px`;
-      header.style.padding = cs.padding;
-      document.body.appendChild(header);
-      document.body.classList.add('header-docked');
+      rememberPage1(rect, cs.padding);
+      lockFixed(rect, cs.padding);
+      if (header.parentElement !== document.body) document.body.appendChild(header);
+      document.body.classList.add('header-docked', 'header-page1');
+      document.body.classList.remove('header-expanded');
       header.setAttribute('aria-expanded', 'false');
       header.offsetWidth;
       clearInlineGeom();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.body.classList.remove('header-page1');
+        });
+      });
       return;
     }
     collapse();
@@ -555,11 +631,15 @@
 
   const undock = () => {
     clearHide();
-    document.body.classList.remove('header-docked', 'header-expanded');
+    clearMorph();
+    if (!isDocked()) {
+      if (header.parentElement !== slot) slot.appendChild(header);
+      return;
+    }
+    document.body.classList.remove('header-expanded');
+    document.body.classList.add('header-page1');
     header.setAttribute('aria-expanded', 'true');
-    clearInlineGeom();
-    if (header.parentElement !== slot) slot.appendChild(header);
-    slot.style.height = '';
+    watchAttach();
   };
 
   window.headerOnPageChange = (nextIdx, prevIdx) => {
