@@ -2360,7 +2360,7 @@ body.p4-detail-open .scroll-root {
   --p6-stone: #3a342c;
   --p6-muted: #8a7f72;
   --p6-line: rgba(237, 232, 223, 0.22);
-  --p6-card-w: clamp(9.25rem, 22vh, 13.75rem);
+  --p6-card-w: clamp(10.25rem, 26vh, 15.25rem);
   height: 100vh;
   background: var(--p6-cream);
   color: #1a1915;
@@ -2370,16 +2370,18 @@ body.p4-detail-open .scroll-root {
 .p6-shell {
   height: 100%;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) minmax(12.5rem, 28vh);
+  grid-template-rows: minmax(0, 1fr) minmax(13.5rem, 30vh);
 }
 
 .p6-carousel {
   position: relative;
+  z-index: 0;
   min-height: 0;
   display: grid;
   place-items: center;
-  padding: 2.4vh 0 5.6rem;
+  padding: 1.5vh 0 4.8rem;
   overflow: visible;
+  clip-path: inset(0 -50vw 0 -50vw);
   background: var(--p6-cream);
 }
 
@@ -2525,28 +2527,29 @@ body.p4-detail-open .scroll-root {
   position: relative;
   z-index: 2;
   min-height: 0;
-  padding: 1.15rem 4.5vw 1rem;
+  padding: 1.65rem 4.5vw 1.35rem;
   overflow: hidden;
+  isolation: isolate;
   background: var(--p6-ink);
   color: #ede8df;
+  transform: translateZ(0);
 }
 
 .p6-top {
   position: absolute;
-  top: 0;
+  top: 0.7rem;
   left: 4.5vw;
   z-index: 4;
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.42rem 0.85rem;
+  padding: 0.42rem 0.9rem;
   border: 0;
-  background: #2b251f;
+  background: #2a241e;
   color: #f3efe4;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
-  transform: translateY(-52%);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
 }
 
 .p6-top-icon {
@@ -2569,13 +2572,15 @@ body.p4-detail-open .scroll-root {
 }
 
 .p6-brand {
-  display: grid;
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   min-width: 0;
+  padding-top: 2.35rem;
 }
 
 .p6-logo {
-  margin: 0.35rem 0 0;
+  margin: 0;
   font-family: "Instrument Serif", "Times New Roman", serif;
   font-size: clamp(1.05rem, 1.7vh, 1.45rem);
   font-weight: 400;
@@ -2595,7 +2600,7 @@ body.p4-detail-open .scroll-root {
   display: flex;
   gap: 2.4rem;
   align-items: flex-end;
-  padding-bottom: 0.15rem;
+  padding: 0.4rem 0 0.2rem;
 }
 
 .p6-sitemap ul {
@@ -2606,9 +2611,9 @@ body.p4-detail-open .scroll-root {
 
 .p6-sitemap a {
   display: block;
-  padding: 0.08rem 0;
+  padding: 0.04rem 0;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   color: #ede8df;
