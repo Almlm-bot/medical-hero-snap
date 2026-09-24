@@ -1389,31 +1389,58 @@ body.p4-detail-open .scroll-root {
 
 .p4-back {
   position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
+  top: 1.35rem;
+  left: 1.35rem;
   z-index: 3;
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.55rem 1.1rem;
-  border: 1px solid rgba(26, 25, 21, 0.22);
-  background: #f3efe4;
-  color: #1a1915;
+  gap: 0.42rem;
+  padding: 0.42rem 0.82rem 0.42rem 0.68rem;
+  border: 1px solid rgba(243, 239, 228, 0.14);
+  border-radius: 999px;
+  background: rgba(16, 14, 12, 0.28);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  color: #f3efe4;
   font-family: Inter, system-ui, sans-serif;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.55s ease 0.42s,
+    transform 0.55s ease 0.42s,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.p4-overlay.is-open .p4-back {
+  opacity: 1;
+  transform: none;
+}
+
+.p4-overlay:not(.is-open) .p4-back {
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .p4-back svg {
-  width: 0.7rem;
-  height: 0.7rem;
+  width: 0.68rem;
+  height: 0.68rem;
+  opacity: 0.85;
 }
 
 .p4-back:hover {
-  background: #1a1915;
+  background: rgba(16, 14, 12, 0.5);
+  border-color: rgba(243, 239, 228, 0.28);
   color: #f3efe4;
+}
+
+.p4-back:focus-visible {
+  outline: 1px solid rgba(243, 239, 228, 0.7);
+  outline-offset: 3px;
 }
 
 .p4-nav {
