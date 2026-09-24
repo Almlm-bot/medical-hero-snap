@@ -1186,6 +1186,15 @@
 })();
 
 /* ════════════════════════════════════════════════
+   PAGE 2: Collage CTA → Page 4
+   ════════════════════════════════════════════════ */
+(function () {
+  const cta = document.querySelector('#page2 .p2-cta');
+  if (!cta || !window.goToPage) return;
+  cta.addEventListener('click', () => window.goToPage(3));
+})();
+
+/* ════════════════════════════════════════════════
    PAGE 4: Places A–E detail overlay
    ════════════════════════════════════════════════ */
 (function () {
