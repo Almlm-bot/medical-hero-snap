@@ -2,7 +2,7 @@
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
   // ─── INITIAL STATES ───
-  gsap.set(".header > *:not(.header-theme)", {
+  gsap.set(".header > *", {
     y: -20,
     opacity: 0
   });
@@ -62,7 +62,7 @@
     },
     delay: 0.15
   });
-  tl.to(".header > *:not(.header-theme)", {
+  tl.to(".header > *", {
     y: 0,
     opacity: 1,
     duration: 0.7,
@@ -747,7 +747,9 @@
 
   const imagePromises = new Map();
 
-  const isDark = () => page5.getAttribute("data-theme") === "dark";
+  const isDark = () =>
+    (document.documentElement.getAttribute("data-theme") ||
+      page5.getAttribute("data-theme")) === "dark";
 
   const getDarkSrc = (src) => src.replace(/\.webp$/, "-dark.webp");
 
@@ -883,18 +885,37 @@
   const getSystemTheme = () => (mq.matches ? "dark" : "light");
 
   const applyTheme = (theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
     page5.setAttribute("data-theme", theme);
+    try {
+      localStorage.setItem("site-theme", theme);
+    } catch (err) {}
     refreshFaceImages();
   };
 
-  applyTheme(getSystemTheme());
-  mq.addEventListener("change", (e) => applyTheme(e.matches ? "dark" : "light"));
+  const storedTheme = (() => {
+    try {
+      return localStorage.getItem("site-theme");
+    } catch (err) {
+      return null;
+    }
+  })();
+  applyTheme(storedTheme === "light" || storedTheme === "dark" ? storedTheme : getSystemTheme());
+  mq.addEventListener("change", (e) => {
+    try {
+      if (localStorage.getItem("site-theme") === "light" || localStorage.getItem("site-theme") === "dark") return;
+    } catch (err) {}
+    applyTheme(e.matches ? "dark" : "light");
+  });
 
   if (dom.themeToggle) {
     dom.themeToggle.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const cur = page5.getAttribute("data-theme") || getSystemTheme();
+      const cur =
+        document.documentElement.getAttribute("data-theme") ||
+        page5.getAttribute("data-theme") ||
+        getSystemTheme();
       applyTheme(cur === "dark" ? "light" : "dark");
     });
   }
