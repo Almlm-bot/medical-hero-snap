@@ -453,9 +453,6 @@
       if (window.page5ResetVelocity) {
         window.page5ResetVelocity();
       }
-      if (i === 2 && window.page3SetEntry) {
-        window.page3SetEntry(i > prevIdx ? 1 : -1);
-      }
     }
   }
   
@@ -477,7 +474,6 @@
     if (Math.abs(acc) < THRESH) return;
     const dir = acc > 0 ? 1 : -1;
     acc = 0;
-    if (idx === 2 && window.page3OnWheel && window.page3OnWheel(dir)) return;
     go(idx + dir);
   }, { passive: false });
   
@@ -491,12 +487,10 @@
     if (locked) return;
     if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
       e.preventDefault();
-      if (idx === 2 && window.page3OnWheel && window.page3OnWheel(1)) return;
       go(idx + 1);
     }
     if (['ArrowUp', 'PageUp'].includes(e.key)) {
       e.preventDefault();
-      if (idx === 2 && window.page3OnWheel && window.page3OnWheel(-1)) return;
       go(idx - 1);
     }
     if (e.key === 'Home') { e.preventDefault(); go(0); }
@@ -723,120 +717,6 @@
   header.addEventListener('mouseleave', () => {
     if (isDocked() && isExpanded()) armHide();
   });
-})();
-
-/* ════════════════════════════════════════════════
-   PAGE 3: Infinity 12-step program
-   ════════════════════════════════════════════════ */
-(function () {
-  const page3 = document.getElementById("page3");
-  if (!page3) return;
-
-  const STEPS = [
-    { arch: "抵达", title: "抵达圣泉", body: "走进阿奎苏利斯。热水自地下涌出，两千年来未曾停歇。沐浴仪程，由此开始。" },
-    { arch: "更衣", title: "更衣净身", body: "在阿波迪特里乌姆放下行装与身份。赤足入室，准备把白日的尘土留在门外。" },
-    { arch: "热身", title: "广场热身", body: "帕莱斯特拉是浴前的运动场。轻量活动让血脉苏醒，好迎接接下来的温热。" },
-    { arch: "涂油", title: "涂油备浴", body: "以橄榄油覆身，既护肤也标记仪程的开始。油香里，人慢慢从街道走进仪式。" },
-    { arch: "温浴", title: "温水过渡", body: "特皮达里乌姆以温和水温衔接冷热。身体在此学会放慢，气孔也渐渐打开。" },
-    { arch: "热浴", title: "热水沉浸", body: "卡尔达里乌姆热气蒸腾。在热水中坐得足够久，直到肩颈松开、呼吸变得深长。" },
-    { arch: "大浴", title: "大浴场", body: "圣泉之水注入核心浴池。铅板铺底、四向石阶，古罗马人在此舒展、交谈、停留。" },
-    { arch: "干蒸", title: "拉科尼库姆", body: "高温而干燥的小室迫出一身汗。也可以泼水成汽，让热意在皮肤上更彻底。" },
-    { arch: "刮身", title: "刮身护理", body: "以斯特里吉尔刮去油汗与尘垢。清理过后，皮肤重新变得干净、清醒。" },
-    { arch: "冷浸", title: "冷水浸浴", body: "在深达一米六的圆形浴池中冷浸。热后骤冷，让神志从蒸汽里一下子回到白日。" },
-    { arch: "东场", title: "东浴场", body: "东侧以管道承接大浴场的温水，并扩出加热房间。直到四世纪，这里仍在生长。" },
-    { arch: "西场", title: "西浴场", body: "西侧成套热室与冷池相对。砖瓦柱墩间热气游走，把地面与墙壁一同烘暖。" }
-  ];
-
-  const TOTAL = STEPS.length;
-  const orbs = [...page3.querySelectorAll(".p3-orb")];
-  const archLeft = page3.querySelector(".p3-arch-left textPath");
-  const archRight = page3.querySelector(".p3-arch-right textPath");
-  const idxEl = document.getElementById("p3-caption-idx");
-  const titleEl = document.getElementById("p3-caption-title");
-  const bodyEl = document.getElementById("p3-caption-body");
-
-  let step = 0;
-  let busy = false;
-
-  function pad(n) {
-    return String(n).padStart(2, "0");
-  }
-
-  function slotItem(slot) {
-    const i = step + slot;
-    if (i < 0 || i >= TOTAL) return null;
-    return { i, item: STEPS[i] };
-  }
-
-  function render(animate) {
-    orbs.forEach((orb) => {
-      const slot = Number(orb.getAttribute("data-slot") || 0);
-      const rec = slotItem(slot);
-      const num = orb.querySelector(".p3-orb-num");
-      if (!rec) {
-        orb.style.opacity = "0";
-        orb.style.pointerEvents = "none";
-        return;
-      }
-      orb.style.opacity = "";
-      orb.style.pointerEvents = "";
-      if (num) num.textContent = pad(rec.i + 1);
-      orb.classList.toggle("is-active", slot === 0);
-      orb.setAttribute("aria-label", rec.item.title);
-    });
-    const a0 = slotItem(0);
-    const a1 = slotItem(1);
-    if (archLeft) archLeft.textContent = a0 ? a0.item.arch : "";
-    if (archRight) archRight.textContent = a1 ? a1.item.arch : "";
-    if (idxEl) idxEl.textContent = `${pad(step + 1)} / ${pad(TOTAL)}`;
-    if (titleEl) titleEl.textContent = STEPS[step].title;
-    if (bodyEl) bodyEl.textContent = STEPS[step].body;
-    if (animate && window.gsap) {
-      gsap.fromTo(
-        [titleEl, bodyEl, idxEl],
-        { opacity: 0, y: 8 },
-        { opacity: 1, y: 0, duration: 0.42, stagger: 0.04, ease: "power2.out" }
-      );
-      gsap.fromTo(
-        orbs.map((o) => o.querySelector(".p3-orb-num")).filter(Boolean),
-        { opacity: 0.35, scale: 0.92 },
-        { opacity: 1, scale: 1, duration: 0.38, ease: "power2.out" }
-      );
-    }
-  }
-
-  function setStep(next, animate) {
-    step = Math.max(0, Math.min(TOTAL - 1, next));
-    render(animate);
-  }
-
-  function move(dir) {
-    if (busy) return true;
-    const next = step + dir;
-    if (next < 0 || next >= TOTAL) return false;
-    busy = true;
-    setStep(next, true);
-    setTimeout(() => {
-      busy = false;
-    }, 420);
-    return true;
-  }
-
-  window.page3OnWheel = (dir) => move(dir);
-  window.page3SetEntry = (dir) => {
-    busy = false;
-    setStep(dir > 0 ? 0 : TOTAL - 1, false);
-  };
-
-  orbs.forEach((orb) => {
-    orb.addEventListener("click", () => {
-      const slot = Number(orb.getAttribute("data-slot") || 0);
-      if (slot === 0) move(-1);
-      else move(1);
-    });
-  });
-
-  render(false);
 })();
 
 /* ════════════════════════════════════════════════
