@@ -3360,7 +3360,7 @@ html[data-theme="dark"] .clay-card:hover {
 }
 
 html[data-theme="dark"] .treatment .icon {
-  border-color: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
   box-shadow: none;
 }
 
