@@ -1422,15 +1422,32 @@
   const root = document.getElementById('page-temple');
   if (!root) return;
   const cols = [...root.querySelectorAll('.pt-col')];
+  let current = Math.max(0, cols.findIndex((col) => col.classList.contains('is-on')));
+
   const open = (n) => {
-    cols.forEach((col, i) => col.classList.toggle('is-on', i === n));
+    if (n === current) return;
+    const prev = current;
+    cols.forEach((col, i) => {
+      col.classList.toggle('is-on', i === n);
+      col.classList.toggle('is-opening', i === n);
+      col.classList.toggle('is-closing', i === prev);
+    });
+    current = n;
+    window.setTimeout(() => {
+      cols.forEach((col) => col.classList.remove('is-opening', 'is-closing'));
+    }, 1100);
   };
+
   cols.forEach((col, n) => {
     col.addEventListener('click', () => open(n));
     col.querySelector('.pt-tab')?.addEventListener('click', (e) => {
       e.stopPropagation();
       open(n);
     });
+  });
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => root.classList.add('pt-ready'));
   });
 })();
 
