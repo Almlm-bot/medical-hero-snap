@@ -649,6 +649,7 @@
   };
 
   header.addEventListener('click', (e) => {
+    if (e.target.closest('#theme_toggle')) return;
     if (!isDocked()) return;
     if (!isExpanded()) {
       e.preventDefault();
@@ -729,7 +730,7 @@
     sceneName: page5.querySelector("#scene_name"),
     captionNum: page5.querySelector("#face_caption_num"),
     captionName: page5.querySelector("#face_caption_name"),
-    themeToggle: page5.querySelector("#theme_toggle")
+    themeToggle: document.getElementById("theme_toggle")
   };
 
   for (let i = dom.scrollEl.querySelectorAll("section").length; i < N; i++) {
@@ -746,7 +747,9 @@
 
   const imagePromises = new Map();
 
-  const isDark = () => page5.getAttribute("data-theme") === "dark";
+  const isDark = () =>
+    (document.documentElement.getAttribute("data-theme") ||
+      page5.getAttribute("data-theme")) === "dark";
 
   const getDarkSrc = (src) => src.replace(/\.webp$/, "-dark.webp");
 
@@ -882,17 +885,40 @@
   const getSystemTheme = () => (mq.matches ? "dark" : "light");
 
   const applyTheme = (theme) => {
+    document.documentElement.setAttribute("data-theme", theme);
     page5.setAttribute("data-theme", theme);
+    try {
+      localStorage.setItem("site-theme", theme);
+    } catch (err) {}
     refreshFaceImages();
   };
 
-  applyTheme(getSystemTheme());
-  mq.addEventListener("change", (e) => applyTheme(e.matches ? "dark" : "light"));
-
-  dom.themeToggle.addEventListener("click", () => {
-    const cur = page5.getAttribute("data-theme") || getSystemTheme();
-    applyTheme(cur === "dark" ? "light" : "dark");
+  const storedTheme = (() => {
+    try {
+      return localStorage.getItem("site-theme");
+    } catch (err) {
+      return null;
+    }
+  })();
+  applyTheme(storedTheme === "light" || storedTheme === "dark" ? storedTheme : getSystemTheme());
+  mq.addEventListener("change", (e) => {
+    try {
+      if (localStorage.getItem("site-theme") === "light" || localStorage.getItem("site-theme") === "dark") return;
+    } catch (err) {}
+    applyTheme(e.matches ? "dark" : "light");
   });
+
+  if (dom.themeToggle) {
+    dom.themeToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const cur =
+        document.documentElement.getAttribute("data-theme") ||
+        page5.getAttribute("data-theme") ||
+        getSystemTheme();
+      applyTheme(cur === "dark" ? "light" : "dark");
+    });
+  }
 
   let maxScroll = 1;
   let lastScrollHeight = 0;
