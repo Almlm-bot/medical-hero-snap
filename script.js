@@ -438,7 +438,7 @@
     }
 
     // Track entry direction for page 5 - ALWAYS set when entering page 5
-    if (i === 4) {
+    if (pages[i] === page5) {
       page5EntryDirection = i > prevIdx ? 1 : -1;
       setTimeout(() => { 
         locked = false;
@@ -501,7 +501,7 @@
   window.getCurrentPageIndex = () => idx;
   
   // Initialize page 5 visibility on load
-  if (idx === 4) {
+  if (pages[idx] && pages[idx].id === 'page5') {
     document.body.classList.add('is-page-5');
   } else {
     document.body.classList.remove('is-page-5');
@@ -1287,76 +1287,79 @@
 (function () {
   const cta = document.querySelector('#page2 .p2-cta');
   if (!cta || !window.goToPage) return;
-  cta.addEventListener('click', () => window.goToPage(3));
+  cta.addEventListener('click', () => window.goToPage(2));
 })();
 
 /* ════════════════════════════════════════════════
-   PAGE 4: Places A–E detail overlay
+   PLACES: photo-strip + overlay (Pages 3, temple, 4)
    ════════════════════════════════════════════════ */
 (function () {
-  const page4 = document.getElementById('page4');
-  const overlay = document.getElementById('p4-overlay');
-  if (!page4 || !overlay) return;
+  const bindGallery = (root) => {
+    const overlay = root.querySelector('.p4-overlay');
+    if (!overlay) return;
 
-  const shots = [...page4.querySelectorAll('.p4-shot')];
-  const details = [...overlay.querySelectorAll('.p4-detail')];
-  const places = details.map((el) => el.dataset.place);
-  const backBtns = [...overlay.querySelectorAll('.p4-back')];
-  const prevBtn = overlay.querySelector('.p4-nav-prev');
-  const nextBtn = overlay.querySelector('.p4-nav-next');
+    const shots = [...root.querySelectorAll('.p4-shot')];
+    const details = [...overlay.querySelectorAll('.p4-detail')];
+    const places = details.map((el) => el.dataset.place);
+    const backBtns = [...overlay.querySelectorAll('.p4-back')];
+    const prevBtn = overlay.querySelector('.p4-nav-prev');
+    const nextBtn = overlay.querySelector('.p4-nav-next');
 
-  const activeBack = () =>
-    overlay.querySelector('.p4-detail.is-active .p4-back') || backBtns[0];
+    const activeBack = () =>
+      overlay.querySelector('.p4-detail.is-active .p4-back') || backBtns[0];
 
-  const showPlace = (id) => {
-    overlay.dataset.place = id;
-    details.forEach((el) => el.classList.toggle('is-active', el.dataset.place === id));
+    const showPlace = (id) => {
+      overlay.dataset.place = id;
+      details.forEach((el) => el.classList.toggle('is-active', el.dataset.place === id));
+    };
+
+    const stepPlace = (dir) => {
+      const i = Math.max(0, places.indexOf(overlay.dataset.place));
+      showPlace(places[(i + dir + places.length) % places.length]);
+    };
+
+    const openPlace = (id) => {
+      showPlace(id);
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('p4-detail-open');
+      activeBack()?.focus({ preventScroll: true });
+    };
+
+    const closePlace = () => {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('p4-detail-open');
+      const active = root.querySelector(`.p4-shot[data-place="${overlay.dataset.place}"]`);
+      if (active) active.focus({ preventScroll: true });
+    };
+
+    shots.forEach((btn) => {
+      btn.addEventListener('click', () => openPlace(btn.dataset.place));
+    });
+
+    backBtns.forEach((btn) => btn.addEventListener('click', closePlace));
+    if (prevBtn) prevBtn.addEventListener('click', () => stepPlace(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => stepPlace(1));
+
+    addEventListener('keydown', (e) => {
+      if (!overlay.classList.contains('is-open')) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closePlace();
+      }
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        stepPlace(-1);
+      }
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        stepPlace(1);
+      }
+    });
   };
 
-  const stepPlace = (dir) => {
-    const i = Math.max(0, places.indexOf(overlay.dataset.place));
-    showPlace(places[(i + dir + places.length) % places.length]);
-  };
-
-  const openPlace = (id) => {
-    showPlace(id);
-    overlay.classList.add('is-open');
-    overlay.setAttribute('aria-hidden', 'false');
-    document.body.classList.add('p4-detail-open');
-    activeBack()?.focus({ preventScroll: true });
-  };
-
-  const closePlace = () => {
-    overlay.classList.remove('is-open');
-    overlay.setAttribute('aria-hidden', 'true');
-    document.body.classList.remove('p4-detail-open');
-    const active = page4.querySelector(`.p4-shot[data-place="${overlay.dataset.place}"]`);
-    if (active) active.focus({ preventScroll: true });
-  };
-
-  shots.forEach((btn) => {
-    btn.addEventListener('click', () => openPlace(btn.dataset.place));
-  });
-
-  backBtns.forEach((btn) => btn.addEventListener('click', closePlace));
-  prevBtn.addEventListener('click', () => stepPlace(-1));
-  nextBtn.addEventListener('click', () => stepPlace(1));
-
-  addEventListener('keydown', (e) => {
-    if (!overlay.classList.contains('is-open')) return;
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      closePlace();
-    }
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      stepPlace(-1);
-    }
-    if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      stepPlace(1);
-    }
-  });
+  document.querySelectorAll('[data-places]').forEach(bindGallery);
 })();
 
 /* ════════════════════════════════════════════════
@@ -1423,7 +1426,7 @@
   });
 
   addEventListener('keydown', (e) => {
-    if (window.getCurrentPageIndex && window.getCurrentPageIndex() !== 5) return;
+    if (window.getCurrentPageIndex && document.querySelectorAll('.scroll-page')[window.getCurrentPageIndex()]?.id !== 'page6') return;
     if (document.body.classList.contains('p4-detail-open')) return;
     if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
     if (e.key === 'ArrowLeft') {
