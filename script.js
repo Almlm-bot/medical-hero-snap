@@ -412,18 +412,6 @@
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
 
     if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
-
-    if (i === 0) {
-      const snapHome = () => {
-        const y = pages[0].offsetTop;
-        if (Math.abs(root.scrollTop - y) > 8) {
-          root.scrollTo({ top: y, behavior: 'auto' });
-        }
-      };
-      requestAnimationFrame(snapHome);
-      setTimeout(snapHome, 420);
-      setTimeout(snapHome, 1000);
-    }
     
     // Track entry direction for page 5 - ALWAYS set when entering page 5
     if (i === 4) {
@@ -617,13 +605,16 @@
     const tick = (now) => {
       attachRaf = 0;
       if (!isDocked() || !document.body.classList.contains('header-page1')) return;
+      const waited = now - start;
       const sr = slot.getBoundingClientRect();
       const hr = header.getBoundingClientRect();
       const aligned =
         Math.abs(sr.top - hr.top) < 12 &&
         Math.abs(sr.left - hr.left) < 16 &&
         Math.abs(sr.width - hr.width) < 64;
-      if (aligned || now - start > MORPH_MS) {
+      // Wait for the page scroll to finish before reparenting, otherwise
+      // dropIntoSlot cancels the smooth scroll and Page 1 flashes in.
+      if ((aligned && waited > 880) || waited > MORPH_MS) {
         dropIntoSlot();
         return;
       }
