@@ -1436,7 +1436,7 @@
     current = n;
     window.setTimeout(() => {
       cols.forEach((col) => col.classList.remove('is-opening', 'is-closing'));
-    }, 2300);
+    }, 1450);
   };
 
   cols.forEach((col, n) => {
