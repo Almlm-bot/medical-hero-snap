@@ -351,6 +351,9 @@
   pills.forEach((p) => {
     p.addEventListener("click", (e) => {
       e.preventDefault();
+      if (p.dataset.go === "home" && window.goToPage) {
+        window.goToPage(0);
+      }
       pills.forEach((x) => x.classList.remove("active"));
       p.classList.add("active");
     });
@@ -409,6 +412,18 @@
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
 
     if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
+
+    if (i === 0) {
+      const snapHome = () => {
+        const y = pages[0].offsetTop;
+        if (Math.abs(root.scrollTop - y) > 8) {
+          root.scrollTo({ top: y, behavior: 'auto' });
+        }
+      };
+      requestAnimationFrame(snapHome);
+      setTimeout(snapHome, 420);
+      setTimeout(snapHome, 1000);
+    }
     
     // Track entry direction for page 5 - ALWAYS set when entering page 5
     if (i === 4) {
@@ -655,6 +670,12 @@
   };
 
   window.headerOnPageChange = (nextIdx, prevIdx) => {
+    const home = document.getElementById("nav-home");
+    if (home) {
+      document.querySelectorAll(".nav-pill").forEach((p) => {
+        p.classList.toggle("active", p === home ? nextIdx === 0 : false);
+      });
+    }
     if (nextIdx === prevIdx) return;
     if (nextIdx === 0) undock();
     else dock();
@@ -662,6 +683,7 @@
 
   header.addEventListener('click', (e) => {
     if (e.target.closest('#theme_toggle')) return;
+    if (e.target.closest('.header-cta')) return;
     if (!isDocked()) return;
     if (!isExpanded()) {
       e.preventDefault();
