@@ -426,6 +426,7 @@
         requestAnimationFrame(startScroll);
       });
     } else if (goingHome) {
+      if (window.resetTourState) window.resetTourState();
       startScroll();
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -440,12 +441,12 @@
     // Track entry direction for page 5 - ALWAYS set when entering page 5
     if (pages[i] === page5) {
       page5EntryDirection = i > prevIdx ? 1 : -1;
-      setTimeout(() => { 
+      if (window.page5SetEntry) {
+        window.page5SetEntry(page5EntryDirection);
+      }
+      setTimeout(() => {
         locked = false;
         document.body.classList.add('is-page-5');
-        if (window.page5SetEntry) {
-          window.page5SetEntry(page5EntryDirection);
-        }
       }, 950);
     } else {
       document.body.classList.remove('is-page-5');
@@ -505,6 +506,13 @@
   
   window.goToPage = (i, fromPage5) => go(i, fromPage5);
   window.getCurrentPageIndex = () => idx;
+  window.resetTourState = () => {
+    if (window.page5ResetHome) window.page5ResetHome();
+    if (window.page3SetEntry) window.page3SetEntry(1);
+    if (window.pageTempleReset) window.pageTempleReset();
+    if (window.page4Reset) window.page4Reset();
+    if (window.page6Reset) window.page6Reset();
+  };
   
   // Initialize page 5 visibility on load
   if (pages[idx] && pages[idx].id === 'page5') {
@@ -1069,8 +1077,14 @@
     isSnapping = false;
     boundaryAccumulator = 0;
     boundaryDirection = 0;
+    lastFaceIdx = -1;
     applyFaceUI(targetFaceIndex);
+    checkImageSwaps(N > 1 ? cubeP / (N - 1) : 0);
     setCubeFromFaceProgress(cubeP);
+  };
+
+  window.page5ResetHome = () => {
+    window.page5SetEntry(1);
   };
 
   window.page5ResetVelocity = () => {
@@ -1344,6 +1358,14 @@
       btn.addEventListener('click', () => openPlace(btn.dataset.place));
     });
 
+    window.page4Reset = () => {
+      document.querySelectorAll('.p4-overlay.is-open').forEach((ov) => {
+        ov.classList.remove('is-open');
+        ov.setAttribute('aria-hidden', 'true');
+      });
+      document.body.classList.remove('p4-detail-open');
+    };
+
     backBtns.forEach((btn) => btn.addEventListener('click', closePlace));
     if (prevBtn) prevBtn.addEventListener('click', () => stepPlace(-1));
     if (nextBtn) nextBtn.addEventListener('click', () => stepPlace(1));
@@ -1450,6 +1472,20 @@
   requestAnimationFrame(() => {
     requestAnimationFrame(() => root.classList.add('pt-ready'));
   });
+
+  window.pageTempleReset = () => {
+    root.classList.remove('pt-ready');
+    cols.forEach((col, i) => {
+      col.classList.toggle('is-on', i === 0);
+      col.classList.remove('is-opening', 'is-closing');
+    });
+    const wrap = root.querySelector('.pt-cols');
+    if (wrap) wrap.dataset.open = '0';
+    current = 0;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => root.classList.add('pt-ready'));
+    });
+  };
 })();
 
 /* ════════════════════════════════════════════════
@@ -1540,4 +1576,8 @@
   }
 
   goTo(active);
+
+  window.page6Reset = () => {
+    goTo(Math.min(2, n - 1));
+  };
 })();
