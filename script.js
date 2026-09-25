@@ -412,6 +412,18 @@
     root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
 
     if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
+
+    if (i === 0) {
+      const snapHome = () => {
+        const y = pages[0].offsetTop;
+        if (Math.abs(root.scrollTop - y) > 8) {
+          root.scrollTo({ top: y, behavior: 'auto' });
+        }
+      };
+      requestAnimationFrame(snapHome);
+      setTimeout(snapHome, 420);
+      setTimeout(snapHome, 1000);
+    }
     
     // Track entry direction for page 5 - ALWAYS set when entering page 5
     if (i === 4) {
