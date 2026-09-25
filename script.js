@@ -409,10 +409,34 @@
     idx = i;
     locked = true;
     acc = 0;
-    root.scrollTo({ top: pages[i].offsetTop, behavior: 'smooth' });
+    const y = pages[i].offsetTop;
+    const leavingHome = prevIdx === 0 && i !== 0;
+    const goingHome = i === 0 && prevIdx !== 0;
 
-    if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
-    
+    const startScroll = () => {
+      root.scrollTo({ top: y, behavior: 'smooth' });
+    };
+
+    // Reparenting the header cancels an in-flight smooth scroll. Leave page 1
+    // by docking first, then scrolling; return home by scrolling first, then
+    // morphing the docked bar. Never jump with behavior:'auto' — that flashes.
+    if (leavingHome) {
+      if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(startScroll);
+      });
+    } else if (goingHome) {
+      startScroll();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
+        });
+      });
+    } else {
+      startScroll();
+      if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
+    }
+
     // Track entry direction for page 5 - ALWAYS set when entering page 5
     if (i === 4) {
       page5EntryDirection = i > prevIdx ? 1 : -1;
@@ -602,6 +626,9 @@
 
   const watchAttach = () => {
     const start = performance.now();
+    const root = document.querySelector('.scroll-root');
+    const homeY = document.getElementById('page1')?.offsetTop || 0;
+    let nudged = false;
     const tick = (now) => {
       attachRaf = 0;
       if (!isDocked() || !document.body.classList.contains('header-page1')) return;
@@ -612,11 +639,16 @@
         Math.abs(sr.top - hr.top) < 12 &&
         Math.abs(sr.left - hr.left) < 16 &&
         Math.abs(sr.width - hr.width) < 64;
-      // Wait for the page scroll to finish before reparenting, otherwise
-      // dropIntoSlot cancels the smooth scroll and Page 1 flashes in.
-      if ((aligned && waited > 880) || waited > MORPH_MS) {
+      const atHome = !root || Math.abs(root.scrollTop - homeY) < 24;
+      // Only reparent once Page 1 is actually on screen. Doing it mid-scroll
+      // cancels smooth scrolling; jumping with behavior:'auto' flashes Page 1.
+      if (atHome && (aligned || waited > MORPH_MS)) {
         dropIntoSlot();
         return;
+      }
+      if (!atHome && !nudged && waited > 900 && root) {
+        nudged = true;
+        root.scrollTo({ top: homeY, behavior: 'smooth' });
       }
       attachRaf = requestAnimationFrame(tick);
     };
