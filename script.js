@@ -351,6 +351,9 @@
   pills.forEach((p) => {
     p.addEventListener("click", (e) => {
       e.preventDefault();
+      if (p.dataset.go === "home" && window.goToPage) {
+        window.goToPage(0);
+      }
       pills.forEach((x) => x.classList.remove("active"));
       p.classList.add("active");
     });
@@ -655,6 +658,12 @@
   };
 
   window.headerOnPageChange = (nextIdx, prevIdx) => {
+    const home = document.getElementById("nav-home");
+    if (home) {
+      document.querySelectorAll(".nav-pill").forEach((p) => {
+        p.classList.toggle("active", p === home ? nextIdx === 0 : false);
+      });
+    }
     if (nextIdx === prevIdx) return;
     if (nextIdx === 0) undock();
     else dock();
@@ -662,6 +671,7 @@
 
   header.addEventListener('click', (e) => {
     if (e.target.closest('#theme_toggle')) return;
+    if (e.target.closest('.header-cta')) return;
     if (!isDocked()) return;
     if (!isExpanded()) {
       e.preventDefault();

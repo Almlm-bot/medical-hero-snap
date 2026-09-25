@@ -22,11 +22,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css?v=20260923r42"/>
+<link rel="stylesheet" href="./style.css?v=20260923r43"/>
 </head>
 <body>
 <div class="scroll-root">
-<section class="scroll-page">
+<section class="scroll-page" id="page1" aria-label="Page 1">
 
 <div class="page">
 
@@ -59,12 +59,12 @@
     </a>
 
     <nav class="nav-pills" aria-label="Primary">
-      <a class="nav-pill active" href="#">
+      <a class="nav-pill active" id="nav-home" href="#page1" data-go="home">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 11 L12 3 L21 11" />
           <path d="M5 9 V21 H19 V9" />
         </svg>
-        Home
+        主页
       </a>
       <a class="nav-pill" href="#">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -100,8 +100,8 @@
       </svg>
     </button>
 
-    <a class="header-cta" href="#" aria-label="Start now">
-      <span class="cta-text">Start now</span>
+    <a class="header-cta" href="https://www.romanbaths.co.uk/" target="_blank" rel="noopener noreferrer" aria-label="立即在线购票">
+      <span class="cta-text">立即在线购票</span>
       <span class="cta-dot">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M7 17 L17 7" />
@@ -916,6 +916,6 @@
 </div>
 <script src="./vendor/gsap.min.js?v=20260922r9"></script>
 <script src="./vendor/ScrollTrigger.min.js?v=20260922r9"></script>
-<script src="./script.js?v=20260923r42"></script>
+<script src="./script.js?v=20260923r43"></script>
 </body>
 </html>
