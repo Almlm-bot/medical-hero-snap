@@ -709,43 +709,43 @@
   const idxEl = document.getElementById("p3-caption-idx");
   const titleEl = document.getElementById("p3-caption-title");
   const bodyEl = document.getElementById("p3-caption-body");
-  const progress = page3.querySelector(".p3-progress");
 
   let step = 0;
   let busy = false;
-  let pathLen = 0;
 
   function pad(n) {
     return String(n).padStart(2, "0");
   }
 
-  function at(i) {
-    return STEPS[(i + TOTAL) % TOTAL];
+  function slotItem(slot) {
+    const i = step + slot;
+    if (i < 0 || i >= TOTAL) return null;
+    return { i, item: STEPS[i] };
   }
 
   function render(animate) {
     orbs.forEach((orb) => {
       const slot = Number(orb.getAttribute("data-slot") || 0);
-      const item = at(step + slot);
+      const rec = slotItem(slot);
       const num = orb.querySelector(".p3-orb-num");
-      if (num) num.textContent = pad(((step + slot) % TOTAL) + 1);
+      if (!rec) {
+        orb.style.opacity = "0";
+        orb.style.pointerEvents = "none";
+        return;
+      }
+      orb.style.opacity = "";
+      orb.style.pointerEvents = "";
+      if (num) num.textContent = pad(rec.i + 1);
       orb.classList.toggle("is-active", slot === 0);
-      orb.setAttribute(
-        "aria-label",
-        slot === 0 ? `当前步骤：${item.title}` : `${item.title}`
-      );
+      orb.setAttribute("aria-label", rec.item.title);
     });
-    if (archLeft) archLeft.textContent = at(step).arch;
-    if (archRight) archRight.textContent = at(step + 1).arch;
+    const a0 = slotItem(0);
+    const a1 = slotItem(1);
+    if (archLeft) archLeft.textContent = a0 ? a0.item.arch : "";
+    if (archRight) archRight.textContent = a1 ? a1.item.arch : "";
     if (idxEl) idxEl.textContent = `${pad(step + 1)} / ${pad(TOTAL)}`;
-    if (titleEl) titleEl.textContent = at(step).title;
-    if (bodyEl) bodyEl.textContent = at(step).body;
-    if (progress && pathLen) {
-      const t = TOTAL <= 1 ? 1 : step / (TOTAL - 1);
-      const filled = (0.52 + 0.48 * t) * pathLen;
-      progress.style.strokeDasharray = `${filled} ${pathLen}`;
-      progress.style.strokeDashoffset = "0";
-    }
+    if (titleEl) titleEl.textContent = STEPS[step].title;
+    if (bodyEl) bodyEl.textContent = STEPS[step].body;
     if (animate && window.gsap) {
       gsap.fromTo(
         [titleEl, bodyEl, idxEl],
@@ -791,16 +791,7 @@
     });
   });
 
-  if (progress) {
-    const measure = () => {
-      pathLen = progress.getTotalLength();
-      render(false);
-    };
-    if (progress.getTotalLength()) measure();
-    else requestAnimationFrame(measure);
-  } else {
-    render(false);
-  }
+  render(false);
 })();
 
 /* ════════════════════════════════════════════════

@@ -378,34 +378,24 @@
 
     <div class="p3-board" id="p3-board">
       <div class="p3-loop p3-loop-ghost" aria-hidden="true">
-        <svg class="p3-svg" viewBox="0 0 720 360" fill="none">
-          <path class="p3-track" d="M360 180 C360 78 232 78 232 180 C232 282 360 282 360 180 C360 78 488 78 488 180 C488 282 360 282 360 180" />
-        </svg>
-        <button class="p3-orb" type="button" data-slot="2" aria-hidden="true" tabindex="-1">
+        <div class="p3-ring p3-ring-l"></div>
+        <div class="p3-ring p3-ring-r"></div>
+        <button class="p3-orb" type="button" data-slot="2" tabindex="-1">
           <span class="p3-orb-label">步骤</span>
           <span class="p3-orb-num">03</span>
         </button>
-        <button class="p3-orb" type="button" data-slot="3" aria-hidden="true" tabindex="-1">
+        <button class="p3-orb" type="button" data-slot="3" tabindex="-1">
           <span class="p3-orb-label">步骤</span>
           <span class="p3-orb-num">04</span>
         </button>
       </div>
 
       <div class="p3-loop p3-loop-front">
-        <svg class="p3-svg" viewBox="0 0 720 360" fill="none">
-          <defs>
-            <linearGradient id="p3-stroke" x1="160" y1="180" x2="560" y2="180" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#c5d44a" />
-              <stop offset="28%" stop-color="#f0a03a" />
-              <stop offset="52%" stop-color="#ef6a32" />
-              <stop offset="78%" stop-color="#e23c3c" />
-              <stop offset="100%" stop-color="#d01e2a" />
-            </linearGradient>
-          </defs>
-          <path class="p3-track" d="M360 180 C360 78 232 78 232 180 C232 282 360 282 360 180 C360 78 488 78 488 180 C488 282 360 282 360 180" />
-          <path class="p3-progress" d="M360 180 C360 78 232 78 232 180 C232 282 360 282 360 180 C360 78 488 78 488 180 C488 282 360 282 360 180" />
-          <path id="p3-arch-left" d="M148 228 A128 128 0 0 1 250 52" />
-          <path id="p3-arch-right" d="M470 52 A128 128 0 0 1 572 228" />
+        <div class="p3-ring p3-ring-l"></div>
+        <div class="p3-ring p3-ring-r"></div>
+        <svg class="p3-labels" viewBox="0 0 100 52" aria-hidden="true">
+          <path id="p3-arch-left" d="M 6.5 33 A 20.6 20.6 0 0 1 32.5 6.2" fill="none" />
+          <path id="p3-arch-right" d="M 67.5 6.2 A 20.6 20.6 0 0 1 93.5 33" fill="none" />
           <text class="p3-arch p3-arch-left">
             <textPath href="#p3-arch-left" startOffset="50%" text-anchor="middle">抵达</textPath>
           </text>
