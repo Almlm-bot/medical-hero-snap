@@ -787,14 +787,33 @@
 
     if (faceImgIdx[faceIdx] !== imgIdx) return;
 
-    let img = face.querySelector("img");
-    if (!img) {
-      img = new Image();
-      face.appendChild(img);
+    let img = face.querySelector("img.face-photo:not(.is-leaving)") || face.querySelector("img:not(.is-leaving)");
+    const nextFit = (IMAGE_ASPECTS[imgIdx] ?? 1) !== 1 ? "contain" : "";
+    if (img && img.getAttribute("src") === src) {
+      img.alt = FACE_NAMES[imgIdx] ?? "";
+      img.style.objectFit = nextFit;
+      return;
     }
-    img.alt = FACE_NAMES[imgIdx] ?? "";
-    img.src = src;
-    img.style.objectFit = (IMAGE_ASPECTS[imgIdx] ?? 1) !== 1 ? "contain" : "";
+
+    const next = new Image();
+    next.className = "face-photo";
+    next.alt = FACE_NAMES[imgIdx] ?? "";
+    next.src = src;
+    next.style.objectFit = nextFit;
+    if (img) {
+      next.style.opacity = "0";
+      face.appendChild(next);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          next.style.opacity = "1";
+          img.classList.add("is-leaving");
+          img.style.opacity = "0";
+        });
+      });
+      window.setTimeout(() => img.remove(), 700);
+    } else {
+      face.appendChild(next);
+    }
   }
 
   const refreshFaceImages = () => {
