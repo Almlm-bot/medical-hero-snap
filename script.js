@@ -1432,6 +1432,7 @@
       col.classList.toggle('is-opening', i === n);
       col.classList.toggle('is-closing', i === prev);
     });
+    root.querySelector('.pt-cols').dataset.open = String(n);
     current = n;
     window.setTimeout(() => {
       cols.forEach((col) => col.classList.remove('is-opening', 'is-closing'));
