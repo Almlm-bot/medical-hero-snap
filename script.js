@@ -453,6 +453,9 @@
       if (window.page5ResetVelocity) {
         window.page5ResetVelocity();
       }
+      if (pages[i] && pages[i].id === 'page3' && window.page3SetEntry) {
+        window.page3SetEntry(i > prevIdx ? 1 : -1);
+      }
     }
   }
   
@@ -474,6 +477,7 @@
     if (Math.abs(acc) < THRESH) return;
     const dir = acc > 0 ? 1 : -1;
     acc = 0;
+    if (pages[idx]?.id === 'page3' && window.page3OnWheel && window.page3OnWheel(dir)) return;
     go(idx + dir);
   }, { passive: false });
   
@@ -487,10 +491,12 @@
     if (locked) return;
     if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
       e.preventDefault();
+      if (pages[idx]?.id === 'page3' && window.page3OnWheel && window.page3OnWheel(1)) return;
       go(idx + 1);
     }
     if (['ArrowUp', 'PageUp'].includes(e.key)) {
       e.preventDefault();
+      if (pages[idx]?.id === 'page3' && window.page3OnWheel && window.page3OnWheel(-1)) return;
       go(idx - 1);
     }
     if (e.key === 'Home') { e.preventDefault(); go(0); }
@@ -1360,6 +1366,72 @@
   };
 
   document.querySelectorAll('[data-places]').forEach(bindGallery);
+})();
+
+/* ════════════════════════════════════════════════
+   PAGE 3: Sacred Spring chapters
+   ════════════════════════════════════════════════ */
+(function () {
+  const root = document.getElementById('page3');
+  if (!root) return;
+  const photos = [...root.querySelectorAll('.p3-photo')];
+  const steps = [...root.querySelectorAll('.p3-step')];
+  const articles = [...root.querySelectorAll('.p3-article')];
+  const kicker = document.getElementById('p3-kicker');
+  const total = photos.length;
+  let i = 0;
+  let busy = false;
+
+  const pad = (n) => String(n).padStart(2, '0');
+
+  const show = (next) => {
+    i = Math.max(0, Math.min(total - 1, next));
+    photos.forEach((el, n) => el.classList.toggle('is-on', n === i));
+    steps.forEach((el, n) => el.classList.toggle('is-on', n === i));
+    articles.forEach((el, n) => el.classList.toggle('is-on', n === i));
+    if (kicker) kicker.textContent = `${pad(i + 1)} / ${pad(total)}`;
+  };
+
+  const move = (dir) => {
+    if (busy) return true;
+    const next = i + dir;
+    if (next < 0 || next >= total) return false;
+    busy = true;
+    show(next);
+    setTimeout(() => { busy = false; }, 520);
+    return true;
+  };
+
+  steps.forEach((btn) => {
+    btn.addEventListener('click', () => show(Number(btn.dataset.i || 0)));
+  });
+
+  window.page3OnWheel = (dir) => move(dir);
+  window.page3SetEntry = (dir) => {
+    busy = false;
+    show(dir > 0 ? 0 : total - 1);
+  };
+
+  show(0);
+})();
+
+/* ════════════════════════════════════════════════
+   TEMPLE: expanding colonnade
+   ════════════════════════════════════════════════ */
+(function () {
+  const root = document.getElementById('page-temple');
+  if (!root) return;
+  const cols = [...root.querySelectorAll('.pt-col')];
+  const open = (n) => {
+    cols.forEach((col, i) => col.classList.toggle('is-on', i === n));
+  };
+  cols.forEach((col, n) => {
+    col.addEventListener('click', () => open(n));
+    col.querySelector('.pt-tab')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      open(n);
+    });
+  });
 })();
 
 /* ════════════════════════════════════════════════
