@@ -1359,13 +1359,23 @@
     cta.addEventListener('click', () => window.goToPage(2));
   }
 
+  const spread = () => {
+    const line = document.getElementById('p2-line');
+    if (!line) return;
+    line.classList.remove('is-spread');
+    void line.offsetWidth;
+    line.classList.add('is-spread');
+  };
+
   window.page2OnWheel = (dir) => move(dir);
   window.page2SetEntry = (dir) => {
     busy = false;
     show(dir > 0 ? 0 : total - 1);
+    spread();
   };
 
   show(0);
+  requestAnimationFrame(spread);
 })();
 
 /* ════════════════════════════════════════════════
