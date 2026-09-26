@@ -451,15 +451,15 @@ body.p4-detail-open.header-docked .header {
 body.header-docked #page2 .p2-card {
   top: var(--header-top, 20px);
   left: var(--header-left, 20px);
-  padding-top: 0.75rem;
+  padding: 0 1.3rem 1.1rem;
 }
 
 body.header-docked #page2 .p2-kicker {
   display: flex;
   align-items: center;
   min-height: var(--header-ball, 2.85rem);
-  margin: 0 0 0.45rem;
-  padding-left: calc(var(--header-ball, 2.85rem) + 0.7rem);
+  margin: 0 -1.3rem 0.5rem;
+  padding: 0 1.3rem 0 calc(var(--header-ball, 2.85rem) + 0.55rem);
 }
 
 body.header-docked #page3 .p3-ui {
@@ -1533,7 +1533,7 @@ html, body { height: 100%; margin: 0; }
   border: 1px solid var(--line-2);
   color: var(--text-2);
   font-family: Inter, "Noto Sans SC", system-ui, sans-serif;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.02em;
   line-height: 1.2;
@@ -1691,12 +1691,12 @@ html, body { height: 100%; margin: 0; }
   body.header-docked #page2 .p2-card {
     top: auto;
     left: 0.7rem;
-    padding-top: 0.95rem;
+    padding: 0.95rem 1rem 1rem;
   }
   body.header-docked #page2 .p2-kicker {
     min-height: 0;
     margin: 0 0 0.7rem;
-    padding-left: 0;
+    padding: 0;
   }
   .p2-body { display: none; }
   .p2-pin-name { display: none; }
@@ -4201,6 +4201,10 @@ html[data-theme="dark"] .p6-dot.is-active {
 
 html[data-theme="dark"] .p6-photo {
   background: #2a241e;
+}
+
+#page5 .tag {
+  font-size: 0.82rem;
 }
 
 .header-cta,
