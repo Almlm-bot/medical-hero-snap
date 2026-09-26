@@ -1322,6 +1322,8 @@
   const titleEl = document.getElementById('p2-stop-title');
   const bodyEl = document.getElementById('p2-stop-body');
   const cta = root.querySelector('.p2-cta');
+  const card = root.querySelector('.p2-card');
+  const stage = root.querySelector('.p2-stage');
   const total = pins.length;
   let i = 0;
   let busy = false;
@@ -1421,16 +1423,35 @@
     board.classList.add('is-spread');
   };
 
+  const fitCard = () => {
+    if (!card) return;
+    if (window.matchMedia('(max-width: 56.25em)').matches) {
+      card.style.height = '';
+      return;
+    }
+    if (!board) return;
+    const h = board.getBoundingClientRect().height;
+    card.style.height = h ? `${Math.round(h)}px` : '';
+  };
+
   window.page2OnWheel = (dir) => move(dir);
   window.page2SetEntry = (dir) => {
     busy = false;
     show(dir > 0 ? 0 : total - 1);
     spread();
+    requestAnimationFrame(fitCard);
   };
 
   layoutPath();
   show(0);
-  requestAnimationFrame(spread);
+  requestAnimationFrame(() => {
+    spread();
+    fitCard();
+  });
+  if (stage && typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(fitCard).observe(stage);
+  }
+  window.addEventListener('resize', fitCard);
 })();
 
 /* ════════════════════════════════════════════════
