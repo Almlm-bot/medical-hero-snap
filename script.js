@@ -1318,7 +1318,6 @@
   const pins = [...root.querySelectorAll('.p2-pin')];
   const pathFull = document.getElementById('p2-path-full');
   const pathNow = document.getElementById('p2-path-now');
-  const you = document.getElementById('p2-you');
   const idxEl = document.getElementById('p2-idx');
   const titleEl = document.getElementById('p2-stop-title');
   const bodyEl = document.getElementById('p2-stop-body');
@@ -1383,13 +1382,6 @@
     pathNow.style.strokeDashoffset = `${pathLen}`;
   };
 
-  const placeYou = (len) => {
-    if (!you || !pathNow) return;
-    const p = pathNow.getPointAtLength(Math.max(0, Math.min(pathLen, len)));
-    you.style.left = `${p.x}%`;
-    you.style.top = `${p.y}%`;
-  };
-
   const show = (next) => {
     i = Math.max(0, Math.min(total - 1, next));
     pins.forEach((el, n) => {
@@ -1402,7 +1394,6 @@
     if (bodyEl) bodyEl.textContent = pin?.dataset.body || '';
     const at = pinLens[i] || 0;
     pathNow.style.strokeDashoffset = `${Math.max(0, pathLen - at)}`;
-    placeYou(at);
   };
 
   const move = (dir) => {
