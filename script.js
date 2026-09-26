@@ -454,6 +454,9 @@
       if (window.page5ResetVelocity) {
         window.page5ResetVelocity();
       }
+      if (pages[i] && pages[i].id === 'page2' && window.page2SetEntry) {
+        window.page2SetEntry(i > prevIdx ? 1 : -1);
+      }
       if (pages[i] && pages[i].id === 'page3' && window.page3SetEntry) {
         window.page3SetEntry(i > prevIdx ? 1 : -1);
       }
@@ -478,6 +481,7 @@
     if (Math.abs(acc) < THRESH) return;
     const dir = acc > 0 ? 1 : -1;
     acc = 0;
+    if (pages[idx]?.id === 'page2' && window.page2OnWheel && window.page2OnWheel(dir)) return;
     if (pages[idx]?.id === 'page3' && window.page3OnWheel && window.page3OnWheel(dir)) return;
     go(idx + dir);
   }, { passive: false });
@@ -492,11 +496,13 @@
     if (locked) return;
     if (['ArrowDown', 'PageDown', ' '].includes(e.key)) {
       e.preventDefault();
+      if (pages[idx]?.id === 'page2' && window.page2OnWheel && window.page2OnWheel(1)) return;
       if (pages[idx]?.id === 'page3' && window.page3OnWheel && window.page3OnWheel(1)) return;
       go(idx + 1);
     }
     if (['ArrowUp', 'PageUp'].includes(e.key)) {
       e.preventDefault();
+      if (pages[idx]?.id === 'page2' && window.page2OnWheel && window.page2OnWheel(-1)) return;
       if (pages[idx]?.id === 'page3' && window.page3OnWheel && window.page3OnWheel(-1)) return;
       go(idx - 1);
     }
@@ -508,6 +514,7 @@
   window.getCurrentPageIndex = () => idx;
   window.resetTourState = () => {
     if (window.page5ResetHome) window.page5ResetHome();
+    if (window.page2SetEntry) window.page2SetEntry(1);
     if (window.page3SetEntry) window.page3SetEntry(1);
     if (window.pageTempleReset) window.pageTempleReset();
     if (window.page4Reset) window.page4Reset();
@@ -1302,12 +1309,63 @@
 })();
 
 /* ════════════════════════════════════════════════
-   PAGE 2: Collage CTA → Page 4
+   PAGE 2: 12-stop walkthrough timeline
    ════════════════════════════════════════════════ */
 (function () {
-  const cta = document.querySelector('#page2 .p2-cta');
-  if (!cta || !window.goToPage) return;
-  cta.addEventListener('click', () => window.goToPage(2));
+  const root = document.getElementById('page2');
+  if (!root) return;
+  const photos = [...root.querySelectorAll('.p2-photo')];
+  const ticks = [...root.querySelectorAll('.p2-tick')];
+  const idxEl = document.getElementById('p2-idx');
+  const titleEl = document.getElementById('p2-stop-title');
+  const bodyEl = document.getElementById('p2-stop-body');
+  const cta = root.querySelector('.p2-cta');
+  const total = ticks.length;
+  let i = 0;
+  let busy = false;
+
+  const pad = (n) => String(n).padStart(2, '0');
+
+  const show = (next) => {
+    i = Math.max(0, Math.min(total - 1, next));
+    photos.forEach((el, n) => el.classList.toggle('is-on', n === i));
+    ticks.forEach((el, n) => {
+      el.classList.toggle('is-on', n === i);
+      el.classList.toggle('is-done', n < i);
+    });
+    const tick = ticks[i];
+    const line = document.getElementById('p2-line');
+    if (line) line.style.setProperty('--p2-i', String(i));
+    if (idxEl) idxEl.textContent = `${pad(i + 1)} / ${pad(total)}`;
+    if (titleEl) titleEl.textContent = tick?.dataset.title || '';
+    if (bodyEl) bodyEl.textContent = tick?.dataset.body || '';
+  };
+
+  const move = (dir) => {
+    if (busy) return true;
+    const next = i + dir;
+    if (next < 0 || next >= total) return false;
+    busy = true;
+    show(next);
+    setTimeout(() => { busy = false; }, 420);
+    return true;
+  };
+
+  ticks.forEach((btn) => {
+    btn.addEventListener('click', () => show(Number(btn.dataset.i || 0)));
+  });
+
+  if (cta && window.goToPage) {
+    cta.addEventListener('click', () => window.goToPage(2));
+  }
+
+  window.page2OnWheel = (dir) => move(dir);
+  window.page2SetEntry = (dir) => {
+    busy = false;
+    show(dir > 0 ? 0 : total - 1);
+  };
+
+  show(0);
 })();
 
 /* ════════════════════════════════════════════════
