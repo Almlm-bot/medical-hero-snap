@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- build: r62 -->
+<!-- build: r63 -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Medical Hero — CodePen KwNawQq Replica</title>
@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css?v=20260926r62"/>
+<link rel="stylesheet" href="./style.css?v=20260926r63"/>
 </head>
 <body>
 <div class="scroll-root">
@@ -222,24 +222,24 @@
     </div>
   </section>
 
-  <!-- ─── RESOURCE LIST ─── -->
-  <nav class="resource-list" aria-label="Sections">
-    <a href="#" class="res-item">
-      <span class="label">Resources <span style="color:var(--mute-2)">/&nbsp;01</span></span>
-      <span class="dots"><span></span><span></span><span></span></span>
-      <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-          <path d="M5 12 H19 M14 7 L19 12 L14 17" />
-        </svg></span>
-    </a>
+  <!-- ─── OPENING HOURS ─── -->
+  <nav class="resource-list" aria-label="营业时间">
     <a href="#" class="res-item active">
-      <span class="label">Community <span style="color:var(--mute-2)">/&nbsp;02</span></span>
+      <span class="label">日常开放 <span>/&nbsp;09:00–18:00</span></span>
       <span class="dots"><span></span><span></span><span></span></span>
       <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
           <path d="M5 12 H19 M14 7 L19 12 L14 17" />
         </svg></span>
     </a>
     <a href="#" class="res-item">
-      <span class="label">Articles <span style="color:var(--mute-2)">/&nbsp;03</span></span>
+      <span class="label">夏夜延长 <span>/&nbsp;09:00–22:00</span></span>
+      <span class="dots"><span></span><span></span><span></span></span>
+      <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <path d="M5 12 H19 M14 7 L19 12 L14 17" />
+        </svg></span>
+    </a>
+    <a href="#" class="res-item">
+      <span class="label">最后入场 <span>/&nbsp;提前 1 小时</span></span>
       <span class="dots"><span></span><span></span><span></span></span>
       <span class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
           <path d="M5 12 H19 M14 7 L19 12 L14 17" />
@@ -254,32 +254,33 @@
         <div class="head">
           <span class="icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 21 C-2 14, 4 4, 12 9 C20 4, 26 14, 12 21 Z" />
+              <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z" />
+              <circle cx="12" cy="10" r="2.2" />
             </svg>
           </span>
-          <h3>Personalized Treatment</h3>
-          <button class="menu-dots" aria-label="More">
+          <h3>地点与前往</h3>
+          <a class="menu-dots" href="https://maps.google.com/?q=Roman+Baths+Abbey+Church+Yard+Bath+BA1+1LZ" target="_blank" rel="noopener noreferrer" aria-label="在地图中打开">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <circle cx="6" cy="12" r="1.6" />
               <circle cx="12" cy="12" r="1.6" />
               <circle cx="18" cy="12" r="1.6" />
             </svg>
-          </button>
+          </a>
         </div>
-        <p>AI empowers healthcare providers to deliver personalized treatment plans</p>
+        <p>Abbey Church Yard, Bath BA1 1LZ。入口在巴斯大教堂对面，从巴斯温泉火车站沿 Stall Street 步行约八分钟即到。</p>
         <div class="tag-row">
           <span class="tag">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 4 V20 M4 12 H20" />
             </svg>
-            Healthcare
+            步行 8 分钟
           </span>
           <span class="tag">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="8" />
               <path d="M8 12 L11 15 L16 9" />
             </svg>
-            Effectiveness
+            市中心
           </span>
         </div>
       </article>
@@ -956,6 +957,6 @@
 </div>
 <script src="./vendor/gsap.min.js?v=20260922r9"></script>
 <script src="./vendor/ScrollTrigger.min.js?v=20260922r9"></script>
-<script src="./script.js?v=20260926r62"></script>
+<script src="./script.js?v=20260926r63"></script>
 </body>
 </html>
