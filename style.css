@@ -1619,9 +1619,14 @@ html, body { height: 100%; margin: 0; }
 }
 
 .p2-now {
-  margin-top: auto;
-  padding-top: 0.9rem;
-  border-top: 1px solid rgba(26, 25, 21, 0.12);
+  flex: 0 0 auto;
+  margin: 0 0 0.9rem;
+  padding: 0 0 0.85rem;
+  border-bottom: 1px solid rgba(26, 25, 21, 0.12);
+}
+
+.p2-card.is-intro .p2-now {
+  display: none;
 }
 
 .p2-idx {
@@ -1651,7 +1656,7 @@ html, body { height: 100%; margin: 0; }
 
 .p2-cta {
   align-self: flex-start;
-  margin-top: 1.05rem;
+  margin-top: auto;
   padding: 0.62rem 1.4rem;
   border: 1px solid #1a1915;
   border-radius: 999px;
@@ -1699,7 +1704,10 @@ html, body { height: 100%; margin: 0; }
     padding: 0;
   }
   .p2-body { display: none; }
-  .p2-now { margin-top: 0.55rem; }
+  .p2-now {
+    margin: 0 0 0.55rem;
+    padding: 0 0 0.55rem;
+  }
   .p2-pin-name { display: none; }
   .p2-pin.is-on .p2-pin-name { display: inline-flex; }
 }
@@ -4103,7 +4111,7 @@ html[data-theme="dark"] .p2-cta:focus-visible {
 }
 
 html[data-theme="dark"] .p2-now {
-  border-top-color: rgba(237, 232, 223, 0.14);
+  border-bottom-color: rgba(237, 232, 223, 0.14);
 }
 
 html[data-theme="dark"] #page4 {
