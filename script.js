@@ -1325,7 +1325,7 @@
   const card = root.querySelector('.p2-card');
   const stage = root.querySelector('.p2-stage');
   const total = pins.length;
-  let i = 0;
+  let i = -1;
   let busy = false;
   let pathLen = 0;
   let pinLens = [];
@@ -1385,23 +1385,27 @@
   };
 
   const show = (next) => {
-    i = Math.max(0, Math.min(total - 1, next));
+    i = Math.max(-1, Math.min(total - 1, next));
+    const intro = i < 0;
+    if (card) card.classList.toggle('is-intro', intro);
     pins.forEach((el, n) => {
-      el.classList.toggle('is-on', n === i);
-      el.classList.toggle('is-done', n < i);
+      el.classList.toggle('is-on', !intro && n === i);
+      el.classList.toggle('is-done', !intro && n < i);
     });
-    const pin = pins[i];
-    if (idxEl) idxEl.textContent = `${pad(i + 1)} / ${pad(total)}`;
-    if (titleEl) titleEl.textContent = pin?.dataset.title || '';
-    if (bodyEl) bodyEl.textContent = pin?.dataset.body || '';
-    const at = pinLens[i] || 0;
-    pathNow.style.strokeDashoffset = `${Math.max(0, pathLen - at)}`;
+    if (!intro) {
+      const pin = pins[i];
+      if (idxEl) idxEl.textContent = `${pad(i + 1)} / ${pad(total)}`;
+      if (titleEl) titleEl.textContent = pin?.dataset.title || '';
+      if (bodyEl) bodyEl.textContent = pin?.dataset.body || '';
+    }
+    const at = intro ? 0 : (pinLens[i] || 0);
+    pathNow.style.strokeDashoffset = intro ? `${pathLen}` : `${Math.max(0, pathLen - at)}`;
   };
 
   const move = (dir) => {
     if (busy) return true;
     const next = i + dir;
-    if (next < 0 || next >= total) return false;
+    if (next < -1 || next >= total) return false;
     busy = true;
     show(next);
     setTimeout(() => { busy = false; }, 420);
@@ -1412,8 +1416,14 @@
     btn.addEventListener('click', () => show(Number(btn.dataset.i || 0)));
   });
 
-  if (cta && window.goToPage) {
-    cta.addEventListener('click', () => window.goToPage(2));
+  if (cta) {
+    cta.addEventListener('click', () => {
+      if (i < 0) {
+        show(0);
+        return;
+      }
+      if (window.goToPage) window.goToPage(2);
+    });
   }
 
   const spread = () => {
@@ -1437,13 +1447,13 @@
   window.page2OnWheel = (dir) => move(dir);
   window.page2SetEntry = (dir) => {
     busy = false;
-    show(dir > 0 ? 0 : total - 1);
+    show(dir > 0 ? -1 : total - 1);
     spread();
     requestAnimationFrame(fitCard);
   };
 
   layoutPath();
-  show(0);
+  show(-1);
   requestAnimationFrame(() => {
     spread();
     fitCard();
