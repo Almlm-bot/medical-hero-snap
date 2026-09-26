@@ -1337,7 +1337,7 @@ html, body { height: 100%; margin: 0; }
    PAGE 2: map scene + strung attractions
    ════════════════════════════════════════════════ */
 #page2 {
-  background: #1a1915;
+  background: #e6d9c4;
   color: #1a1915;
   isolation: isolate;
 }
@@ -1346,17 +1346,25 @@ html, body { height: 100%; margin: 0; }
   position: relative;
   height: 100%;
   overflow: hidden;
+  background: #e6d9c4;
+}
+
+.p2-stage {
+  position: absolute;
+  left: calc(min(22.5rem, 34%) + 1.8rem);
+  right: 1.1rem;
+  top: 1.1rem;
+  bottom: 1.1rem;
   container-type: size;
-  background: #1a1915;
 }
 
 .p2-board {
-  --ar: 1.778656126;
+  --ar: 2.00144;
   position: absolute;
   left: 50%;
   top: 50%;
-  width: max(100cqw, calc(100cqh * var(--ar)));
-  height: max(100cqh, calc(100cqw / var(--ar)));
+  width: min(100cqw, calc(100cqh * var(--ar)));
+  height: min(100cqh, calc(100cqw / var(--ar)));
   transform: translate(-50%, -50%);
 }
 
@@ -1367,18 +1375,11 @@ html, body { height: 100%; margin: 0; }
   height: 100%;
   object-fit: fill;
   display: block;
-  filter: saturate(0.92) contrast(1.04);
+  filter: none;
 }
 
 .p2-board::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(18, 16, 12, 0.28) 0%, transparent 36%),
-    radial-gradient(ellipse at 58% 48%, transparent 46%, rgba(16, 14, 10, 0.28) 100%);
+  content: none;
 }
 
 .p2-route {
@@ -1392,7 +1393,7 @@ html, body { height: 100%; margin: 0; }
 }
 
 .p2-route-full {
-  stroke: rgba(255, 248, 236, 0.5);
+  stroke: rgba(26, 25, 21, 0.38);
   stroke-width: 0.55;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -1406,11 +1407,10 @@ html, body { height: 100%; margin: 0; }
 }
 
 .p2-route-now {
-  stroke: #f4ead8;
-  stroke-width: 0.72;
+  stroke: #c45a2a;
+  stroke-width: 0.78;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 0.35px rgba(26, 25, 21, 0.55));
   transition: stroke-dashoffset 0.55s cubic-bezier(0.37, 0.08, 0.18, 1);
 }
 
@@ -1438,7 +1438,7 @@ html, body { height: 100%; margin: 0; }
   padding: 0;
   border: 0;
   background: none;
-  color: #fff8ec;
+  color: #1a1915;
   cursor: pointer;
   opacity: 0;
   z-index: 1;
@@ -1483,31 +1483,32 @@ html, body { height: 100%; margin: 0; }
   place-items: center;
   flex: none;
   border-radius: 50%;
-  border: 1.5px solid #f4ead8;
-  background: rgba(26, 25, 21, 0.78);
-  color: #f4ead8;
+  border: 1.5px solid #1a1915;
+  background: #f4ead8;
+  color: #1a1915;
   font-family: "DM Mono", monospace;
   font-size: 0.52rem;
   letter-spacing: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
   transition: background 0.35s ease, color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .p2-pin.is-done .p2-pin-dot {
-  background: #f4ead8;
-  color: #1a1915;
+  background: #1a1915;
+  color: #f4ead8;
+  border-color: #1a1915;
 }
 
 .p2-pin.is-on .p2-pin-dot {
   background: #c45a2a;
-  border-color: #fff8ec;
+  border-color: #c45a2a;
   color: #fff8ec;
   transform: scale(1.22);
-  box-shadow: 0 0 0 4px rgba(196, 90, 42, 0.28), 0 4px 14px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 0 4px rgba(196, 90, 42, 0.22), 0 4px 14px rgba(0, 0, 0, 0.22);
 }
 
 .p2-pin:focus-visible .p2-pin-dot {
-  outline: 2px solid #fff8ec;
+  outline: 2px solid #c45a2a;
   outline-offset: 3px;
 }
 
@@ -1519,7 +1520,7 @@ html, body { height: 100%; margin: 0; }
   font-weight: 500;
   letter-spacing: 0.06em;
   line-height: 1.2;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 0 8px rgba(0, 0, 0, 0.35);
+  text-shadow: 0 1px 0 rgba(255, 248, 236, 0.9), 0 0 6px rgba(230, 217, 196, 0.9);
   pointer-events: none;
 }
 
@@ -1703,6 +1704,12 @@ html, body { height: 100%; margin: 0; }
 }
 
 @media (max-width: 56.25em) {
+  .p2-stage {
+    left: 0.6rem;
+    right: 0.6rem;
+    top: 0.6rem;
+    bottom: 48%;
+  }
   .p2-card {
     left: 0.7rem;
     right: 0.7rem;
@@ -4071,8 +4078,12 @@ html[data-theme="dark"] .discover .arrow-down {
 
 html[data-theme="dark"] #page2,
 html[data-theme="dark"] .p2-map {
-  background: #1c1814;
+  background: #2a241c;
   color: #ede8df;
+}
+
+html[data-theme="dark"] .p2-plan {
+  filter: brightness(0.86) contrast(1.04) saturate(0.92);
 }
 
 html[data-theme="dark"] .p2-card {
