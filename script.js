@@ -1309,36 +1309,100 @@
 })();
 
 /* ════════════════════════════════════════════════
-   PAGE 2: 12-stop walkthrough timeline
+   PAGE 2: map scene + strung attractions
    ════════════════════════════════════════════════ */
 (function () {
   const root = document.getElementById('page2');
   if (!root) return;
-  const photos = [...root.querySelectorAll('.p2-photo')];
-  const ticks = [...root.querySelectorAll('.p2-tick')];
+  const board = document.getElementById('p2-board');
+  const pins = [...root.querySelectorAll('.p2-pin')];
+  const pathFull = document.getElementById('p2-path-full');
+  const pathNow = document.getElementById('p2-path-now');
+  const you = document.getElementById('p2-you');
   const idxEl = document.getElementById('p2-idx');
   const titleEl = document.getElementById('p2-stop-title');
   const bodyEl = document.getElementById('p2-stop-body');
   const cta = root.querySelector('.p2-cta');
-  const total = ticks.length;
+  const total = pins.length;
   let i = 0;
   let busy = false;
+  let pathLen = 0;
+  let pinLens = [];
 
   const pad = (n) => String(n).padStart(2, '0');
 
+  const pinXY = (el) => [
+    parseFloat(el.style.getPropertyValue('--x')),
+    parseFloat(el.style.getPropertyValue('--y')),
+  ];
+
+  const curveD = () => {
+    const pts = pins.map(pinXY);
+    let d = `M ${pts[0][0]},${pts[0][1]}`;
+    for (let n = 0; n < pts.length - 1; n++) {
+      const p0 = pts[n - 1] || pts[n];
+      const p1 = pts[n];
+      const p2 = pts[n + 1];
+      const p3 = pts[n + 2] || p2;
+      const c1x = p1[0] + (p2[0] - p0[0]) / 6;
+      const c1y = p1[1] + (p2[1] - p0[1]) / 6;
+      const c2x = p2[0] - (p3[0] - p1[0]) / 6;
+      const c2y = p2[1] - (p3[1] - p1[1]) / 6;
+      d += ` C ${c1x},${c1y} ${c2x},${c2y} ${p2[0]},${p2[1]}`;
+    }
+    return d;
+  };
+
+  const lengthAt = (path, x, y) => {
+    const totalLen = path.getTotalLength();
+    let best = 0;
+    let bestD = Infinity;
+    const steps = 240;
+    for (let s = 0; s <= steps; s++) {
+      const len = (s / steps) * totalLen;
+      const p = path.getPointAtLength(len);
+      const d = (p.x - x) ** 2 + (p.y - y) ** 2;
+      if (d < bestD) {
+        bestD = d;
+        best = len;
+      }
+    }
+    return best;
+  };
+
+  const layoutPath = () => {
+    const d = curveD();
+    pathFull.setAttribute('d', d);
+    pathNow.setAttribute('d', d);
+    pathLen = pathNow.getTotalLength();
+    pinLens = pins.map((pin) => {
+      const [x, y] = pinXY(pin);
+      return lengthAt(pathNow, x, y);
+    });
+    pathNow.style.strokeDasharray = `${pathLen}`;
+    pathNow.style.strokeDashoffset = `${pathLen}`;
+  };
+
+  const placeYou = (len) => {
+    if (!you || !pathNow) return;
+    const p = pathNow.getPointAtLength(Math.max(0, Math.min(pathLen, len)));
+    you.style.left = `${p.x}%`;
+    you.style.top = `${p.y}%`;
+  };
+
   const show = (next) => {
     i = Math.max(0, Math.min(total - 1, next));
-    photos.forEach((el, n) => el.classList.toggle('is-on', n === i));
-    ticks.forEach((el, n) => {
+    pins.forEach((el, n) => {
       el.classList.toggle('is-on', n === i);
       el.classList.toggle('is-done', n < i);
     });
-    const tick = ticks[i];
-    const line = document.getElementById('p2-line');
-    if (line) line.style.setProperty('--p2-i', String(i));
+    const pin = pins[i];
     if (idxEl) idxEl.textContent = `${pad(i + 1)} / ${pad(total)}`;
-    if (titleEl) titleEl.textContent = tick?.dataset.title || '';
-    if (bodyEl) bodyEl.textContent = tick?.dataset.body || '';
+    if (titleEl) titleEl.textContent = pin?.dataset.title || '';
+    if (bodyEl) bodyEl.textContent = pin?.dataset.body || '';
+    const at = pinLens[i] || 0;
+    pathNow.style.strokeDashoffset = `${Math.max(0, pathLen - at)}`;
+    placeYou(at);
   };
 
   const move = (dir) => {
@@ -1351,7 +1415,7 @@
     return true;
   };
 
-  ticks.forEach((btn) => {
+  pins.forEach((btn) => {
     btn.addEventListener('click', () => show(Number(btn.dataset.i || 0)));
   });
 
@@ -1360,11 +1424,10 @@
   }
 
   const spread = () => {
-    const line = document.getElementById('p2-line');
-    if (!line) return;
-    line.classList.remove('is-spread');
-    void line.offsetWidth;
-    line.classList.add('is-spread');
+    if (!board) return;
+    board.classList.remove('is-spread');
+    void board.offsetWidth;
+    board.classList.add('is-spread');
   };
 
   window.page2OnWheel = (dir) => move(dir);
@@ -1374,6 +1437,7 @@
     spread();
   };
 
+  layoutPath();
   show(0);
   requestAnimationFrame(spread);
 })();
