@@ -1321,7 +1321,6 @@
   const idxEl = document.getElementById('p2-idx');
   const titleEl = document.getElementById('p2-stop-title');
   const bodyEl = document.getElementById('p2-stop-body');
-  const cta = root.querySelector('.p2-cta');
   const card = root.querySelector('.p2-card');
   const stage = root.querySelector('.p2-stage');
   const total = pins.length;
@@ -1415,16 +1414,6 @@
   pins.forEach((btn) => {
     btn.addEventListener('click', () => show(Number(btn.dataset.i || 0)));
   });
-
-  if (cta) {
-    cta.addEventListener('click', () => {
-      if (i < 0) {
-        show(0);
-        return;
-      }
-      if (window.goToPage) window.goToPage(2);
-    });
-  }
 
   const spread = () => {
     if (!board) return;
