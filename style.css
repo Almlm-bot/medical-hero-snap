@@ -449,7 +449,17 @@ body.p4-detail-open.header-docked .header {
 }
 
 body.header-docked #page2 .p2-card {
-  padding-top: calc(var(--header-top, 20px) + 3.2rem);
+  top: var(--header-top, 20px);
+  left: var(--header-left, 20px);
+  padding-top: 0.75rem;
+}
+
+body.header-docked #page2 .p2-kicker {
+  display: flex;
+  align-items: center;
+  min-height: var(--header-ball, 2.85rem);
+  margin: 0 0 0.45rem;
+  padding-left: calc(var(--header-ball, 2.85rem) + 0.7rem);
 }
 
 body.header-docked #page3 .p3-ui {
@@ -1514,88 +1524,47 @@ html, body { height: 100%; margin: 0; }
 
 .p2-pin-name {
   position: absolute;
-  white-space: nowrap;
-  font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.62rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: var(--card-soft);
+  border: 1px solid var(--line-2);
+  color: var(--text-2);
+  font-family: Inter, "Noto Sans SC", system-ui, sans-serif;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
   line-height: 1.2;
-  text-shadow: 0 1px 0 rgba(255, 248, 236, 0.9), 0 0 6px rgba(230, 217, 196, 0.9);
+  white-space: nowrap;
+  text-shadow: none;
   pointer-events: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .p2-pin[data-side="right"] .p2-pin-name {
-  left: calc(100% + 0.42rem);
+  left: calc(100% + 0.38rem);
   top: 50%;
   transform: translateY(-50%);
 }
 
 .p2-pin[data-side="left"] .p2-pin-name {
-  right: calc(100% + 0.42rem);
+  right: calc(100% + 0.38rem);
   top: 50%;
   transform: translateY(-50%);
-  text-align: right;
 }
 
 .p2-pin[data-side="bottom"] .p2-pin-name {
   top: calc(100% + 0.38rem);
   left: 50%;
   transform: translateX(-50%);
-  text-align: center;
-  white-space: normal;
-  width: 7.2em;
 }
 
 .p2-pin.is-on .p2-pin-name {
-  font-weight: 700;
-}
-
-.p2-spot {
-  position: absolute;
-  left: var(--x);
-  top: var(--y);
-  z-index: 3;
-  transform: translate(-50%, -50%);
-  padding: 0.32rem 0.55rem 0.38rem;
-  border-radius: 0.45rem;
-  background: rgba(16, 14, 12, 0.62);
-  color: #fff8ec;
-  pointer-events: none;
-  opacity: 0;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.p2-board.is-spread .p2-spot {
-  animation: p2-pop 0.5s ease 0.85s forwards;
-}
-
-.p2-spot .p2-cap-title {
-  margin: 0;
-  font-family: "Noto Serif SC", serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-}
-
-.p2-spot .p2-cap-title span {
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 0.78em;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  margin-left: 0.35rem;
-  opacity: 0.92;
-}
-
-.p2-spot .p2-cap-sub {
-  margin: 0.12rem 0 0;
-  font-family: Inter, system-ui, sans-serif;
-  font-size: 0.5rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  opacity: 0.78;
+  font-weight: 600;
+  background: var(--card);
+  border-color: var(--line-2);
 }
 
 .p2-card {
@@ -1619,7 +1588,7 @@ html, body { height: 100%; margin: 0; }
 .p2-kicker {
   margin: 0 0 0.7rem;
   font-family: Inter, system-ui, sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   color: #1a1915;
@@ -1628,7 +1597,7 @@ html, body { height: 100%; margin: 0; }
 .p2-card h2 {
   margin: 0;
   font-family: "Noto Serif SC", "Instrument Serif", serif;
-  font-size: clamp(1.45rem, 2.3vw, 2.05rem);
+  font-size: clamp(1.7rem, 2.6vw, 2.35rem);
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1.28;
@@ -1637,7 +1606,7 @@ html, body { height: 100%; margin: 0; }
 .p2-body {
   margin: 0.85rem 0 0;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.76rem;
+  font-size: 0.92rem;
   font-weight: 400;
   line-height: 1.85;
   letter-spacing: 0.03em;
@@ -1655,7 +1624,7 @@ html, body { height: 100%; margin: 0; }
 .p2-idx {
   margin: 0 0 0.35rem;
   font-family: "DM Mono", monospace;
-  font-size: 0.66rem;
+  font-size: 0.78rem;
   letter-spacing: 0.18em;
   color: #8a8176;
 }
@@ -1664,14 +1633,14 @@ html, body { height: 100%; margin: 0; }
   margin: 0;
   font-family: "Noto Serif SC", serif;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.22rem;
   letter-spacing: 0.12em;
 }
 
 .p2-stop-body {
   margin: 0.4rem 0 0;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.74rem;
+  font-size: 0.9rem;
   line-height: 1.8;
   letter-spacing: 0.03em;
   color: #6b6862;
@@ -1686,7 +1655,7 @@ html, body { height: 100%; margin: 0; }
   background: transparent;
   color: #1a1915;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.76rem;
+  font-size: 0.9rem;
   letter-spacing: 0.08em;
   cursor: pointer;
   white-space: nowrap;
@@ -1719,10 +1688,19 @@ html, body { height: 100%; margin: 0; }
     max-height: 46%;
     padding: 0.95rem 1rem 1rem;
   }
+  body.header-docked #page2 .p2-card {
+    top: auto;
+    left: 0.7rem;
+    padding-top: 0.95rem;
+  }
+  body.header-docked #page2 .p2-kicker {
+    min-height: 0;
+    margin: 0 0 0.7rem;
+    padding-left: 0;
+  }
   .p2-body { display: none; }
   .p2-pin-name { display: none; }
-  .p2-pin.is-on .p2-pin-name { display: block; }
-  .p2-spot { display: none; }
+  .p2-pin.is-on .p2-pin-name { display: inline-flex; }
 }
 
 /* ════════════════════════════════════════════════
@@ -1809,7 +1787,7 @@ html, body { height: 100%; margin: 0; }
   padding: 0.55rem 0.15rem;
   color: rgba(232, 228, 220, 0.42);
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   font-weight: 500;
   letter-spacing: 0.16em;
   text-align: left;
@@ -1820,7 +1798,7 @@ html, body { height: 100%; margin: 0; }
 
 .p3-step span {
   font-family: "DM Mono", monospace;
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   letter-spacing: 0.08em;
 }
 
@@ -1844,7 +1822,7 @@ html, body { height: 100%; margin: 0; }
 .p3-kicker {
   margin: 0 0 0.55rem;
   font-family: "DM Mono", monospace;
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   letter-spacing: 0.22em;
   color: #7ec8cf;
 }
@@ -1853,7 +1831,7 @@ html, body { height: 100%; margin: 0; }
   margin: 0;
   font-family: "Noto Serif SC", serif;
   font-weight: 700;
-  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-size: clamp(2.2rem, 4.2vw, 3.35rem);
   letter-spacing: 0.12em;
   line-height: 1.2;
 }
@@ -1863,7 +1841,7 @@ html, body { height: 100%; margin: 0; }
   margin: 0.7rem 0 0;
   max-width: 26rem;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.92rem;
+  font-size: 1.08rem;
   font-weight: 400;
   line-height: 1.75;
   letter-spacing: 0.04em;
@@ -1872,7 +1850,7 @@ html, body { height: 100%; margin: 0; }
 
 .p3-offer {
   color: rgba(232, 228, 220, 0.5);
-  font-size: 0.82rem;
+  font-size: 0.95rem;
 }
 
 .p3-copy {
@@ -1899,14 +1877,14 @@ html, body { height: 100%; margin: 0; }
   margin: 0 0 0.55rem;
   font-family: "Noto Serif SC", serif;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.32rem;
   letter-spacing: 0.16em;
 }
 
 .p3-article p {
   margin: 0 0 0.7rem;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 400;
   line-height: 1.9;
   letter-spacing: 0.03em;
@@ -1948,7 +1926,7 @@ html, body { height: 100%; margin: 0; }
   margin: 0;
   font-family: "Noto Serif SC", serif;
   font-weight: 700;
-  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
   letter-spacing: 0.16em;
 }
 
@@ -1956,7 +1934,7 @@ html, body { height: 100%; margin: 0; }
   margin: 0.45rem auto 0;
   max-width: 42rem;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.98rem;
   line-height: 1.75;
   letter-spacing: 0.04em;
   color: #6d655c;
@@ -2074,14 +2052,14 @@ html, body { height: 100%; margin: 0; }
 
 .pt-num {
   font-family: "Instrument Serif", serif;
-  font-size: 0.85rem;
+  font-size: 1rem;
   opacity: 0.55;
 }
 
 .pt-name {
   font-family: "Noto Serif SC", serif;
   font-weight: 700;
-  font-size: 0.92rem;
+  font-size: 1.08rem;
   letter-spacing: 0.18em;
 }
 
@@ -2138,7 +2116,7 @@ html, body { height: 100%; margin: 0; }
 .pt-copy p {
   margin: 0 0 0.65rem;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.88rem;
   line-height: 1.85;
   letter-spacing: 0.03em;
   color: rgba(237, 232, 223, 0.82);
@@ -2216,7 +2194,7 @@ body.p4-detail-open .scroll-root {
   text-align: center;
   font-family: "Noto Serif SC", "Instrument Serif", serif;
   font-weight: 700;
-  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  font-size: clamp(1.6rem, 2.7vw, 2.45rem);
   line-height: 1.48;
   letter-spacing: 0.06em;
   color: #1a1915;
@@ -2234,7 +2212,7 @@ body.p4-detail-open .scroll-root {
   max-width: 46rem;
   text-align: center;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: clamp(0.82rem, 1.15vw, 0.95rem);
+  font-size: clamp(0.95rem, 1.3vw, 1.12rem);
   font-weight: 400;
   line-height: 1.75;
   letter-spacing: 0.04em;
@@ -2339,7 +2317,7 @@ body.p4-detail-open .scroll-root {
   flex-shrink: 0;
   margin: 0 0 0.62rem;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.86rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   color: #1a1915;
@@ -2404,7 +2382,7 @@ body.p4-detail-open .scroll-root {
   background: transparent;
   color: #8f8a80;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: none;
@@ -2520,7 +2498,7 @@ body.p4-detail-open .scroll-root {
 .p4-detail-copy h2 {
   margin: 0;
   font-family: "Instrument Serif", "Times New Roman", serif;
-  font-size: clamp(2.1rem, 4vw, 3.6rem);
+  font-size: clamp(2.3rem, 4.2vw, 3.9rem);
   font-weight: 400;
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -2531,7 +2509,7 @@ body.p4-detail-open .scroll-root {
   margin: 1.35rem 0 0;
   max-width: 32rem;
   font-family: Inter, system-ui, sans-serif;
-  font-size: 0.95rem;
+  font-size: 1.12rem;
   font-weight: 300;
   line-height: 1.7;
   color: #4d4a44;
@@ -2552,7 +2530,7 @@ body.p4-detail-open .scroll-root {
 .p4-detail[data-place="e"] .p4-detail-copy h2 {
   font-family: "Noto Serif SC", serif;
   font-weight: 700;
-  font-size: clamp(1.85rem, 3.2vw, 2.55rem);
+  font-size: clamp(2.05rem, 3.4vw, 2.8rem);
   letter-spacing: 0.08em;
   line-height: 1.28;
 }
@@ -2565,7 +2543,7 @@ body.p4-detail-open .scroll-root {
   margin: 1.05rem 0 0;
   max-width: 30rem;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.84rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1.92;
   letter-spacing: 0.03em;
@@ -2581,7 +2559,7 @@ body.p4-detail-open .scroll-root {
 
   .p4-title {
     position: relative;
-    font-size: clamp(1.05rem, 4.4vw, 1.4rem);
+    font-size: clamp(1.2rem, 4.8vw, 1.6rem);
     max-width: 22rem;
     letter-spacing: 0.05em;
     padding-bottom: 9.5rem;
@@ -2604,7 +2582,7 @@ body.p4-detail-open .scroll-root {
 
   .p4-aside {
     width: 16rem;
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     padding-top: 0;
     line-height: 1.7;
   }
@@ -2646,7 +2624,7 @@ body.p4-detail-open .scroll-root {
   }
 
   .p4-label {
-    font-size: 0.58rem;
+    font-size: 0.7rem;
     letter-spacing: 0.08em;
     margin-bottom: 0.42rem;
   }
@@ -2875,7 +2853,7 @@ body.p4-detail-open .scroll-root {
     right: var(--ui-inset);
     z-index: var(--z-ui);
     text-align: right;
-    font-size: 0.65rem;
+    font-size: 0.76rem;
     letter-spacing: 0.15em;
     color: var(--muted);
     text-transform: uppercase;
@@ -2883,7 +2861,7 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #hud .scene-label {
-    font-size: 0.6rem;
+    font-size: 0.72rem;
     color: var(--accent);
     font-family: "Noto Serif SC", "Bebas Neue", serif;
     letter-spacing: 0.12em;
@@ -2902,7 +2880,7 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 #face_caption_num {
-    font-size: 0.58rem;
+    font-size: 0.7rem;
     letter-spacing: 0.28em;
     color: var(--accent);
     text-transform: uppercase;
@@ -2911,7 +2889,7 @@ body.p4-detail-open .scroll-root {
 
   #page5 #face_caption_name {
     font-family: "Noto Serif SC", "Bebas Neue", serif;
-    font-size: clamp(1rem, 2.6vw, 1.85rem);
+    font-size: clamp(1.15rem, 2.8vw, 2.05rem);
     letter-spacing: 0.06em;
     color: var(--muted);
     opacity: 0.5;
@@ -2928,7 +2906,7 @@ body.p4-detail-open .scroll-root {
     transform-origin: right center;
     z-index: var(--z-ui);
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.76rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     pointer-events: auto;
@@ -2979,7 +2957,7 @@ body.p4-detail-open .scroll-root {
 
   #page5 .tag {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.68rem;
+    font-size: 0.82rem;
     letter-spacing: 0.08em;
     text-transform: none;
     font-weight: 500;
@@ -3003,7 +2981,7 @@ body.p4-detail-open .scroll-root {
   }
 
   #page5 .body-text {
-    font-size: 0.78rem;
+    font-size: 0.94rem;
     line-height: 1.8;
     color: color-mix(in srgb, var(--fg) 55%, transparent);
     margin-block-start: 1.25rem;
@@ -3017,21 +2995,21 @@ body.p4-detail-open .scroll-root {
   #page5 #s0 h1 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(2.1rem, 4.6vw, 3.5rem);
+    font-size: clamp(2.3rem, 4.8vw, 3.8rem);
     letter-spacing: 0.08em;
     line-height: 1.18;
   }
 
   #page5 #s0 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.74rem;
+    font-size: 0.88rem;
     line-height: 1.75;
     letter-spacing: 0.02em;
   }
 
   #page5 #s0 .cta {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.92rem;
     letter-spacing: 0.18em;
     text-transform: none;
   }
@@ -3062,14 +3040,14 @@ body.p4-detail-open .scroll-root {
   #page5 #s1 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
     letter-spacing: 0.04em;
     line-height: 1.32;
   }
 
   #page5 #s1 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.74rem;
+    font-size: 0.88rem;
     line-height: 1.85;
     letter-spacing: 0.02em;
     margin-block-start: 1rem;
@@ -3106,14 +3084,14 @@ body.p4-detail-open .scroll-root {
   #page5 #s2 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
     letter-spacing: 0.04em;
     line-height: 1.32;
   }
 
   #page5 #s2 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.74rem;
+    font-size: 0.88rem;
     line-height: 1.85;
     letter-spacing: 0.02em;
     margin-block-start: 1rem;
@@ -3153,14 +3131,14 @@ body.p4-detail-open .scroll-root {
   #page5 #s3 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.35rem, 2.2vw, 1.7rem);
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
     letter-spacing: 0.04em;
     line-height: 1.32;
   }
 
   #page5 #s3 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.74rem;
+    font-size: 0.88rem;
     line-height: 1.85;
     letter-spacing: 0.02em;
     margin-block-start: 1rem;
@@ -3197,7 +3175,7 @@ body.p4-detail-open .scroll-root {
   #page5 #s4 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.45rem, 2.3vw, 1.85rem);
+    font-size: clamp(1.6rem, 2.5vw, 2.05rem);
     letter-spacing: 0.06em;
     line-height: 1.28;
     text-transform: none;
@@ -3205,7 +3183,7 @@ body.p4-detail-open .scroll-root {
 
   #page5 #s4 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     line-height: 1.92;
     letter-spacing: 0.03em;
     margin-block-start: 0.85rem;
@@ -3248,7 +3226,7 @@ body.p4-detail-open .scroll-root {
   #page5 #s5 h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(1.45rem, 2.3vw, 1.85rem);
+    font-size: clamp(1.6rem, 2.5vw, 2.05rem);
     letter-spacing: 0.06em;
     line-height: 1.28;
     text-transform: none;
@@ -3256,7 +3234,7 @@ body.p4-detail-open .scroll-root {
 
   #page5 #s5 .body-text {
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     line-height: 1.92;
     letter-spacing: 0.03em;
     margin-block-start: 0.85rem;
@@ -3293,13 +3271,13 @@ body.p4-detail-open .scroll-root {
 
   #page5 .stat-num {
     font-family: var(--font-display);
-    font-size: 2.2rem;
+    font-size: 2.45rem;
     color: var(--accent);
     line-height: 1;
   }
 
   #page5 .stat-label {
-    font-size: 0.58rem;
+    font-size: 0.7rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--muted);
@@ -3333,7 +3311,7 @@ body.p4-detail-open .scroll-root {
     border: var(--hairline) solid var(--accent);
     color: var(--accent);
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.92rem;
     letter-spacing: 0.08em;
     text-transform: none;
     text-decoration: none;
@@ -3361,7 +3339,7 @@ body.p4-detail-open .scroll-root {
       color-mix(in srgb, var(--muted) 45%, transparent);
     color: var(--muted);
     font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.78rem;
+    font-size: 0.92rem;
     letter-spacing: 0.08em;
     text-transform: none;
     text-decoration: none;
@@ -3630,7 +3608,7 @@ body.p4-detail-open .scroll-root {
   margin: 0;
   min-height: 1.2em;
   font-family: "Noto Serif SC", "Instrument Serif", serif;
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   white-space: nowrap;
@@ -3733,7 +3711,7 @@ body.p4-detail-open .scroll-root {
   background: #2a241e;
   color: #f3efe4;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.78rem;
+  font-size: 0.92rem;
   letter-spacing: 0.08em;
 }
 
@@ -3744,7 +3722,7 @@ body.p4-detail-open .scroll-root {
   height: 1.05rem;
   border: 1px solid currentColor;
   border-radius: 999px;
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   line-height: 1;
 }
 
@@ -3767,7 +3745,7 @@ body.p4-detail-open .scroll-root {
 .p6-logo {
   margin: 0;
   font-family: "Instrument Serif", "Times New Roman", serif;
-  font-size: clamp(1.05rem, 1.7vh, 1.45rem);
+  font-size: clamp(1.2rem, 1.85vh, 1.65rem);
   font-weight: 400;
   line-height: 0.95;
   letter-spacing: 0.18em;
@@ -3798,7 +3776,7 @@ body.p4-detail-open .scroll-root {
   display: block;
   padding: 0.04rem 0;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.84rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   color: #ede8df;
@@ -3820,7 +3798,7 @@ body.p4-detail-open .scroll-root {
 .p6-social-kicker {
   margin: 0 0 0.85rem;
   font-family: "Noto Serif SC", "Instrument Serif", serif;
-  font-size: 1.05rem;
+  font-size: 1.22rem;
   font-weight: 700;
   letter-spacing: 0.04em;
 }
@@ -3865,7 +3843,7 @@ body.p4-detail-open .scroll-root {
 .p6-signup h2 {
   margin: 0;
   font-family: "Noto Serif SC", "Instrument Serif", serif;
-  font-size: clamp(1.15rem, 2.1vh, 1.7rem);
+  font-size: clamp(1.3rem, 2.3vh, 1.9rem);
   font-weight: 700;
   letter-spacing: 0.08em;
 }
@@ -3873,7 +3851,7 @@ body.p4-detail-open .scroll-root {
 .p6-signup-lead {
   margin: 0 0 0.35rem;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   line-height: 1.55;
   color: rgba(237, 232, 223, 0.82);
 }
@@ -3882,7 +3860,7 @@ body.p4-detail-open .scroll-root {
   display: grid;
   gap: 0.12rem;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   color: rgba(237, 232, 223, 0.78);
 }
 
@@ -3899,7 +3877,7 @@ body.p4-detail-open .scroll-root {
   background: #f3efe4;
   color: #1a1915;
   font: inherit;
-  font-size: 0.72rem;
+  font-size: 0.86rem;
 }
 
 .p6-signup-btn {
@@ -3914,7 +3892,7 @@ body.p4-detail-open .scroll-root {
   background: #d4a84b;
   color: #1c1814;
   font-family: "Noto Sans SC", Inter, sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.86rem;
   font-weight: 500;
 }
 
