@@ -1678,7 +1678,7 @@
       slide.classList.toggle('is-active', isOn);
       slide.style.transform = `translateX(${offset * 100}%)`;
       slide.style.zIndex = String(isOn ? 8 : 6 - Math.abs(offset));
-      card.style.transform = `rotateY(${-offset * 60}deg) scale(${isOn ? 1 : 0.85})`;
+      card.style.transform = `rotateY(${-offset * 60}deg) scale(${isOn ? 1.08 : 0.9})`;
     });
     dots.forEach((dot, i) => {
       const on = i === active;
