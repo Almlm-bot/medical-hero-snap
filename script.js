@@ -1,3 +1,4 @@
+/* cache: 20260927r84 */
 (function () {
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);

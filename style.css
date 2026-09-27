@@ -165,7 +165,7 @@ img {
 }
 
 #page1 .title .word-aquae {
-  margin-left: 1rem;
+  margin-left: 0.35rem;
 }
 
 #page1 .eyebrow,
@@ -179,14 +179,15 @@ img {
 }
 
 /* ════════════════════════════════════════════════
-     GIANT BACKGROUND TEXT (infinite horizontal loop)
+     AQUAE SULIS outline (whisper in the water, not a billboard)
      ════════════════════════════════════════════════ */
 .bg-text {
   position: absolute;
   left: 0;
   right: 0;
-  top: 52%;
-  transform: translateY(-50%);
+  top: auto;
+  bottom: 20%;
+  transform: none;
   z-index: 1;
   overflow: hidden;
   pointer-events: none;
@@ -197,21 +198,22 @@ img {
   display: flex;
   width: max-content;
   will-change: transform;
-  animation: bg-text-marquee 64s linear infinite;
+  animation: bg-text-marquee 72s linear infinite;
 }
 
 .bg-text-copy {
   flex: 0 0 auto;
   font-family: var(--font);
-  font-size: clamp(140px, 22vw, 320px);
-  line-height: 0.85;
-  letter-spacing: -0.04em;
+  font-size: clamp(72px, 11.2vw, 156px);
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: 0.06em;
   color: transparent;
-  -webkit-text-stroke: 2.75px rgba(255, 246, 228, 0.78);
+  -webkit-text-stroke: 1.55px rgba(255, 246, 228, 0.5);
   paint-order: stroke fill;
-  text-shadow: 0 0 28px rgba(255, 246, 228, 0.22);
+  text-shadow: 0 0 16px rgba(255, 246, 228, 0.1);
   white-space: nowrap;
-  padding-right: 0.16em;
+  padding-right: 0.42em;
 }
 
 @keyframes bg-text-marquee {
@@ -1038,7 +1040,13 @@ html[data-theme="light"] .header-theme .icon-moon {
   }
 
   .bg-text-copy {
-    font-size: clamp(110px, 28vw, 200px);
+    font-size: clamp(56px, 16vw, 92px);
+    letter-spacing: 0.05em;
+    -webkit-text-stroke-width: 1.25px;
+  }
+
+  .bg-text {
+    bottom: 18%;
   }
 
   .p1-bg::after {
@@ -1073,6 +1081,14 @@ html[data-theme="light"] .header-theme .icon-moon {
     top: calc(100% + 0.2rem);
     transform: scale(0.86);
   }
+
+  .bg-text {
+    bottom: 16%;
+  }
+
+  .bg-text-copy {
+    font-size: clamp(64px, 9.5vw, 128px);
+  }
 }
 
 @media (max-width: 900px) {
@@ -1092,6 +1108,10 @@ html[data-theme="light"] .header-theme .icon-moon {
 
   .title {
     font-size: clamp(24px, 3.4vw, 68px);
+  }
+
+  .bg-text {
+    bottom: 14%;
   }
 }
 
@@ -3909,8 +3929,8 @@ html[data-theme="dark"] body::before {
 }
 
 html[data-theme="dark"] .bg-text-copy {
-  -webkit-text-stroke: 2.75px rgba(255, 246, 228, 0.82);
-  text-shadow: 0 0 34px rgba(255, 246, 228, 0.28);
+  -webkit-text-stroke: 1.55px rgba(255, 246, 228, 0.54);
+  text-shadow: 0 0 18px rgba(255, 246, 228, 0.12);
 }
 
 html[data-theme="dark"] .p1-bg::after {
