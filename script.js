@@ -40,8 +40,8 @@
     rotation: -90,
     opacity: 0
   });
-  gsap.set(".res-item", {
-    y: 16,
+  gsap.set(".resource-list", {
+    y: 18,
     opacity: 0
   });
   gsap.set(".p1-bg", {
@@ -178,14 +178,13 @@
       "-=.5"
     )
     .to(
-      ".res-item",
+      ".resource-list",
       {
         y: 0,
         opacity: 1,
-        duration: 0.5,
-        stagger: 0.08
+        duration: 0.7
       },
-      "-=.4"
+      "-=.45"
     );
   gsap.to(".p1-bg img", {
     y: 14,
