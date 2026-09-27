@@ -1425,11 +1425,20 @@
     board.classList.add('is-spread');
   };
 
+  const intro = root.querySelector('.p2-intro');
+  const revealIntro = () => {
+    if (!intro) return;
+    intro.classList.remove('is-in');
+    void intro.offsetWidth;
+    requestAnimationFrame(() => intro.classList.add('is-in'));
+  };
+
   window.page2OnWheel = (dir) => move(dir);
   window.page2SetEntry = (dir) => {
     busy = false;
     show(dir > 0 ? -1 : total - 1);
     spread();
+    revealIntro();
   };
 
   layoutPath();
