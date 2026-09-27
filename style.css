@@ -117,8 +117,8 @@ img {
   width: 112%;
   height: 112%;
   object-fit: cover;
-  object-position: 54% 42%;
-  transform-origin: 55% 45%;
+  object-position: 50% 46%;
+  transform-origin: 50% 45%;
   will-change: transform;
 }
 
@@ -127,22 +127,34 @@ img {
   position: absolute;
   inset: 0;
   background:
+    radial-gradient(
+      ellipse 52% 78% at 10% 34%,
+      rgba(255, 248, 236, 0.38),
+      transparent 72%
+    ),
     linear-gradient(
       90deg,
-      #ececef 0%,
-      rgba(236, 236, 239, 0.9) 16%,
-      rgba(236, 236, 239, 0.42) 36%,
-      rgba(236, 236, 239, 0.1) 54%,
-      rgba(236, 236, 239, 0.18) 72%,
-      rgba(236, 236, 239, 0.38) 100%
+      rgba(247, 239, 228, 0.46) 0%,
+      rgba(247, 239, 228, 0.18) 22%,
+      rgba(247, 239, 228, 0.04) 44%,
+      transparent 60%,
+      rgba(247, 239, 228, 0.1) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(236, 236, 239, 0.28) 0%,
-      transparent 18%,
-      transparent 74%,
-      rgba(236, 236, 239, 0.4) 100%
+      rgba(236, 232, 224, 0.14) 0%,
+      transparent 22%,
+      transparent 78%,
+      rgba(236, 232, 224, 0.22) 100%
     );
+}
+
+#page1 .title .word,
+#page1 .eyebrow,
+#page1 .title-desc,
+#page1 .hero-desc-right {
+  text-shadow: 0 1px 0 rgba(255, 250, 240, 0.45),
+    0 0 28px rgba(255, 248, 236, 0.7);
 }
 
 #page1 .resource-list {
@@ -1267,12 +1279,22 @@ html[data-theme="light"] .header-theme .icon-moon {
 
   .p1-bg::after {
     background:
+      radial-gradient(
+        ellipse 110% 78% at 50% 10%,
+        rgba(255, 248, 236, 0.7),
+        transparent 72%
+      ),
       linear-gradient(
         180deg,
-        rgba(236, 236, 239, 0.62) 0%,
-        rgba(236, 236, 239, 0.28) 36%,
-        rgba(236, 236, 239, 0.5) 100%
+        rgba(247, 239, 228, 0.55) 0%,
+        rgba(247, 239, 228, 0.16) 32%,
+        rgba(247, 239, 228, 0.26) 100%
       );
+  }
+
+  #page1 .title .word {
+    text-shadow: 0 1px 0 rgba(255, 250, 240, 0.7),
+      0 0 36px rgba(255, 248, 236, 0.95);
   }
 }
 
@@ -4136,22 +4158,33 @@ html[data-theme="dark"] .bg-text {
 
 html[data-theme="dark"] .p1-bg::after {
   background:
+    radial-gradient(
+      ellipse 52% 78% at 10% 34%,
+      rgba(10, 10, 14, 0.42),
+      transparent 72%
+    ),
     linear-gradient(
       90deg,
-      #121218 0%,
-      rgba(18, 18, 24, 0.86) 16%,
-      rgba(18, 18, 24, 0.32) 36%,
-      rgba(18, 18, 24, 0.08) 54%,
-      rgba(18, 18, 24, 0.22) 74%,
-      rgba(18, 18, 24, 0.48) 100%
+      rgba(12, 12, 16, 0.5) 0%,
+      rgba(12, 12, 16, 0.18) 22%,
+      rgba(12, 12, 16, 0.04) 44%,
+      transparent 60%,
+      rgba(12, 12, 16, 0.22) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(18, 18, 24, 0.32) 0%,
-      transparent 18%,
-      transparent 74%,
-      rgba(18, 18, 24, 0.42) 100%
+      rgba(12, 12, 16, 0.2) 0%,
+      transparent 22%,
+      transparent 78%,
+      rgba(12, 12, 16, 0.32) 100%
     );
+}
+
+html[data-theme="dark"] #page1 .title .word,
+html[data-theme="dark"] #page1 .eyebrow,
+html[data-theme="dark"] #page1 .title-desc,
+html[data-theme="dark"] #page1 .hero-desc-right {
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
 }
 
 html[data-theme="dark"] #page1 .resource-list {
@@ -4162,11 +4195,16 @@ html[data-theme="dark"] #page1 .resource-list {
 @media (max-width: 900px) {
   html[data-theme="dark"] .p1-bg::after {
     background:
+      radial-gradient(
+        ellipse 90% 55% at 50% 18%,
+        rgba(10, 10, 14, 0.38),
+        transparent 70%
+      ),
       linear-gradient(
         180deg,
-        rgba(18, 18, 24, 0.62) 0%,
-        rgba(18, 18, 24, 0.28) 36%,
-        rgba(18, 18, 24, 0.5) 100%
+        rgba(12, 12, 16, 0.4) 0%,
+        rgba(12, 12, 16, 0.1) 34%,
+        rgba(12, 12, 16, 0.32) 100%
       );
   }
 }
