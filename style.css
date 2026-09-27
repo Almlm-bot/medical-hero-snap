@@ -450,6 +450,14 @@ body.p4-detail-open.header-docked .header {
 
 body.header-docked #page2 .p2-map {
   padding: max(1.15rem, var(--header-top, 20px)) 1.5rem 1.4rem;
+  transition:
+    padding-top 1.05s cubic-bezier(0.45, 0.08, 0.18, 1),
+    background-color 0.65s ease,
+    color 0.65s ease;
+}
+
+body.header-docked.header-expanded #page2 .p2-map {
+  padding-top: calc(var(--header-top, 20px) + 3.15rem + 0.7rem);
 }
 
 body.header-docked #page3 .p3-ui {
