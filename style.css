@@ -105,6 +105,10 @@ img {
   background: var(--bg);
 }
 
+#page1 .page {
+  padding-bottom: 42px;
+}
+
 .p1-bg {
   position: absolute;
   inset: 0;
@@ -1179,6 +1183,15 @@ html[data-theme="light"] .header-theme .icon-moon {
   margin-top: auto;
   padding-top: 8px;
   flex-shrink: 0;
+}
+
+#page1 .footer-row {
+  padding-bottom: 10px;
+}
+
+#page1 .social,
+#page1 .discover {
+  margin-bottom: 2px;
 }
 
 .social {
