@@ -178,13 +178,22 @@
       "-=.5"
     )
     .to(
-      ".resource-list, #page1 .treatments",
+      ".resource-list",
       {
         y: 0,
         opacity: 1,
         duration: 0.7
       },
       "-=.45"
+    )
+    .to(
+      "#page1 .treatments",
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.7
+      },
+      "-=.48"
     );
   gsap.to(".p1-bg img", {
     y: 14,
