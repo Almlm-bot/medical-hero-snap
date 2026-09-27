@@ -452,20 +452,6 @@ body.header-docked #page2 .p2-map {
   padding: max(1.15rem, var(--header-top, 20px)) 1.5rem 1.4rem;
 }
 
-body.header-docked #page2 .p2-intro {
-  padding-left: max(
-    0px,
-    calc(var(--header-left, 20px) + var(--header-ball, 2.85rem) + 0.75rem - 1.5rem)
-  );
-}
-
-body.header-docked #page2 .p2-kicker {
-  min-height: var(--header-ball, 2.85rem);
-  display: flex;
-  align-items: center;
-  margin: 0;
-}
-
 body.header-docked #page3 .p3-ui {
   padding-top: calc(var(--header-top, 20px) + 3.2rem);
 }
@@ -1671,13 +1657,42 @@ html, body { height: 100%; margin: 0; }
   position: relative;
   z-index: 6;
   flex: 0 0 auto;
-  max-width: 44rem;
+  width: min(42rem, 100%);
+  max-width: 42rem;
+  margin-inline: auto;
   min-width: 0;
   color: #1a1915;
+  text-align: center;
+}
+
+.p2-kicker,
+.p2-intro h2,
+.p2-body {
+  opacity: 0;
+  transform: translateY(0.55rem);
+  transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.32, 1);
+}
+
+.p2-intro.is-in .p2-kicker {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.06s;
+}
+
+.p2-intro.is-in h2 {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.2s;
+}
+
+.p2-intro.is-in .p2-body {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.36s;
 }
 
 .p2-kicker {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.4rem;
   font-family: Inter, system-ui, sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
@@ -1686,7 +1701,7 @@ html, body { height: 100%; margin: 0; }
 }
 
 .p2-intro h2 {
-  margin: 0;
+  margin: 0 auto;
   font-family: "Noto Serif SC", "Instrument Serif", serif;
   font-size: clamp(1.45rem, 2.3vw, 2.05rem);
   font-weight: 700;
@@ -1695,15 +1710,16 @@ html, body { height: 100%; margin: 0; }
 }
 
 .p2-body {
-  margin: 0.45rem 0 0;
+  margin: 0.5rem auto 0;
+  max-width: 36rem;
   font-family: "Noto Sans SC", sans-serif;
   font-size: 0.86rem;
   font-weight: 400;
-  line-height: 1.8;
+  line-height: 1.85;
   letter-spacing: 0.03em;
   color: #6b6862;
-  text-align: justify;
-  text-justify: inter-ideograph;
+  text-align: center;
+  text-wrap: balance;
 }
 
 @media (max-width: 56.25em) {
@@ -1717,15 +1733,10 @@ html, body { height: 100%; margin: 0; }
   }
   .p2-intro {
     max-width: none;
+    width: 100%;
   }
   .p2-intro h2 {
     font-size: 1.28rem;
-  }
-  body.header-docked #page2 .p2-kicker {
-    min-height: 0;
-    margin: 0 0 0.3rem;
-    padding: 0;
-    display: block;
   }
   .p2-body { display: none; }
   .p2-pin-name { display: none; }
