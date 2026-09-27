@@ -106,7 +106,16 @@ img {
 }
 
 #page1 .page {
-  padding-bottom: 42px;
+  padding-bottom: 40px;
+}
+
+#page1 .hero {
+  padding-bottom: 8px;
+}
+
+#page1 .resource-list {
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
 
 .p1-bg {
@@ -1186,12 +1195,8 @@ html[data-theme="light"] .header-theme .icon-moon {
 }
 
 #page1 .footer-row {
-  padding-bottom: 10px;
-}
-
-#page1 .social,
-#page1 .discover {
-  margin-bottom: 6px;
+  padding-top: 4px;
+  padding-bottom: 8px;
 }
 
 .social {
