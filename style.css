@@ -99,54 +99,50 @@ img {
 }
 
 /* ════════════════════════════════════════════════
-     WAVE PNG (the hero visual)
+     PAGE 1: Great Bath full-bleed photo
      ════════════════════════════════════════════════ */
-.wave-wrap {
+#page1 {
+  background: var(--bg);
+}
+
+.p1-bg {
   position: absolute;
-  inset: -60px -180px auto 0;
-  top: -60px;
-  right: -160px;
-  z-index: 2;
+  inset: 0;
+  z-index: 0;
   pointer-events: none;
-  width: min(1300px, 92vw);
-  height: auto;
-  filter: drop-shadow(0 30px 40px rgba(20, 80, 160, 0.1));
+  overflow: hidden;
+}
+
+.p1-bg img {
+  width: 112%;
+  height: 112%;
+  object-fit: cover;
+  object-position: 54% 42%;
+  transform-origin: 55% 45%;
   will-change: transform;
 }
 
-.wave-wrap img {
-  width: 100%;
-  height: auto;
-  display: block;
-  transform-origin: center;
-}
-
-/* Soft pastel blob behind the wave to deepen the gradient */
-.wave-glow {
+.p1-bg::after {
+  content: "";
   position: absolute;
-  top: 0;
-  right: -120px;
-  width: 60%;
-  aspect-ratio: 1;
-  background: radial-gradient(
-    closest-side,
-    rgba(40, 190, 255, 0.35),
-    transparent 70%
-  );
-  filter: blur(60px);
-  z-index: 1;
-  pointer-events: none;
-}
-
-.wave-glow.b {
-  top: 35%;
-  right: 10%;
-  width: 40%;
-  background: radial-gradient(
-    closest-side,
-    rgba(70, 230, 180, 0.3),
-    transparent 70%
-  );
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      #ececef 0%,
+      rgba(236, 236, 239, 0.92) 14%,
+      rgba(236, 236, 239, 0.55) 38%,
+      rgba(236, 236, 239, 0.32) 54%,
+      rgba(236, 236, 239, 0.58) 78%,
+      rgba(236, 236, 239, 0.82) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(236, 236, 239, 0.42) 0%,
+      transparent 20%,
+      transparent 68%,
+      rgba(236, 236, 239, 0.58) 100%
+    );
 }
 
 /* ════════════════════════════════════════════════
@@ -1260,9 +1256,14 @@ html[data-theme="light"] .header-theme .icon-moon {
     font-size: clamp(110px, 28vw, 200px);
   }
 
-  .wave-wrap {
-    right: -250px;
-    opacity: 0.85;
+  .p1-bg::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(236, 236, 239, 0.72) 0%,
+        rgba(236, 236, 239, 0.48) 38%,
+        rgba(236, 236, 239, 0.7) 100%
+      );
   }
 }
 
@@ -4122,6 +4123,38 @@ html[data-theme="dark"] body::before {
 
 html[data-theme="dark"] .bg-text {
   -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme="dark"] .p1-bg::after {
+  background:
+    linear-gradient(
+      90deg,
+      #121218 0%,
+      rgba(18, 18, 24, 0.9) 14%,
+      rgba(18, 18, 24, 0.48) 38%,
+      rgba(18, 18, 24, 0.28) 54%,
+      rgba(18, 18, 24, 0.55) 78%,
+      rgba(18, 18, 24, 0.78) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(18, 18, 24, 0.4) 0%,
+      transparent 20%,
+      transparent 68%,
+      rgba(18, 18, 24, 0.55) 100%
+    );
+}
+
+@media (max-width: 900px) {
+  html[data-theme="dark"] .p1-bg::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(18, 18, 24, 0.72) 0%,
+        rgba(18, 18, 24, 0.42) 38%,
+        rgba(18, 18, 24, 0.7) 100%
+      );
+  }
 }
 
 html[data-theme="dark"] .header {
