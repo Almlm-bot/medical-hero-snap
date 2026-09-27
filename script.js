@@ -1319,9 +1319,13 @@
   const pathFull = document.getElementById('p2-path-full');
   const pathNow = document.getElementById('p2-path-now');
   const total = pins.length;
+  const playBtn = document.getElementById('p2-play');
+  const DWELL_MS = 2800;
   let i = -1;
   let pathLen = 0;
   let pinLens = [];
+  let playToken = 0;
+  let playing = false;
 
   const pad = (n) => String(n).padStart(2, '0');
 
@@ -1403,12 +1407,58 @@
     pathNow.style.strokeDashoffset = intro ? `${pathLen}` : `${Math.max(0, pathLen - at)}`;
   };
 
+  const stopPlay = () => {
+    playToken += 1;
+    playing = false;
+    if (playBtn) {
+      playBtn.classList.remove('is-on');
+      playBtn.setAttribute('aria-pressed', 'false');
+      playBtn.textContent = '沿路线走一遍';
+    }
+  };
+
+  const startPlay = () => {
+    const token = ++playToken;
+    playing = true;
+    if (playBtn) {
+      playBtn.classList.add('is-on');
+      playBtn.setAttribute('aria-pressed', 'true');
+      playBtn.textContent = '停止';
+    }
+    show(-1);
+    const step = (n) => {
+      if (token !== playToken) return;
+      show(n);
+      if (n >= total - 1) {
+        setTimeout(() => {
+          if (token !== playToken) return;
+          stopPlay();
+        }, DWELL_MS);
+        return;
+      }
+      setTimeout(() => step(n + 1), DWELL_MS);
+    };
+    setTimeout(() => {
+      if (token !== playToken) return;
+      step(0);
+    }, 420);
+  };
+
   pins.forEach((btn) => {
     btn.addEventListener('click', () => {
+      stopPlay();
       const n = Number(btn.dataset.i || 0);
       show(n === i ? -1 : n);
     });
   });
+
+  if (playBtn) {
+    playBtn.setAttribute('aria-pressed', 'false');
+    playBtn.addEventListener('click', () => {
+      if (playing) stopPlay();
+      else startPlay();
+    });
+  }
 
   const spread = () => {
     if (!board) return;
@@ -1427,6 +1477,7 @@
 
   window.page2OnWheel = () => false;
   window.page2SetEntry = () => {
+    stopPlay();
     show(-1);
     spread();
     revealIntro();
