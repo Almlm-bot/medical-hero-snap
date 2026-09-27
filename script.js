@@ -40,7 +40,7 @@
     rotation: -90,
     opacity: 0
   });
-  gsap.set(".resource-list", {
+  gsap.set(".resource-list, #page1 .treatments", {
     y: 18,
     opacity: 0
   });
@@ -178,7 +178,7 @@
       "-=.5"
     )
     .to(
-      ".resource-list",
+      ".resource-list, #page1 .treatments",
       {
         y: 0,
         opacity: 1,
