@@ -1280,16 +1280,21 @@ html[data-theme="light"] .header-theme .icon-moon {
   .p1-bg::after {
     background:
       radial-gradient(
-        ellipse 90% 55% at 50% 18%,
-        rgba(255, 248, 236, 0.34),
-        transparent 70%
+        ellipse 110% 78% at 50% 10%,
+        rgba(255, 248, 236, 0.7),
+        transparent 72%
       ),
       linear-gradient(
         180deg,
-        rgba(247, 239, 228, 0.36) 0%,
-        rgba(247, 239, 228, 0.1) 34%,
-        rgba(247, 239, 228, 0.28) 100%
+        rgba(247, 239, 228, 0.55) 0%,
+        rgba(247, 239, 228, 0.16) 32%,
+        rgba(247, 239, 228, 0.26) 100%
       );
+  }
+
+  #page1 .title .word {
+    text-shadow: 0 1px 0 rgba(255, 250, 240, 0.7),
+      0 0 36px rgba(255, 248, 236, 0.95);
   }
 }
 
