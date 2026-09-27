@@ -510,6 +510,12 @@ body.p4-detail-open.header-docked .header {
   pointer-events: none;
 }
 
+body.tickets-open.header-docked .header {
+  z-index: 70;
+  opacity: 1;
+  pointer-events: auto;
+}
+
 body.header-docked #page2 .p2-map {
   padding: max(1.15rem, var(--header-top, 20px)) 1.5rem 1.4rem;
   transition:
@@ -647,6 +653,24 @@ body.header-docked #page6 .p6-carousel {
   transform: translateY(-1px);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset,
     0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.header-cta.is-on {
+  background: var(--text);
+  color: #f4eee3;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+.header-cta.is-on .cta-dot {
+  background: #f4eee3;
+  color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.18);
+}
+
+.header-cta.is-on .cta-arrows {
+  color: rgba(244, 238, 227, 0.55);
 }
 
 .header-theme {
@@ -2136,8 +2160,10 @@ html[data-theme="dark"] .pt-cover {
   isolation: isolate;
 }
 
-body.p4-detail-open .scroll-root {
+body.p4-detail-open .scroll-root,
+body.tickets-open .scroll-root {
   overflow: hidden;
+  scroll-snap-type: none;
 }
 
 .p4-stage {
@@ -3999,6 +4025,20 @@ html[data-theme="dark"] .header-cta:hover {
     0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
+html[data-theme="dark"] .header-cta.is-on {
+  background: #f0e6d4;
+  color: #16120e;
+}
+
+html[data-theme="dark"] .header-cta.is-on .cta-dot {
+  background: #16120e;
+  color: #f0e6d4;
+}
+
+html[data-theme="dark"] .header-cta.is-on .cta-arrows {
+  color: rgba(22, 18, 14, 0.45);
+}
+
 html[data-theme="dark"] .header-theme {
   background: rgba(255, 255, 255, 0.08);
   color: var(--text);
@@ -4268,4 +4308,517 @@ html[data-theme="dark"] .p6-photo {
   transition:
     transform 1.35s cubic-bezier(0.37, 0.08, 0.18, 1),
     box-shadow 1s ease;
+}
+
+/* ════════════════════════════════════════════════
+   TICKETS VIEW — admissions desk, not a story page
+   ════════════════════════════════════════════════ */
+.tickets-view {
+  --tk-bg: #e7dece;
+  --tk-ink: #1c1814;
+  --tk-muted: #7a7268;
+  --tk-panel: #f6f0e4;
+  --tk-rule: rgba(58, 42, 24, 0.16);
+  --tk-bronze: #8a5a2b;
+  --tk-counter: #2a221c;
+  --tk-counter-ink: #f3ead8;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: var(--tk-bg);
+  color: var(--tk-ink);
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.55s cubic-bezier(0.37, 0.08, 0.18, 1),
+    visibility 0.55s linear;
+}
+
+.tickets-view.is-open {
+  pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
+}
+
+.tk-wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 12% 0%, rgba(138, 90, 43, 0.16), transparent 58%),
+    linear-gradient(90deg, rgba(42, 34, 28, 0.12) 0, transparent 22%),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 47px,
+      rgba(58, 42, 24, 0.035) 47px,
+      rgba(58, 42, 24, 0.035) 48px
+    );
+}
+
+.tk-wash::after {
+  content: "AQUAE SULIS";
+  position: absolute;
+  left: -0.15em;
+  bottom: 6%;
+  font-family: "Instrument Serif", "Noto Serif SC", serif;
+  font-size: clamp(4.5rem, 14vw, 11rem);
+  letter-spacing: 0.08em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(58, 42, 24, 0.07);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tk-stage {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: calc(var(--header-top, 20px) + 4.6rem) clamp(1.25rem, 4vw, 3.5rem) 2.25rem;
+  max-width: 1180px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tk-kicker {
+  margin: 0 0 0.45rem;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: none;
+  color: var(--tk-bronze);
+}
+
+.tk-head-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.tk-head h1 {
+  margin: 0;
+  font-family: "Noto Serif SC", "Instrument Serif", serif;
+  font-size: clamp(2.1rem, 4.2vw, 3.35rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+}
+
+.tk-lead {
+  margin: 0.7rem 0 0;
+  max-width: 36em;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--tk-muted);
+}
+
+.tk-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid color-mix(in srgb, var(--tk-muted) 45%, transparent);
+  background: transparent;
+  color: var(--tk-muted);
+  border-radius: 999px;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.tk-back svg {
+  width: 0.7rem;
+  height: 0.7rem;
+}
+
+.tk-back:hover {
+  color: var(--tk-ink);
+  border-color: var(--tk-ink);
+  background: color-mix(in srgb, var(--tk-ink) 6%, transparent);
+}
+
+.tk-back:focus-visible,
+.tk-step:focus-visible,
+.tk-go:focus-visible,
+.tk-map:focus-visible {
+  outline: 2px solid var(--tk-bronze);
+  outline-offset: 3px;
+}
+
+.tk-grid {
+  display: grid;
+  grid-template-columns: minmax(16.5rem, 0.78fr) minmax(22rem, 1.35fr);
+  gap: 1.35rem 1.85rem;
+  align-items: start;
+  margin-top: 1.75rem;
+}
+
+.tk-side {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.tk-panel {
+  padding: 1.15rem 1.2rem 1.2rem;
+  border-top: 1px solid var(--tk-rule);
+}
+
+.tk-panel-kicker {
+  margin: 0 0 0.85rem;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  color: var(--tk-bronze);
+}
+
+.tk-hours-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tk-hours-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--tk-rule);
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.95rem;
+}
+
+.tk-hours-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tk-hours-list time,
+.tk-hours-list b {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  color: var(--tk-ink);
+}
+
+.tk-address {
+  margin: 0;
+  font-family: "Instrument Serif", "Noto Serif SC", serif;
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.tk-place-copy {
+  margin: 0.65rem 0 0;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--tk-muted);
+}
+
+.tk-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+}
+
+.tk-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.28rem 0.7rem;
+  border: 1px solid var(--tk-rule);
+  border-radius: 999px;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--tk-ink);
+}
+
+.tk-map {
+  display: inline-flex;
+  margin-top: 0.95rem;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  color: var(--tk-bronze);
+  border-bottom: 1px solid color-mix(in srgb, var(--tk-bronze) 45%, transparent);
+  padding-bottom: 0.1rem;
+}
+
+.tk-map:hover {
+  color: var(--tk-ink);
+  border-bottom-color: var(--tk-ink);
+}
+
+.tk-buy {
+  background: var(--tk-counter);
+  color: var(--tk-counter-ink);
+  padding: 1.45rem 1.5rem 1.4rem;
+  border-radius: 1.15rem;
+  box-shadow: 0 18px 40px rgba(28, 18, 10, 0.16);
+  min-width: 0;
+}
+
+.tk-buy .tk-panel-kicker {
+  color: #c4a574;
+}
+
+.tk-buy-note {
+  margin: 0 0 1.1rem;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: rgba(243, 234, 216, 0.62);
+}
+
+.tk-types {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tk-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.85rem 1.1rem;
+  align-items: center;
+  padding: 0.85rem 0;
+  border-top: 1px dashed rgba(243, 234, 216, 0.18);
+}
+
+.tk-row:first-child {
+  border-top: none;
+  padding-top: 0.15rem;
+}
+
+.tk-kind {
+  min-width: 0;
+}
+
+.tk-kind strong {
+  display: block;
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.tk-kind span {
+  display: block;
+  margin-top: 0.18rem;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.75rem;
+  color: rgba(243, 234, 216, 0.55);
+}
+
+.tk-fare {
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.tk-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.tk-step {
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  border: 1px solid rgba(243, 234, 216, 0.28);
+  color: var(--tk-counter-ink);
+  display: grid;
+  place-items: center;
+  font-size: 1.05rem;
+  line-height: 1;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.tk-step:hover {
+  background: rgba(243, 234, 216, 0.1);
+  border-color: rgba(243, 234, 216, 0.55);
+}
+
+.tk-count {
+  min-width: 1.4rem;
+  text-align: center;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.95rem;
+}
+
+.tk-checkout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid rgba(243, 234, 216, 0.16);
+}
+
+.tk-total span {
+  display: block;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: rgba(243, 234, 216, 0.55);
+}
+
+.tk-total strong {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.tk-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.72rem 0.75rem 0.72rem 1.35rem;
+  background: #f3ead8;
+  color: #1c1814;
+  border-radius: 999px;
+  font-family: "Noto Sans SC", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.22);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.tk-go:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.28);
+}
+
+.tk-go-arrow {
+  width: 2.05rem;
+  height: 2.05rem;
+  border-radius: 50%;
+  background: #1c1814;
+  color: #f3ead8;
+  display: grid;
+  place-items: center;
+}
+
+.tk-go-arrow svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+html[data-theme="dark"] .tickets-view {
+  --tk-bg: #14110e;
+  --tk-ink: #f0e6d4;
+  --tk-muted: #b4a898;
+  --tk-panel: #1c1814;
+  --tk-rule: rgba(237, 232, 223, 0.12);
+  --tk-bronze: #c4a574;
+  --tk-counter: #221c18;
+  --tk-counter-ink: #f3ead8;
+}
+
+html[data-theme="dark"] .tk-wash {
+  background:
+    radial-gradient(ellipse 70% 55% at 12% 0%, rgba(196, 165, 116, 0.14), transparent 58%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28) 0, transparent 28%),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent 47px,
+      rgba(237, 232, 223, 0.035) 47px,
+      rgba(237, 232, 223, 0.035) 48px
+    );
+}
+
+html[data-theme="dark"] .tk-wash::after {
+  -webkit-text-stroke: 1px rgba(237, 232, 223, 0.06);
+}
+
+html[data-theme="dark"] .tk-buy {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38);
+  border: 1px solid rgba(237, 232, 223, 0.08);
+}
+
+html[data-theme="light"] .tickets-view {
+  background: var(--tk-bg);
+}
+
+@media (max-width: 900px) {
+  .tk-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .tk-buy {
+    order: -1;
+  }
+
+  .tk-stage {
+    padding-top: calc(var(--header-top, 16px) + 5.4rem);
+    padding-bottom: 3rem;
+  }
+
+  .tk-checkout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tk-go {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 640px) {
+  .tk-row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .tk-fare {
+    grid-column: 1;
+    grid-row: 2;
+    padding-bottom: 0.2rem;
+  }
+
+  .tk-qty {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+
+  .tk-head-row {
+    align-items: flex-start;
+  }
+
+  .tk-head h1 {
+    font-size: 1.85rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tickets-view {
+    transition: none;
+  }
+
+  .tk-go,
+  .tk-back,
+  .tk-step {
+    transition: none;
+  }
 }

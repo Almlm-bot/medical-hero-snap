@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- build: r84 -->
+<!-- build: r85 -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>罗马浴场 — 巴斯</title>
@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="./style.css?v=20260927r84"/>
+<link rel="stylesheet" href="./style.css?v=20260927r85"/>
 </head>
 <body>
 <div class="scroll-root">
@@ -110,7 +110,7 @@
       </svg>
     </button>
 
-    <a class="header-cta" href="https://www.romanbaths.co.uk/" target="_blank" rel="noopener noreferrer" aria-label="立即在线购票">
+    <a class="header-cta" href="#page-tickets" aria-label="立即在线购票">
       <span class="cta-text">立即在线购票</span>
       <span class="cta-dot">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -836,8 +836,131 @@
   </div>
 </section>
 </div>
+<div id="page-tickets" class="tickets-view" hidden aria-hidden="true" role="region" aria-labelledby="tk-title">
+  <div class="tk-wash" aria-hidden="true"></div>
+  <div class="tk-stage">
+    <header class="tk-head tk-enter">
+      <p class="tk-kicker">阿奎苏利斯 · 罗马浴场</p>
+      <div class="tk-head-row">
+        <h1 id="tk-title" tabindex="-1">购票入场</h1>
+        <button class="tk-back" type="button" id="tk-back">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M11 6H1M6 11L1 6l5-5" />
+          </svg>
+          返回
+        </button>
+      </div>
+      <p class="tk-lead">选定票种后前往官网完成预订。热水仍在涌出，神庙与浴场都还在原处。</p>
+    </header>
+
+    <div class="tk-grid">
+      <aside class="tk-side">
+        <section class="tk-panel tk-hours tk-enter" aria-labelledby="tk-hours-title">
+          <p class="tk-panel-kicker" id="tk-hours-title">营业时间</p>
+          <ul class="tk-hours-list">
+            <li>
+              <span>日常开放</span>
+              <time>09:00–18:00</time>
+            </li>
+            <li>
+              <span>夏夜延长</span>
+              <time>09:00–22:00</time>
+            </li>
+            <li>
+              <span>最后入场</span>
+              <b>提前 1 小时</b>
+            </li>
+          </ul>
+        </section>
+
+        <section class="tk-panel tk-place tk-enter" aria-labelledby="tk-place-title">
+          <p class="tk-panel-kicker" id="tk-place-title">地点与前往</p>
+          <p class="tk-address">Abbey Church Yard, Bath BA1 1LZ</p>
+          <p class="tk-place-copy">入口在巴斯大教堂对面，从巴斯温泉火车站沿 Stall Street 步行约八分钟即到。</p>
+          <div class="tk-chips">
+            <span class="tk-chip">步行 8 分钟</span>
+            <span class="tk-chip">市中心</span>
+          </div>
+          <a class="tk-map" href="https://maps.google.com/?q=Roman+Baths+Abbey+Church+Yard+Bath+BA1+1LZ" target="_blank" rel="noopener noreferrer">在地图中打开</a>
+        </section>
+      </aside>
+
+      <section class="tk-buy tk-enter" aria-labelledby="tk-buy-title">
+        <p class="tk-panel-kicker" id="tk-buy-title">购票</p>
+        <p class="tk-buy-note">平日提前预订参考价（2026 年 9–10 月）。周末、节假日与现场购票另计，以官网为准。</p>
+
+        <ul class="tk-types">
+          <li class="tk-row" data-kind="adult" data-pence="2650">
+            <div class="tk-kind">
+              <strong>成人</strong>
+              <span>19 岁及以上</span>
+            </div>
+            <div class="tk-fare">£26.50</div>
+            <div class="tk-qty">
+              <button type="button" class="tk-step" data-dir="-1" aria-label="减少成人票">−</button>
+              <span class="tk-count" aria-live="polite">1</span>
+              <button type="button" class="tk-step" data-dir="1" aria-label="增加成人票">+</button>
+            </div>
+          </li>
+          <li class="tk-row" data-kind="child" data-pence="1950">
+            <div class="tk-kind">
+              <strong>儿童</strong>
+              <span>6–18 岁 · 6 岁以下免费</span>
+            </div>
+            <div class="tk-fare">£19.50</div>
+            <div class="tk-qty">
+              <button type="button" class="tk-step" data-dir="-1" aria-label="减少儿童票">−</button>
+              <span class="tk-count" aria-live="polite">0</span>
+              <button type="button" class="tk-step" data-dir="1" aria-label="增加儿童票">+</button>
+            </div>
+          </li>
+          <li class="tk-row" data-kind="student" data-pence="2550">
+            <div class="tk-kind">
+              <strong>学生</strong>
+              <span>凭有效学生证件</span>
+            </div>
+            <div class="tk-fare">£25.50</div>
+            <div class="tk-qty">
+              <button type="button" class="tk-step" data-dir="-1" aria-label="减少学生票">−</button>
+              <span class="tk-count" aria-live="polite">0</span>
+              <button type="button" class="tk-step" data-dir="1" aria-label="增加学生票">+</button>
+            </div>
+          </li>
+          <li class="tk-row" data-kind="family" data-pence="6900">
+            <div class="tk-kind">
+              <strong>家庭</strong>
+              <span>2 成人 + 2–4 儿童</span>
+            </div>
+            <div class="tk-fare">£69.00</div>
+            <div class="tk-qty">
+              <button type="button" class="tk-step" data-dir="-1" aria-label="减少家庭票">−</button>
+              <span class="tk-count" aria-live="polite">0</span>
+              <button type="button" class="tk-step" data-dir="1" aria-label="增加家庭票">+</button>
+            </div>
+          </li>
+        </ul>
+
+        <footer class="tk-checkout">
+          <div class="tk-total">
+            <span>参考合计</span>
+            <strong id="tk-sum">£26.50</strong>
+          </div>
+          <a class="tk-go" id="tk-go" href="https://www.romanbaths.co.uk/tickets" target="_blank" rel="noopener noreferrer">
+            去官网购票
+            <span class="tk-go-arrow" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M7 17 L17 7" />
+                <path d="M8 7 H17 V16" />
+              </svg>
+            </span>
+          </a>
+        </footer>
+      </section>
+    </div>
+  </div>
+</div>
 <script src="./vendor/gsap.min.js?v=20260922r9"></script>
 <script src="./vendor/ScrollTrigger.min.js?v=20260922r9"></script>
-<script src="./script.js?v=20260927r84"></script>
+<script src="./script.js?v=20260927r85"></script>
 </body>
 </html>

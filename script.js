@@ -1,4 +1,4 @@
-/* cache: 20260927r84 */
+/* cache: 20260927r85 */
 (function () {
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -252,8 +252,17 @@
   let page5EntryDirection = 0;
   
   function go(i, fromPage5 = false) {
+    const ticketsWereOpen = document.body.classList.contains('tickets-open');
+    if (window.closeTicketsView) window.closeTicketsView({ keepHeader: true });
+
     const prevIdx = idx;
     i = Math.max(0, Math.min(pages.length - 1, i));
+    if (i === prevIdx) {
+      if (ticketsWereOpen && window.headerReleaseFromTickets) {
+        window.headerReleaseFromTickets();
+      }
+      return;
+    }
     idx = i;
     locked = true;
     acc = 0;
@@ -318,6 +327,10 @@
   }
   
   root.addEventListener('wheel', (e) => {
+    if (document.body.classList.contains('tickets-open')) {
+      e.preventDefault();
+      return;
+    }
     if (document.body.classList.contains('p4-detail-open')) {
       e.preventDefault();
       return;
@@ -337,6 +350,12 @@
   }, { passive: false });
   
   addEventListener('keydown', (e) => {
+    if (document.body.classList.contains('tickets-open')) {
+      if (['ArrowDown', 'PageDown', ' ', 'ArrowUp', 'PageUp', 'Home', 'End'].includes(e.key)) {
+        e.preventDefault();
+      }
+      return;
+    }
     if (document.body.classList.contains('p4-detail-open')) return;
     if (document.activeElement && isInsidePage5(document.activeElement)) return;
     const page6 = document.getElementById('page6');
@@ -418,11 +437,13 @@
   const armHide = () => {
     clearHide();
     if (!isDocked() || !isExpanded()) return;
+    if (document.body.classList.contains('tickets-open')) return;
     hideTimer = window.setTimeout(() => collapse(), IDLE_MS);
   };
 
   const collapse = () => {
     if (!isDocked()) return;
+    if (document.body.classList.contains('tickets-open')) return;
     document.body.classList.remove('header-expanded', 'header-page1');
     header.setAttribute('aria-expanded', 'false');
     clearHide();
@@ -566,10 +587,41 @@
     else dock();
   };
 
+  window.headerKeepOpenForTickets = () => {
+    if (!isDocked()) {
+      const rect = header.getBoundingClientRect();
+      const cs = getComputedStyle(header);
+      slot.style.height = `${rect.height}px`;
+      rememberPage1(rect, cs.padding);
+      lockFixed(rect, cs.padding);
+      if (header.parentElement !== document.body) document.body.appendChild(header);
+      document.body.classList.add('header-docked', 'header-page1');
+      document.body.classList.remove('header-expanded');
+      header.setAttribute('aria-expanded', 'true');
+      header.offsetWidth;
+      clearInlineGeom();
+      return;
+    }
+    expand();
+  };
+
+  window.headerReleaseFromTickets = () => {
+    const idx = window.getCurrentPageIndex ? window.getCurrentPageIndex() : 0;
+    if (idx === 0) undock();
+    else armHide();
+  };
+
   header.addEventListener('click', (e) => {
     if (e.target.closest('#theme_toggle')) return;
     if (e.target.closest('.header-cta')) return;
     if (e.target.closest('.nav-pill')) return;
+    if (document.body.classList.contains('tickets-open')) {
+      if (logo && logo.contains(e.target)) {
+        e.preventDefault();
+        if (window.goToPage) window.goToPage(0);
+      }
+      return;
+    }
     if (!isDocked()) return;
     if (!isExpanded()) {
       e.preventDefault();
@@ -1580,6 +1632,7 @@
   addEventListener('keydown', (e) => {
     if (window.getCurrentPageIndex && document.querySelectorAll('.scroll-page')[window.getCurrentPageIndex()]?.id !== 'page6') return;
     if (document.body.classList.contains('p4-detail-open')) return;
+    if (document.body.classList.contains('tickets-open')) return;
     if (/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName)) return;
     if (e.key === 'ArrowLeft') {
       e.preventDefault();
@@ -1606,4 +1659,113 @@
   window.page6Reset = () => {
     goTo(Math.min(2, n - 1));
   };
+})();
+
+/* ════════════════════════════════════════════════
+   TICKETS VIEW
+   ════════════════════════════════════════════════ */
+(function () {
+  const view = document.getElementById('page-tickets');
+  const cta = document.querySelector('.header-cta');
+  const back = document.getElementById('tk-back');
+  const sumEl = document.getElementById('tk-sum');
+  if (!view || !cta) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const rows = [...view.querySelectorAll('.tk-row')];
+  let lastFocus = null;
+  let hideTimer = 0;
+
+  const formatPence = (pence) => {
+    const pounds = pence / 100;
+    return `£${pounds.toFixed(2)}`;
+  };
+
+  const qtyOf = (row) => Number(row.querySelector('.tk-count')?.textContent || 0);
+
+  const updateSum = () => {
+    const total = rows.reduce((n, row) => n + qtyOf(row) * Number(row.dataset.pence || 0), 0);
+    if (sumEl) sumEl.textContent = formatPence(total);
+  };
+
+  const playEnter = () => {
+    const bits = view.querySelectorAll('.tk-enter');
+    if (!window.gsap || reduceMotion.matches) {
+      bits.forEach((el) => {
+        el.style.opacity = '';
+        el.style.transform = '';
+      });
+      return;
+    }
+    gsap.fromTo(
+      bits,
+      { y: 18, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, stagger: 0.08, ease: 'power3.out', overwrite: true }
+    );
+  };
+
+  const openTickets = (e) => {
+    if (e) e.preventDefault();
+    if (document.body.classList.contains('tickets-open')) return;
+    if (window.page4Reset) window.page4Reset();
+    lastFocus = document.activeElement;
+    view.hidden = false;
+    view.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('tickets-open');
+    cta.classList.add('is-on');
+    cta.setAttribute('aria-current', 'page');
+    if (window.headerKeepOpenForTickets) window.headerKeepOpenForTickets();
+    requestAnimationFrame(() => {
+      view.classList.add('is-open');
+      playEnter();
+      view.querySelector('#tk-title')?.focus({ preventScroll: true });
+    });
+  };
+
+  const closeTickets = (opts = {}) => {
+    if (!document.body.classList.contains('tickets-open')) return;
+    document.body.classList.remove('tickets-open');
+    view.classList.remove('is-open');
+    view.setAttribute('aria-hidden', 'true');
+    cta.classList.remove('is-on');
+    cta.removeAttribute('aria-current');
+    if (!opts.keepHeader && window.headerReleaseFromTickets) {
+      window.headerReleaseFromTickets();
+    }
+    const hide = () => {
+      if (document.body.classList.contains('tickets-open')) return;
+      view.hidden = true;
+    };
+    if (hideTimer) clearTimeout(hideTimer);
+    hideTimer = window.setTimeout(hide, reduceMotion.matches ? 0 : 560);
+    if (lastFocus && typeof lastFocus.focus === 'function') {
+      lastFocus.focus({ preventScroll: true });
+    }
+  };
+
+  cta.addEventListener('click', openTickets);
+  if (back) back.addEventListener('click', () => closeTickets());
+
+  rows.forEach((row) => {
+    row.querySelectorAll('.tk-step').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const dir = Number(btn.dataset.dir) || 0;
+        const count = row.querySelector('.tk-count');
+        const next = Math.max(0, Math.min(10, qtyOf(row) + dir));
+        if (count) count.textContent = String(next);
+        updateSum();
+      });
+    });
+  });
+
+  addEventListener('keydown', (e) => {
+    if (!document.body.classList.contains('tickets-open')) return;
+    if (e.key !== 'Escape') return;
+    e.preventDefault();
+    closeTickets();
+  });
+
+  window.closeTicketsView = closeTickets;
+  window.openTicketsView = openTickets;
+  updateSum();
 })();
