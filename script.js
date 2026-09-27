@@ -1318,11 +1318,6 @@
   const pins = [...root.querySelectorAll('.p2-pin')];
   const pathFull = document.getElementById('p2-path-full');
   const pathNow = document.getElementById('p2-path-now');
-  const idxEl = document.getElementById('p2-idx');
-  const titleEl = document.getElementById('p2-stop-title');
-  const bodyEl = document.getElementById('p2-stop-body');
-  const card = root.querySelector('.p2-card');
-  const stage = root.querySelector('.p2-stage');
   const total = pins.length;
   let i = -1;
   let busy = false;
@@ -1383,20 +1378,28 @@
     pathNow.style.strokeDashoffset = `${pathLen}`;
   };
 
+  pins.forEach((pin, n) => {
+    const info = document.createElement('span');
+    info.className = 'p2-pin-info';
+    info.setAttribute('aria-hidden', 'true');
+    info.innerHTML =
+      `<span class="p2-pin-info-idx">${pad(n + 1)} / ${pad(total)}</span>` +
+      `<strong class="p2-pin-info-title"></strong>` +
+      `<span class="p2-pin-info-body"></span>`;
+    info.querySelector('.p2-pin-info-title').textContent = pin.dataset.title || '';
+    info.querySelector('.p2-pin-info-body').textContent = pin.dataset.body || '';
+    pin.appendChild(info);
+  });
+
   const show = (next) => {
     i = Math.max(-1, Math.min(total - 1, next));
     const intro = i < 0;
-    if (card) card.classList.toggle('is-intro', intro);
     pins.forEach((el, n) => {
       el.classList.toggle('is-on', !intro && n === i);
       el.classList.toggle('is-done', !intro && n < i);
+      const box = el.querySelector('.p2-pin-info');
+      if (box) box.setAttribute('aria-hidden', intro || n !== i ? 'true' : 'false');
     });
-    if (!intro) {
-      const pin = pins[i];
-      if (idxEl) idxEl.textContent = `${pad(i + 1)} / ${pad(total)}`;
-      if (titleEl) titleEl.textContent = pin?.dataset.title || '';
-      if (bodyEl) bodyEl.textContent = pin?.dataset.body || '';
-    }
     const at = intro ? 0 : (pinLens[i] || 0);
     pathNow.style.strokeDashoffset = intro ? `${pathLen}` : `${Math.max(0, pathLen - at)}`;
   };
@@ -1422,35 +1425,16 @@
     board.classList.add('is-spread');
   };
 
-  const fitCard = () => {
-    if (!card) return;
-    if (window.matchMedia('(max-width: 56.25em)').matches) {
-      card.style.height = '';
-      return;
-    }
-    if (!board) return;
-    const h = board.getBoundingClientRect().height;
-    card.style.height = h ? `${Math.round(h)}px` : '';
-  };
-
   window.page2OnWheel = (dir) => move(dir);
   window.page2SetEntry = (dir) => {
     busy = false;
     show(dir > 0 ? -1 : total - 1);
     spread();
-    requestAnimationFrame(fitCard);
   };
 
   layoutPath();
   show(-1);
-  requestAnimationFrame(() => {
-    spread();
-    fitCard();
-  });
-  if (stage && typeof ResizeObserver !== 'undefined') {
-    new ResizeObserver(fitCard).observe(stage);
-  }
-  window.addEventListener('resize', fitCard);
+  requestAnimationFrame(spread);
 })();
 
 /* ════════════════════════════════════════════════
