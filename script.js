@@ -1320,7 +1320,6 @@
   const pathNow = document.getElementById('p2-path-now');
   const total = pins.length;
   let i = -1;
-  let busy = false;
   let pathLen = 0;
   let pinLens = [];
 
@@ -1404,18 +1403,11 @@
     pathNow.style.strokeDashoffset = intro ? `${pathLen}` : `${Math.max(0, pathLen - at)}`;
   };
 
-  const move = (dir) => {
-    if (busy) return true;
-    const next = i + dir;
-    if (next < -1 || next >= total) return false;
-    busy = true;
-    show(next);
-    setTimeout(() => { busy = false; }, 420);
-    return true;
-  };
-
   pins.forEach((btn) => {
-    btn.addEventListener('click', () => show(Number(btn.dataset.i || 0)));
+    btn.addEventListener('click', () => {
+      const n = Number(btn.dataset.i || 0);
+      show(n === i ? -1 : n);
+    });
   });
 
   const spread = () => {
@@ -1433,10 +1425,9 @@
     requestAnimationFrame(() => intro.classList.add('is-in'));
   };
 
-  window.page2OnWheel = (dir) => move(dir);
-  window.page2SetEntry = (dir) => {
-    busy = false;
-    show(dir > 0 ? -1 : total - 1);
+  window.page2OnWheel = () => false;
+  window.page2SetEntry = () => {
+    show(-1);
     spread();
     revealIntro();
   };
