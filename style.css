@@ -130,19 +130,28 @@ img {
     linear-gradient(
       90deg,
       #ececef 0%,
-      rgba(236, 236, 239, 0.92) 14%,
-      rgba(236, 236, 239, 0.55) 38%,
-      rgba(236, 236, 239, 0.32) 54%,
-      rgba(236, 236, 239, 0.58) 78%,
-      rgba(236, 236, 239, 0.82) 100%
+      rgba(236, 236, 239, 0.9) 16%,
+      rgba(236, 236, 239, 0.42) 36%,
+      rgba(236, 236, 239, 0.1) 54%,
+      rgba(236, 236, 239, 0.18) 72%,
+      rgba(236, 236, 239, 0.38) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(236, 236, 239, 0.42) 0%,
-      transparent 20%,
-      transparent 68%,
-      rgba(236, 236, 239, 0.58) 100%
+      rgba(236, 236, 239, 0.28) 0%,
+      transparent 18%,
+      transparent 74%,
+      rgba(236, 236, 239, 0.4) 100%
     );
+}
+
+#page1 .resource-list {
+  padding: 6px 14px 6px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
 }
 
 /* ════════════════════════════════════════════════
@@ -1260,9 +1269,9 @@ html[data-theme="light"] .header-theme .icon-moon {
     background:
       linear-gradient(
         180deg,
-        rgba(236, 236, 239, 0.72) 0%,
-        rgba(236, 236, 239, 0.48) 38%,
-        rgba(236, 236, 239, 0.7) 100%
+        rgba(236, 236, 239, 0.62) 0%,
+        rgba(236, 236, 239, 0.28) 36%,
+        rgba(236, 236, 239, 0.5) 100%
       );
   }
 }
@@ -4130,19 +4139,24 @@ html[data-theme="dark"] .p1-bg::after {
     linear-gradient(
       90deg,
       #121218 0%,
-      rgba(18, 18, 24, 0.9) 14%,
-      rgba(18, 18, 24, 0.48) 38%,
-      rgba(18, 18, 24, 0.28) 54%,
-      rgba(18, 18, 24, 0.55) 78%,
-      rgba(18, 18, 24, 0.78) 100%
+      rgba(18, 18, 24, 0.86) 16%,
+      rgba(18, 18, 24, 0.32) 36%,
+      rgba(18, 18, 24, 0.08) 54%,
+      rgba(18, 18, 24, 0.22) 74%,
+      rgba(18, 18, 24, 0.48) 100%
     ),
     linear-gradient(
       180deg,
-      rgba(18, 18, 24, 0.4) 0%,
-      transparent 20%,
-      transparent 68%,
-      rgba(18, 18, 24, 0.55) 100%
+      rgba(18, 18, 24, 0.32) 0%,
+      transparent 18%,
+      transparent 74%,
+      rgba(18, 18, 24, 0.42) 100%
     );
+}
+
+html[data-theme="dark"] #page1 .resource-list {
+  background: rgba(18, 18, 24, 0.58);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 @media (max-width: 900px) {
@@ -4150,9 +4164,9 @@ html[data-theme="dark"] .p1-bg::after {
     background:
       linear-gradient(
         180deg,
-        rgba(18, 18, 24, 0.72) 0%,
-        rgba(18, 18, 24, 0.42) 38%,
-        rgba(18, 18, 24, 0.7) 100%
+        rgba(18, 18, 24, 0.62) 0%,
+        rgba(18, 18, 24, 0.28) 36%,
+        rgba(18, 18, 24, 0.5) 100%
       );
   }
 }
