@@ -1016,6 +1016,10 @@ html[data-theme="light"] .header-theme .icon-moon {
 }
 
 @media (max-width: 900px) {
+  #page1 .title .word-aquae {
+    margin-left: 0;
+  }
+
   .nav-pills {
     display: none;
   }
