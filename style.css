@@ -4380,10 +4380,20 @@ html[data-theme="dark"] .p6-photo {
   flex: 1;
   min-height: 0;
   overflow: auto;
-  padding: calc(var(--header-top, 20px) + 4.6rem) clamp(1.25rem, 4vw, 3.5rem) 2.25rem;
-  max-width: 1180px;
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--header-top, 20px) + 4.2rem) clamp(1.1rem, 3vw, 2.2rem) 1.6rem;
+  max-width: 54.5rem;
   margin: 0 auto;
   width: 100%;
+}
+
+.tk-stage::before,
+.tk-stage::after {
+  content: "";
+  flex: 1 1 1.4rem;
+  min-height: 0.55rem;
+  pointer-events: none;
 }
 
 .tk-kicker {
@@ -4396,9 +4406,14 @@ html[data-theme="dark"] .p6-photo {
   color: var(--tk-bronze);
 }
 
+.tk-head {
+  flex-shrink: 0;
+  width: 100%;
+}
+
 .tk-head-row {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 1rem;
 }
@@ -4413,8 +4428,8 @@ html[data-theme="dark"] .p6-photo {
 }
 
 .tk-lead {
-  margin: 0.7rem 0 0;
-  max-width: 36em;
+  margin: 0.55rem 0 0;
+  max-width: 34em;
   font-family: "Noto Sans SC", sans-serif;
   font-size: 0.95rem;
   line-height: 1.7;
@@ -4458,24 +4473,30 @@ html[data-theme="dark"] .p6-photo {
 
 .tk-grid {
   display: grid;
-  grid-template-columns: minmax(16.5rem, 0.78fr) minmax(22rem, 1.35fr);
-  gap: 1.35rem 1.85rem;
+  grid-template-columns: minmax(15.25rem, 18.75rem) minmax(0, 1fr);
+  gap: 0.7rem 0.95rem;
   align-items: start;
-  margin-top: 1.75rem;
+  margin-top: 1.15rem;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .tk-side {
-  display: grid;
-  gap: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  min-width: 0;
 }
 
 .tk-panel {
-  padding: 1.15rem 1.2rem 1.2rem;
-  border-top: 1px solid var(--tk-rule);
+  padding: 0.95rem 1.05rem 1rem;
+  background: var(--tk-panel);
+  border: 1px solid var(--tk-rule);
+  border-radius: 1.05rem;
 }
 
 .tk-panel-kicker {
-  margin: 0 0 0.85rem;
+  margin: 0 0 0.7rem;
   font-family: "Noto Sans SC", sans-serif;
   font-size: 0.72rem;
   font-weight: 500;
@@ -4493,11 +4514,11 @@ html[data-theme="dark"] .p6-photo {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.55rem 0;
+  gap: 0.7rem;
+  padding: 0.4rem 0;
   border-bottom: 1px solid var(--tk-rule);
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
 }
 
 .tk-hours-list li:last-child {
@@ -4522,10 +4543,10 @@ html[data-theme="dark"] .p6-photo {
 }
 
 .tk-place-copy {
-  margin: 0.65rem 0 0;
+  margin: 0.5rem 0 0;
   font-family: "Noto Sans SC", sans-serif;
   font-size: 0.88rem;
-  line-height: 1.7;
+  line-height: 1.65;
   color: var(--tk-muted);
 }
 
@@ -4533,7 +4554,7 @@ html[data-theme="dark"] .p6-photo {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
-  margin-top: 0.9rem;
+  margin-top: 0.7rem;
 }
 
 .tk-chip {
@@ -4550,7 +4571,7 @@ html[data-theme="dark"] .p6-photo {
 
 .tk-map {
   display: inline-flex;
-  margin-top: 0.95rem;
+  margin-top: 0.7rem;
   font-family: "Noto Sans SC", sans-serif;
   font-size: 0.82rem;
   letter-spacing: 0.08em;
@@ -4567,10 +4588,11 @@ html[data-theme="dark"] .p6-photo {
 .tk-buy {
   background: var(--tk-counter);
   color: var(--tk-counter-ink);
-  padding: 1.45rem 1.5rem 1.4rem;
+  padding: 1.2rem 1.3rem 1.15rem;
   border-radius: 1.15rem;
   box-shadow: 0 18px 40px rgba(28, 18, 10, 0.16);
   min-width: 0;
+  align-self: start;
 }
 
 .tk-buy .tk-panel-kicker {
@@ -4578,7 +4600,7 @@ html[data-theme="dark"] .p6-photo {
 }
 
 .tk-buy-note {
-  margin: 0 0 1.1rem;
+  margin: 0 0 0.85rem;
   font-family: "Noto Sans SC", sans-serif;
   font-size: 0.8rem;
   line-height: 1.65;
@@ -4594,9 +4616,9 @@ html[data-theme="dark"] .p6-photo {
 .tk-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto auto;
-  gap: 0.85rem 1.1rem;
+  gap: 0.75rem 1rem;
   align-items: center;
-  padding: 0.85rem 0;
+  padding: 0.72rem 0;
   border-top: 1px dashed rgba(243, 234, 216, 0.18);
 }
 
@@ -4668,8 +4690,8 @@ html[data-theme="dark"] .p6-photo {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 1.25rem;
-  padding-top: 1.15rem;
+  margin-top: 1rem;
+  padding-top: 0.95rem;
   border-top: 1px solid rgba(243, 234, 216, 0.16);
 }
 
@@ -4753,6 +4775,10 @@ html[data-theme="dark"] .tk-wash::after {
   -webkit-text-stroke: 1px rgba(237, 232, 223, 0.06);
 }
 
+html[data-theme="dark"] .tk-panel {
+  box-shadow: inset 0 1px 0 rgba(237, 232, 223, 0.04);
+}
+
 html[data-theme="dark"] .tk-buy {
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.38);
   border: 1px solid rgba(237, 232, 223, 0.08);
@@ -4762,18 +4788,28 @@ html[data-theme="light"] .tickets-view {
   background: var(--tk-bg);
 }
 
+html[data-theme="light"] .tk-panel {
+  box-shadow: 0 8px 22px rgba(58, 42, 24, 0.045);
+}
+
+html[data-theme="light"] .tk-panel {
+  box-shadow: 0 8px 22px rgba(58, 42, 24, 0.045);
+}
+
 @media (max-width: 900px) {
   .tk-grid {
     grid-template-columns: 1fr;
-  }
-
-  .tk-buy {
-    order: -1;
+    gap: 0.7rem;
   }
 
   .tk-stage {
-    padding-top: calc(var(--header-top, 16px) + 5.4rem);
-    padding-bottom: 3rem;
+    padding-top: calc(var(--header-top, 16px) + 5.2rem);
+    padding-bottom: 2.4rem;
+  }
+
+  .tk-stage::before {
+    flex-basis: 0.4rem;
+    min-height: 0.2rem;
   }
 
   .tk-checkout {
