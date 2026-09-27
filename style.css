@@ -449,7 +449,18 @@ body.p4-detail-open.header-docked .header {
 }
 
 body.header-docked #page2 .p2-map {
-  padding: max(1.5rem, var(--header-top, 20px));
+  padding: max(1.15rem, var(--header-top, 20px)) 1.5rem 1.4rem;
+}
+
+body.header-docked #page2 .p2-intro {
+  padding-left: calc(var(--header-ball, 2.85rem) + 0.9rem);
+}
+
+body.header-docked #page2 .p2-kicker {
+  min-height: var(--header-ball, 2.85rem);
+  display: flex;
+  align-items: center;
+  margin: 0;
 }
 
 body.header-docked #page3 .p3-ui {
@@ -1711,6 +1722,7 @@ html, body { height: 100%; margin: 0; }
     min-height: 0;
     margin: 0 0 0.3rem;
     padding: 0;
+    display: block;
   }
   .p2-body { display: none; }
   .p2-pin-name { display: none; }
