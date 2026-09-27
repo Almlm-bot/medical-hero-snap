@@ -453,7 +453,10 @@ body.header-docked #page2 .p2-map {
 }
 
 body.header-docked #page2 .p2-intro {
-  padding-left: calc(var(--header-ball, 2.85rem) + 0.9rem);
+  padding-left: max(
+    0px,
+    calc(var(--header-left, 20px) + var(--header-ball, 2.85rem) + 0.75rem - 1.5rem)
+  );
 }
 
 body.header-docked #page2 .p2-kicker {
