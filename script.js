@@ -27,10 +27,6 @@
     rotation: -90,
     opacity: 0
   });
-  gsap.set(".resource-list, #page1 .treatments", {
-    y: 18,
-    opacity: 0
-  });
   gsap.set(".p1-bg", {
     opacity: 0
   });
@@ -39,8 +35,7 @@
     x: 18
   });
   gsap.set(".bg-text", {
-    opacity: 0,
-    scale: 1.1
+    opacity: 0
   });
   // ─── PAGE LOAD TIMELINE ───
   const tl = gsap.timeline({
@@ -77,7 +72,6 @@
       ".bg-text",
       {
         opacity: 1,
-        scale: 1,
         duration: 1.4,
         ease: "power3.out"
       },
@@ -131,24 +125,6 @@
         ease: "back.out(1.7)"
       },
       "-=.5"
-    )
-    .to(
-      ".resource-list",
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.7
-      },
-      "-=.45"
-    )
-    .to(
-      "#page1 .treatments",
-      {
-        y: 0,
-        opacity: 1,
-        duration: 0.7
-      },
-      "-=.48"
     );
   gsap.to(".p1-bg img", {
     y: 14,
@@ -176,16 +152,6 @@
     },
     yPercent: -8,
     scale: 1.04
-  });
-  gsap.to(".bg-text", {
-    scrollTrigger: {
-      trigger: "body",
-      start: "top top",
-      end: "+=1000",
-      scrub: 1.2
-    },
-    xPercent: -8,
-    opacity: 0.5
   });
   gsap.to(".badge", {
     scrollTrigger: {
@@ -236,37 +202,8 @@
         ease: "power3.out",
         overwrite: "auto"
       });
-      gsap.to(".bg-text", {
-        x: x * -20,
-        duration: 1.4,
-        ease: "power3.out",
-        overwrite: "auto"
-      });
     });
   }
-  // ─── CARD HOVER MICRO ───
-  document.querySelectorAll(".clay-card").forEach((card) => {
-    card.addEventListener("mousemove", (e) => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      gsap.to(card, {
-        rotateY: x * 4,
-        rotateX: -y * 4,
-        duration: 0.5,
-        ease: "power2.out",
-        transformPerspective: 900
-      });
-    });
-    card.addEventListener("mouseleave", () => {
-      gsap.to(card, {
-        rotateY: 0,
-        rotateX: 0,
-        duration: 0.7,
-        ease: "elastic.out(1,.6)"
-      });
-    });
-  });
   // ─── HEADER NAV PILL: animated indicator ───
   const pills = document.querySelectorAll(".nav-pill");
   pills.forEach((p) => {
@@ -300,15 +237,6 @@
       });
     });
   }
-  // Resource list: change active on click
-  const resItems = document.querySelectorAll(".res-item");
-  resItems.forEach((item) => {
-    item.addEventListener("click", (e) => {
-      e.preventDefault();
-      resItems.forEach((r) => r.classList.remove("active"));
-      item.classList.add("active");
-    });
-  });
 })();
 
 
