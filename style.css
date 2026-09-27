@@ -515,15 +515,17 @@ body.header-docked #page6 .p6-carousel {
 }
 
 .logo-text .a {
-  font-family: var(--font);
+  font-family: "Noto Sans SC", var(--font);
   font-size: 14px;
-  letter-spacing: -0.01em;
+  font-weight: 500;
+  letter-spacing: 0.08em;
 }
 
 .logo-text .b {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--mute);
   margin-top: 3px;
+  letter-spacing: 0.06em;
 }
 
 .nav-pills {
@@ -687,8 +689,9 @@ html[data-theme="light"] .header-theme .icon-moon {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  font-family: "Noto Sans SC", var(--font);
   font-size: 12px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.12em;
   color: var(--text-2);
   margin-bottom: 14px;
 }
@@ -713,10 +716,11 @@ html[data-theme="light"] .header-theme .icon-moon {
 
 /* TITLE */
 .title {
-  font-family: var(--font);
-  font-size: clamp(16px, 4vw, 92px);
-  line-height: 0.94;
-  letter-spacing: -0.025em;
+  font-family: "Noto Serif SC", "Helvetica Neue", serif;
+  font-size: clamp(28px, 4.4vw, 86px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: 0.04em;
   color: var(--text);
   margin: 0;
   position: relative;
@@ -735,13 +739,13 @@ html[data-theme="light"] .header-theme .icon-moon {
 }
 
 .title-desc {
-  font-family: var(--font);
+  font-family: "Noto Sans SC", var(--font);
   font-weight: 400;
-  font-size: clamp(11px, 0.95vw, 14px);
-  line-height: 1.35;
+  font-size: clamp(12px, 0.95vw, 15px);
+  line-height: 1.55;
   color: var(--text-2);
-  max-width: 24ch;
-  letter-spacing: 0;
+  max-width: 18em;
+  letter-spacing: 0.02em;
   text-transform: none;
   margin: 0;
   align-self: center;
@@ -780,11 +784,11 @@ html[data-theme="light"] .header-theme .icon-moon {
   width: 50px;
   height: 50px;
   border-radius: 100px;
-  background: var(--tile);
+  background: #1a1915;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #fafaf7;
+  color: #f4ead8;
   box-shadow: 0 24px 40px -16px rgba(0, 0, 0, 0.5),
     0 10px 20px -6px rgba(0, 0, 0, 0.32), 0 3px 6px -1px rgba(0, 0, 0, 0.18),
     inset 0 2px 0 rgba(255, 255, 255, 0.12), inset 0 -3px 6px rgba(0, 0, 0, 0.5);
@@ -813,6 +817,13 @@ html[data-theme="light"] .header-theme .icon-moon {
     inset 0 2px 0 rgba(255, 255, 255, 0.15), inset 0 -3px 6px rgba(0, 0, 0, 0.5);
 }
 
+.dna-icon svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+  color: inherit;
+}
+
 /* Positions */
 .tile-1 {
   left: 12%;
@@ -822,17 +833,19 @@ html[data-theme="light"] .header-theme .icon-moon {
 .hero-desc-right {
   width: fit-content;
   text-align: left;
-  font-size: 0.9rem;
+  font-family: "Noto Sans SC", var(--font);
+  font-size: 0.88rem;
   color: var(--text-dark, black);
-  font-weight: 500;
-  letter-spacing: normal;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.55;
 }
 
 .future-tag {
-  font-family: var(--font);
-  font-weight: 500;
-  font-size: clamp(11px, 0.9vw, 13px);
-  line-height: 1.35;
+  font-family: "Noto Sans SC", var(--font);
+  font-weight: 400;
+  font-size: clamp(12px, 0.9vw, 14px);
+  line-height: 1.5;
   color: var(--text-2);
   align-self: center;
   margin-left: 4px;
@@ -1152,7 +1165,9 @@ html[data-theme="light"] .header-theme .icon-moon {
   align-items: center;
   gap: 6px;
   color: var(--text-2);
+  font-family: "Noto Sans SC", var(--font);
   font-size: 13.5px;
+  letter-spacing: 0.08em;
   cursor: pointer;
   transition: color 0.25s;
 }
@@ -1280,7 +1295,7 @@ html[data-theme="light"] .header-theme .icon-moon {
   }
 
   .title {
-    font-size: clamp(16px, 3.4vw, 68px);
+    font-size: clamp(24px, 3.4vw, 68px);
   }
 
   .resource-list {
