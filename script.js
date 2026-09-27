@@ -327,7 +327,8 @@
     p.addEventListener("click", (e) => {
       e.preventDefault();
       const i = Number(p.dataset.go);
-      if (Number.isFinite(i) && window.goToPage) window.goToPage(i);
+      if (!Number.isFinite(i) || !window.goToPage) return;
+      window.goToPage(i, i === 5 ? { resetCube: true } : undefined);
     });
   });
   // Magnetic effect on header CTA
@@ -410,9 +411,11 @@
       if (window.headerOnPageChange) window.headerOnPageChange(idx, prevIdx);
     }
 
-    // Track entry direction for page 5 - ALWAYS set when entering page 5
+    // Track entry direction for page 5 - ALWAYS set when entering page 5.
+    // Nav 馆藏 always opens on the first face, even from page 6 or while already here.
     if (pages[i] === page5) {
-      page5EntryDirection = i > prevIdx ? 1 : -1;
+      const resetCube = fromPage5 && typeof fromPage5 === "object" && fromPage5.resetCube;
+      page5EntryDirection = resetCube || i >= prevIdx ? 1 : -1;
       if (window.page5SetEntry) {
         window.page5SetEntry(page5EntryDirection);
       }
