@@ -18,19 +18,6 @@
     opacity: 0,
     x: -10
   });
-  gsap.set(".paren-group .paren", {
-    scale: 0,
-    opacity: 0
-  });
-  gsap.set(".avatar-group", {
-    scale: 0,
-    opacity: 0
-  });
-  gsap.set(".dna-icon", {
-    scale: 0,
-    rotation: -45,
-    opacity: 0
-  });
   gsap.set(".future-tag", {
     opacity: 0,
     x: -10
@@ -126,38 +113,6 @@
       "-=.5"
     )
     .to(
-      ".paren-group .paren",
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 0.5,
-        stagger: 0.1,
-        ease: "back.out(2)"
-      },
-      "-=.45"
-    )
-    .to(
-      ".avatar-group",
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 0.6,
-        ease: "back.out(1.7)"
-      },
-      "-=.3"
-    )
-    .to(
-      ".dna-icon",
-      {
-        scale: 1,
-        rotation: 0,
-        opacity: 1,
-        duration: 0.6,
-        ease: "back.out(1.7)"
-      },
-      "-=.4"
-    )
-    .to(
       ".future-tag",
       {
         x: 0,
@@ -206,23 +161,6 @@
   gsap.to(".badge", {
     y: "+=8",
     duration: 3.5,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut"
-  });
-  // DNA icon gentle rotate cycle
-  gsap.to(".dna-icon svg", {
-    rotation: 12,
-    duration: 4,
-    repeat: -1,
-    yoyo: true,
-    ease: "sine.inOut",
-    transformOrigin: "50% 50%"
-  });
-  // People image breathing
-  gsap.to(".avatar-group", {
-    rotation: 3,
-    duration: 3,
     repeat: -1,
     yoyo: true,
     ease: "sine.inOut"
