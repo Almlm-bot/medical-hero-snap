@@ -1,4 +1,4 @@
-/* cache: 20260928r1 */
+/* cache: 20260928r2 */
 (function () {
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -1221,13 +1221,19 @@
   const total = pins.length;
   const playBtn = document.getElementById('p2-play');
   const restartBtn = document.getElementById('p2-restart');
+  const stage = root.querySelector('.p2-stage');
+  const lightbox = document.getElementById('p2-lightbox');
+  const lightboxScrim = document.getElementById('p2-lightbox-scrim');
+  const lightboxImg = document.getElementById('p2-lightbox-img');
   const DWELL_MS = 2800;
+  const SIDE_FLIP = { left: 'right', right: 'left', top: 'bottom', bottom: 'top' };
   let i = -1;
   let pathLen = 0;
   let pinLens = [];
   let playToken = 0;
   let playing = false;
   let walkMode = 'idle';
+  let lightboxFrom = null;
 
   const pad = (n) => String(n).padStart(2, '0');
 
@@ -1283,20 +1289,110 @@
     pathNow.style.strokeDashoffset = `${pathLen}`;
   };
 
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightbox.hidden = true;
+    document.body.classList.remove('p2-lightbox-open');
+    if (lightboxImg) {
+      lightboxImg.removeAttribute('src');
+      lightboxImg.alt = '';
+    }
+    const back = lightboxFrom;
+    lightboxFrom = null;
+    if (back && typeof back.focus === 'function') back.focus();
+  };
+
+  const openLightbox = (src, alt, fromBtn) => {
+    if (!lightbox || !lightboxImg || !src) return;
+    lightboxFrom = fromBtn || null;
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
+    lightbox.hidden = false;
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('p2-lightbox-open');
+    if (lightboxScrim) lightboxScrim.focus();
+  };
+
+  const resetInfoShift = (info) => {
+    if (!info) return;
+    info.style.setProperty('--info-dx', '0px');
+    info.style.setProperty('--info-dy', '0px');
+  };
+
+  const infoOverflow = (info, box, pad = 8) => {
+    const r = info.getBoundingClientRect();
+    const b = box.getBoundingClientRect();
+    return (
+      Math.max(0, b.left + pad - r.left) +
+      Math.max(0, r.right - (b.right - pad)) +
+      Math.max(0, b.top + pad - r.top) +
+      Math.max(0, r.bottom - (b.bottom - pad))
+    );
+  };
+
+  const placeInfo = (pin) => {
+    const info = pin.querySelector('.p2-pin-info');
+    if (!info || !stage) return;
+    const home = pin.dataset.homeSide || pin.dataset.side || 'right';
+    pin.dataset.homeSide = home;
+    resetInfoShift(info);
+    const order = [home, SIDE_FLIP[home], 'right', 'left', 'bottom', 'top']
+      .filter((side, idx, all) => side && all.indexOf(side) === idx);
+    let best = home;
+    let bestOverflow = Infinity;
+    for (const side of order) {
+      pin.dataset.side = side;
+      const overflow = infoOverflow(info, stage);
+      if (overflow < bestOverflow) {
+        bestOverflow = overflow;
+        best = side;
+      }
+      if (overflow === 0) break;
+    }
+    pin.dataset.side = best;
+    const r = info.getBoundingClientRect();
+    const b = stage.getBoundingClientRect();
+    const pad = 8;
+    let dx = 0;
+    let dy = 0;
+    if (r.left < b.left + pad) dx += b.left + pad - r.left;
+    if (r.right > b.right - pad) dx -= r.right - (b.right - pad);
+    if (r.top < b.top + pad) dy += b.top + pad - r.top;
+    if (r.bottom > b.bottom - pad) dy -= r.bottom - (b.bottom - pad);
+    info.style.setProperty('--info-dx', `${dx}px`);
+    info.style.setProperty('--info-dy', `${dy}px`);
+  };
+
   pins.forEach((pin, n) => {
-    const info = document.createElement('span');
+    if (!pin.dataset.homeSide) pin.dataset.homeSide = pin.dataset.side || 'right';
+    const info = document.createElement('div');
     info.className = 'p2-pin-info';
     info.setAttribute('aria-hidden', 'true');
     if (pin.dataset.img) {
+      const photoBtn = document.createElement('button');
+      photoBtn.type = 'button';
+      photoBtn.className = 'p2-pin-info-photo-btn';
+      const alt = pin.dataset.imgAlt || pin.dataset.title || '';
+      photoBtn.setAttribute('aria-label', `查看原图：${alt}`);
       const photo = document.createElement('img');
       photo.className = 'p2-pin-info-photo';
       photo.src = pin.dataset.img;
-      photo.alt = pin.dataset.imgAlt || pin.dataset.title || '';
+      photo.alt = alt;
       photo.decoding = 'async';
       photo.draggable = false;
-      info.appendChild(photo);
+      photoBtn.appendChild(photo);
+      photoBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (playing) pausePlay();
+        openLightbox(pin.dataset.img, alt, photoBtn);
+      });
+      info.appendChild(photoBtn);
     }
-    const copy = document.createElement('span');
+    const copy = document.createElement('div');
     copy.className = 'p2-pin-info-copy';
     copy.innerHTML =
       `<span class="p2-pin-info-idx">${pad(n + 1)} / ${pad(total)}</span>` +
@@ -1312,13 +1408,18 @@
     i = Math.max(-1, Math.min(total - 1, next));
     const intro = i < 0;
     pins.forEach((el, n) => {
+      if (el.dataset.homeSide) el.dataset.side = el.dataset.homeSide;
+      const box = el.querySelector('.p2-pin-info');
+      resetInfoShift(box);
       el.classList.toggle('is-on', !intro && n === i);
       el.classList.toggle('is-done', !intro && n < i);
-      const box = el.querySelector('.p2-pin-info');
       if (box) box.setAttribute('aria-hidden', intro || n !== i ? 'true' : 'false');
     });
     const at = intro ? 0 : (pinLens[i] || 0);
     pathNow.style.strokeDashoffset = intro ? `${pathLen}` : `${Math.max(0, pathLen - at)}`;
+    if (!intro) {
+      requestAnimationFrame(() => placeInfo(pins[i]));
+    }
   };
 
   const setWalkUI = () => {
@@ -1393,12 +1494,29 @@
     startPlay(0);
   };
 
-  pins.forEach((btn) => {
-    btn.addEventListener('click', () => {
+  pins.forEach((pin) => {
+    const hit = pin.querySelector('.p2-pin-hit') || pin;
+    hit.addEventListener('click', () => {
+      closeLightbox();
       stopPlay('idle');
-      const n = Number(btn.dataset.i || 0);
+      const n = Number(pin.dataset.i || 0);
       show(n === i ? -1 : n);
     });
+  });
+
+  if (lightboxScrim) {
+    lightboxScrim.addEventListener('click', () => closeLightbox());
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (!lightbox || !lightbox.classList.contains('is-open')) return;
+    e.preventDefault();
+    closeLightbox();
+  });
+
+  addEventListener('resize', () => {
+    if (i >= 0) placeInfo(pins[i]);
   });
 
   if (playBtn) {
@@ -1432,8 +1550,9 @@
     requestAnimationFrame(() => intro.classList.add('is-in'));
   };
 
-  window.page2OnWheel = () => false;
+  window.page2OnWheel = () => !!(lightbox && lightbox.classList.contains('is-open'));
   window.page2SetEntry = () => {
+    closeLightbox();
     stopPlay('idle');
     show(-1);
     spread();
