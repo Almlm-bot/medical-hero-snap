@@ -1396,14 +1396,15 @@
     if (lightboxScrim) lightboxScrim.focus();
   };
 
-  const resetInfoShift = (info) => {
-    if (!info) return;
-    info.style.setProperty('--info-dx', '0px');
-    info.style.setProperty('--info-dy', '0px');
+  const resetModShift = (el) => {
+    if (!el) return;
+    el.style.setProperty('--mod-dx', '0px');
+    el.style.setProperty('--mod-dy', '0px');
   };
 
-  const infoOverflow = (info, box, pad = 8) => {
-    const r = info.getBoundingClientRect();
+  const infoOverflow = (el, box, pad = 8) => {
+    if (!el) return 0;
+    const r = el.getBoundingClientRect();
     const b = box.getBoundingClientRect();
     return (
       Math.max(0, b.left + pad - r.left) +
@@ -1413,75 +1414,179 @@
     );
   };
 
-  const placeInfo = (pin) => {
-    const info = pin.querySelector('.p2-pin-info');
-    if (!info || !stage) return;
-    const home = pin.dataset.homeSide || pin.dataset.side || 'right';
-    pin.dataset.homeSide = home;
-    resetInfoShift(info);
-    const order = [home, SIDE_FLIP[home], 'right', 'left', 'bottom', 'top']
-      .filter((side, idx, all) => side && all.indexOf(side) === idx);
-    let best = home;
-    let bestOverflow = Infinity;
-    for (const side of order) {
-      pin.dataset.side = side;
-      const overflow = infoOverflow(info, stage);
-      if (overflow < bestOverflow) {
-        bestOverflow = overflow;
-        best = side;
-      }
-      if (overflow === 0) break;
-    }
-    pin.dataset.side = best;
-    const r = info.getBoundingClientRect();
-    const b = stage.getBoundingClientRect();
-    const pad = 8;
-    let dx = 0;
-    let dy = 0;
+  const overlapArea = (a, b) => {
+    if (!a || !b) return 0;
+    const r = a.getBoundingClientRect();
+    const s = b.getBoundingClientRect();
+    const w = Math.max(0, Math.min(r.right, s.right) - Math.max(r.left, s.left));
+    const h = Math.max(0, Math.min(r.bottom, s.bottom) - Math.max(r.top, s.top));
+    return w * h;
+  };
+
+  const applySide = (el, side) => {
+    if (!el || !side) return;
+    el.dataset.side = side;
+    resetModShift(el);
+  };
+
+  const nudgeEl = (el, box, pad = 8) => {
+    if (!el || !box) return;
+    const r = el.getBoundingClientRect();
+    const b = box.getBoundingClientRect();
+    let dx = parseFloat(el.style.getPropertyValue('--mod-dx')) || 0;
+    let dy = parseFloat(el.style.getPropertyValue('--mod-dy')) || 0;
     if (r.left < b.left + pad) dx += b.left + pad - r.left;
     if (r.right > b.right - pad) dx -= r.right - (b.right - pad);
     if (r.top < b.top + pad) dy += b.top + pad - r.top;
     if (r.bottom > b.bottom - pad) dy -= r.bottom - (b.bottom - pad);
-    info.style.setProperty('--info-dx', `${dx}px`);
-    info.style.setProperty('--info-dy', `${dy}px`);
+    el.style.setProperty('--mod-dx', `${dx}px`);
+    el.style.setProperty('--mod-dy', `${dy}px`);
+  };
+
+  const pairList = (home, stack) => {
+    const opp = SIDE_FLIP[home] || 'left';
+    const cross = home === 'left' || home === 'right' ? 'bottom' : 'right';
+    const crossOpp = SIDE_FLIP[cross];
+    if (stack) {
+      return [
+        [home, home],
+        [opp, opp],
+        [cross, cross],
+        [crossOpp, crossOpp],
+      ];
+    }
+    return [
+      [home, opp],
+      [opp, home],
+      [cross, crossOpp],
+      [crossOpp, cross],
+    ];
+  };
+
+  const stackOffset = (copy, disc, side) => {
+    if (!copy || !disc) return;
+    const gap = 10;
+    const cr = copy.getBoundingClientRect();
+    const dx = parseFloat(disc.style.getPropertyValue('--mod-dx')) || 0;
+    const dy = parseFloat(disc.style.getPropertyValue('--mod-dy')) || 0;
+    if (side === 'bottom') disc.style.setProperty('--mod-dy', `${dy + cr.height + gap}px`);
+    else if (side === 'top') disc.style.setProperty('--mod-dy', `${dy - cr.height - gap}px`);
+    else if (side === 'right') disc.style.setProperty('--mod-dx', `${dx + cr.width + gap}px`);
+    else disc.style.setProperty('--mod-dx', `${dx - cr.width - gap}px`);
+  };
+
+  const drawLeads = (pin) => {
+    const svg = pin.querySelector('.p2-pin-leads');
+    if (!svg) return;
+    const copy = pin.querySelector('.p2-pin-copy');
+    const disc = pin.querySelector('.p2-pin-disc');
+    const pinR = pin.getBoundingClientRect();
+    const cx = pinR.left + pinR.width / 2;
+    const cy = pinR.top + pinR.height / 2;
+    const toLead = (el, path) => {
+      if (!path) return;
+      if (!el || el.getAttribute('aria-hidden') === 'true') {
+        path.setAttribute('d', '');
+        return;
+      }
+      const r = el.getBoundingClientRect();
+      const x = Math.max(r.left, Math.min(cx, r.right)) - cx;
+      const y = Math.max(r.top, Math.min(cy, r.bottom)) - cy;
+      const len = Math.hypot(x, y) || 1;
+      const startR = 13;
+      const sx = (x / len) * startR;
+      const sy = (y / len) * startR;
+      path.setAttribute('d', `M ${sx.toFixed(1)} ${sy.toFixed(1)} L ${x.toFixed(1)} ${y.toFixed(1)}`);
+    };
+    toLead(copy, svg.querySelector('.p2-lead-copy'));
+    toLead(disc, svg.querySelector('.p2-lead-disc'));
+  };
+
+  const isStack = () => window.matchMedia('(max-width: 56.25em)').matches;
+
+  const placeInfo = (pin) => {
+    const copy = pin.querySelector('.p2-pin-copy');
+    const disc = pin.querySelector('.p2-pin-disc');
+    if (!copy || !stage) return;
+    const home = pin.dataset.homeSide || pin.dataset.side || 'right';
+    pin.dataset.homeSide = home;
+    const stack = isStack();
+    pin.dataset.stack = stack ? '1' : '0';
+    const pairs = pairList(home, stack);
+    let best = pairs[0];
+    let bestScore = Infinity;
+    for (const [cs, ds] of pairs) {
+      applySide(copy, cs);
+      applySide(disc, ds);
+      if (stack) stackOffset(copy, disc, cs);
+      const score = infoOverflow(copy, stage) + infoOverflow(disc, stage) + overlapArea(copy, disc);
+      if (score < bestScore) {
+        bestScore = score;
+        best = [cs, ds];
+      }
+      if (score === 0) break;
+    }
+    applySide(copy, best[0]);
+    applySide(disc, best[1]);
+    if (stack) stackOffset(copy, disc, best[0]);
+    nudgeEl(copy, stage);
+    if (stack && disc) {
+      resetModShift(disc);
+      applySide(disc, best[1]);
+      stackOffset(copy, disc, best[0]);
+    }
+    nudgeEl(disc, stage);
+    drawLeads(pin);
   };
 
   pins.forEach((pin, n) => {
     if (!pin.dataset.homeSide) pin.dataset.homeSide = pin.dataset.side || 'right';
-    const info = document.createElement('div');
-    info.className = 'p2-pin-info';
-    info.setAttribute('aria-hidden', 'true');
-    if (pin.dataset.img) {
-      const photoBtn = document.createElement('button');
-      photoBtn.type = 'button';
-      photoBtn.className = 'p2-pin-info-photo-btn';
-      const alt = pin.dataset.imgAlt || pin.dataset.title || '';
-      photoBtn.setAttribute('aria-label', `查看原图：${alt}`);
-      const photo = document.createElement('img');
-      photo.className = 'p2-pin-info-photo';
-      photo.src = pin.dataset.img;
-      photo.alt = alt;
-      photo.decoding = 'async';
-      photo.draggable = false;
-      photoBtn.appendChild(photo);
-      photoBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if (playing) pausePlay();
-        openLightbox(pin.dataset.img, alt, photoBtn);
-      });
-      info.appendChild(photoBtn);
-    }
-    const copy = document.createElement('div');
-    copy.className = 'p2-pin-info-copy';
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const leads = document.createElementNS(svgNS, 'svg');
+    leads.setAttribute('class', 'p2-pin-leads');
+    leads.setAttribute('viewBox', '-360 -360 720 720');
+    leads.setAttribute('aria-hidden', 'true');
+    ['p2-lead p2-lead-copy', 'p2-lead p2-lead-disc'].forEach((cls) => {
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('class', cls);
+      leads.appendChild(path);
+    });
+    pin.appendChild(leads);
+
+    const copy = document.createElement('article');
+    copy.className = 'p2-pin-copy';
+    copy.dataset.side = pin.dataset.homeSide;
+    copy.setAttribute('aria-hidden', 'true');
     copy.innerHTML =
       `<span class="p2-pin-info-idx">${pad(n + 1)} / ${pad(total)}</span>` +
       `<strong class="p2-pin-info-title"></strong>` +
       `<span class="p2-pin-info-body"></span>`;
     copy.querySelector('.p2-pin-info-title').textContent = pin.dataset.title || '';
     copy.querySelector('.p2-pin-info-body').textContent = pin.dataset.body || '';
-    info.appendChild(copy);
-    pin.appendChild(info);
+    pin.appendChild(copy);
+
+    if (pin.dataset.img) {
+      const disc = document.createElement('button');
+      disc.type = 'button';
+      disc.className = 'p2-pin-disc';
+      disc.dataset.side = SIDE_FLIP[pin.dataset.homeSide] || 'top';
+      const alt = pin.dataset.imgAlt || pin.dataset.title || '';
+      disc.setAttribute('aria-label', `查看原图：${alt}`);
+      disc.setAttribute('aria-hidden', 'true');
+      const photo = document.createElement('img');
+      photo.src = pin.dataset.img;
+      photo.alt = alt;
+      photo.decoding = 'async';
+      photo.draggable = false;
+      disc.appendChild(photo);
+      disc.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (playing) pausePlay();
+        openLightbox(pin.dataset.img, alt, disc);
+      });
+      pin.appendChild(disc);
+    }
   });
 
   const show = (next) => {
@@ -1489,11 +1594,15 @@
     const intro = i < 0;
     pins.forEach((el, n) => {
       if (el.dataset.homeSide) el.dataset.side = el.dataset.homeSide;
-      const box = el.querySelector('.p2-pin-info');
-      resetInfoShift(box);
+      const copy = el.querySelector('.p2-pin-copy');
+      const disc = el.querySelector('.p2-pin-disc');
+      resetModShift(copy);
+      resetModShift(disc);
       el.classList.toggle('is-on', !intro && n === i);
       el.classList.toggle('is-done', !intro && n < i);
-      if (box) box.setAttribute('aria-hidden', intro || n !== i ? 'true' : 'false');
+      const hidden = intro || n !== i ? 'true' : 'false';
+      if (copy) copy.setAttribute('aria-hidden', hidden);
+      if (disc) disc.setAttribute('aria-hidden', hidden);
     });
     const at = intro ? 0 : (pinLens[i] || 0);
     pathNow.style.strokeDashoffset = intro ? `${pathLen}` : `${Math.max(0, pathLen - at)}`;
