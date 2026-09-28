@@ -3043,25 +3043,6 @@ body.tickets-open .scroll-root {
     font-weight: 700;
     max-width: min(90vw, 42rem);
   }
-
-  #page5 #credit {
-    position: absolute;
-    right: var(--ui-inset);
-    top: 50%;
-    transform: translateY(-50%) rotate(-90deg);
-    transform-origin: right center;
-    z-index: var(--z-ui);
-    font-family: var(--font-mono);
-    font-size: 0.76rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    pointer-events: auto;
-  }
-
-  #page5 #credit a {
-    color: var(--muted);
-    text-decoration: none;
-  }
 }
 
 @layer page5-cards {
