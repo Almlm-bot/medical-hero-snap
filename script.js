@@ -1,4 +1,4 @@
-/* cache: 20260927r86 */
+/* cache: 20260928r1 */
 (function () {
   if (!window.gsap) return;
   gsap.registerPlugin(ScrollTrigger);
@@ -1220,12 +1220,14 @@
   const pathNow = document.getElementById('p2-path-now');
   const total = pins.length;
   const playBtn = document.getElementById('p2-play');
+  const restartBtn = document.getElementById('p2-restart');
   const DWELL_MS = 2800;
   let i = -1;
   let pathLen = 0;
   let pinLens = [];
   let playToken = 0;
   let playing = false;
+  let walkMode = 'idle';
 
   const pad = (n) => String(n).padStart(2, '0');
 
@@ -1285,12 +1287,24 @@
     const info = document.createElement('span');
     info.className = 'p2-pin-info';
     info.setAttribute('aria-hidden', 'true');
-    info.innerHTML =
+    if (pin.dataset.img) {
+      const photo = document.createElement('img');
+      photo.className = 'p2-pin-info-photo';
+      photo.src = pin.dataset.img;
+      photo.alt = pin.dataset.imgAlt || pin.dataset.title || '';
+      photo.decoding = 'async';
+      photo.draggable = false;
+      info.appendChild(photo);
+    }
+    const copy = document.createElement('span');
+    copy.className = 'p2-pin-info-copy';
+    copy.innerHTML =
       `<span class="p2-pin-info-idx">${pad(n + 1)} / ${pad(total)}</span>` +
       `<strong class="p2-pin-info-title"></strong>` +
       `<span class="p2-pin-info-body"></span>`;
-    info.querySelector('.p2-pin-info-title').textContent = pin.dataset.title || '';
-    info.querySelector('.p2-pin-info-body').textContent = pin.dataset.body || '';
+    copy.querySelector('.p2-pin-info-title').textContent = pin.dataset.title || '';
+    copy.querySelector('.p2-pin-info-body').textContent = pin.dataset.body || '';
+    info.appendChild(copy);
     pin.appendChild(info);
   });
 
@@ -1307,32 +1321,50 @@
     pathNow.style.strokeDashoffset = intro ? `${pathLen}` : `${Math.max(0, pathLen - at)}`;
   };
 
-  const stopPlay = () => {
-    playToken += 1;
-    playing = false;
-    if (playBtn) {
-      playBtn.classList.remove('is-on');
+  const setWalkUI = () => {
+    if (!playBtn) return;
+    playBtn.classList.remove('is-on', 'is-resume');
+    if (walkMode === 'playing') {
+      playBtn.textContent = '暂停';
+      playBtn.classList.add('is-on');
+      playBtn.setAttribute('aria-pressed', 'true');
+      if (restartBtn) restartBtn.hidden = true;
+    } else if (walkMode === 'paused' || walkMode === 'done') {
+      playBtn.textContent = '继续';
+      playBtn.classList.add('is-resume');
       playBtn.setAttribute('aria-pressed', 'false');
+      if (restartBtn) restartBtn.hidden = false;
+    } else {
       playBtn.textContent = '沿路线走一遍';
+      playBtn.setAttribute('aria-pressed', 'false');
+      if (restartBtn) restartBtn.hidden = true;
     }
   };
 
-  const startPlay = () => {
+  const stopPlay = (nextMode = 'idle') => {
+    playToken += 1;
+    playing = false;
+    walkMode = nextMode;
+    setWalkUI();
+  };
+
+  const startPlay = (from = 0) => {
     const token = ++playToken;
     playing = true;
-    if (playBtn) {
-      playBtn.classList.add('is-on');
-      playBtn.setAttribute('aria-pressed', 'true');
-      playBtn.textContent = '停止';
-    }
-    show(-1);
+    walkMode = 'playing';
+    setWalkUI();
+    const begin = Math.max(0, Math.min(total - 1, from));
+    const resetPath = begin === 0;
+    if (resetPath) show(-1);
     const step = (n) => {
       if (token !== playToken) return;
       show(n);
       if (n >= total - 1) {
         setTimeout(() => {
           if (token !== playToken) return;
-          stopPlay();
+          playing = false;
+          walkMode = 'done';
+          setWalkUI();
         }, DWELL_MS);
         return;
       }
@@ -1340,13 +1372,30 @@
     };
     setTimeout(() => {
       if (token !== playToken) return;
-      step(0);
-    }, 420);
+      step(begin);
+    }, resetPath ? 420 : 80);
+  };
+
+  const pausePlay = () => {
+    stopPlay(i >= total - 1 ? 'done' : 'paused');
+  };
+
+  const resumePlay = () => {
+    if (walkMode === 'done' || i >= total - 1) {
+      stopPlay('idle');
+      return;
+    }
+    const next = i < 0 ? 0 : i + 1;
+    startPlay(next);
+  };
+
+  const restartPlay = () => {
+    startPlay(0);
   };
 
   pins.forEach((btn) => {
     btn.addEventListener('click', () => {
-      stopPlay();
+      stopPlay('idle');
       const n = Number(btn.dataset.i || 0);
       show(n === i ? -1 : n);
     });
@@ -1355,8 +1404,16 @@
   if (playBtn) {
     playBtn.setAttribute('aria-pressed', 'false');
     playBtn.addEventListener('click', () => {
-      if (playing) stopPlay();
-      else startPlay();
+      if (walkMode === 'playing') pausePlay();
+      else if (walkMode === 'paused') resumePlay();
+      else if (walkMode === 'done') stopPlay('idle');
+      else startPlay(0);
+    });
+  }
+
+  if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+      restartPlay();
     });
   }
 
@@ -1377,7 +1434,7 @@
 
   window.page2OnWheel = () => false;
   window.page2SetEntry = () => {
-    stopPlay();
+    stopPlay('idle');
     show(-1);
     spread();
     revealIntro();
