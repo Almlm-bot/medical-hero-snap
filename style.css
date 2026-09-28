@@ -1,4 +1,4 @@
-/* cache: 20260928r2 */
+/* cache: 20260928r3 */
 :root {
   --bg: #ececef;
   --bg-2: #e4e4e8;
@@ -844,6 +844,7 @@ html[data-theme="light"] .header-theme .icon-moon {
 
 .hero-desc-right {
   width: fit-content;
+  max-width: min(22em, 46vw);
   text-align: left;
   font-family: "Noto Sans SC", var(--font);
   font-size: 0.88rem;
@@ -851,6 +852,7 @@ html[data-theme="light"] .header-theme .icon-moon {
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.55;
+  white-space: normal;
 }
 
 .future-tag {
