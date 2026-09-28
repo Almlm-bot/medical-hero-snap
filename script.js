@@ -36,7 +36,8 @@
     x: 18
   });
   gsap.set(".bg-text", {
-    opacity: 0
+    opacity: 0,
+    force3D: false
   });
   // ─── PAGE LOAD TIMELINE ───
   const tl = gsap.timeline({
@@ -74,7 +75,8 @@
       {
         opacity: 1,
         duration: 1.4,
-        ease: "power3.out"
+        ease: "power3.out",
+        force3D: false
       },
       "-=1.2"
     )
@@ -238,6 +240,84 @@
       });
     });
   }
+})();
+
+/* AQUAE SULIS: infinite horizontal loop. CSS % translate was freezing after
+   the quieter r84 size; GSAP x by one copy-width stays seamless. Always runs
+   (except prefers-reduced-motion) so leaving Page 1 cannot leave it paused. */
+(function () {
+  if (!window.gsap) return;
+  const wrap = document.querySelector(".bg-text");
+  const track = wrap && wrap.querySelector(".bg-text-track");
+  if (!wrap || !track) return;
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let tween = null;
+  let resizeT = 0;
+
+  const originals = [...track.querySelectorAll(".bg-text-copy")];
+  if (!originals.length) return;
+
+  const clearClones = () => {
+    [...track.querySelectorAll(".bg-text-copy")].forEach((el) => {
+      if (el.dataset.clone) el.remove();
+    });
+  };
+
+  const fillCopies = () => {
+    clearClones();
+    originals.forEach((el) => {
+      if (!el.isConnected) track.appendChild(el);
+    });
+    const first = originals[0];
+    const unit = first.getBoundingClientRect().width;
+    if (unit < 8) return;
+    const need = Math.max(2, Math.ceil((window.innerWidth * 2) / unit) + 1);
+    while (track.querySelectorAll(".bg-text-copy").length < need) {
+      const clone = first.cloneNode(true);
+      clone.dataset.clone = "1";
+      track.appendChild(clone);
+    }
+  };
+
+  const start = () => {
+    if (tween) {
+      tween.kill();
+      tween = null;
+    }
+    gsap.set(track, { x: 0, xPercent: 0 });
+    wrap.classList.add("is-js-marquee");
+    fillCopies();
+
+    if (reduce.matches) {
+      gsap.set(track, { x: 0 });
+      return;
+    }
+
+    const first = track.querySelector(".bg-text-copy");
+    const w = first ? Math.round(first.getBoundingClientRect().width) : 0;
+    if (w < 8) return;
+
+    tween = gsap.to(track, {
+      x: -w,
+      duration: 36,
+      ease: "none",
+      repeat: -1,
+      force3D: true,
+      overwrite: true
+    });
+  };
+
+  wrap.classList.add("is-js-marquee");
+  start();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(start);
+  }
+  reduce.addEventListener("change", start);
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeT);
+    resizeT = window.setTimeout(start, 180);
+  });
 })();
 
 
