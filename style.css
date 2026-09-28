@@ -1680,7 +1680,9 @@ html, body { height: 100%; margin: 0; }
 .p2-play:hover,
 .p2-play.is-on,
 .p2-play.is-resume,
-.p2-restart:hover {
+.p2-restart:hover,
+.p2-intro.is-in .p2-play.is-on,
+.p2-intro.is-in .p2-play.is-resume {
   background: #1a1915;
   color: #f4ead8;
 }
@@ -4165,7 +4167,9 @@ html[data-theme="dark"] .p2-restart {
 html[data-theme="dark"] .p2-play:hover,
 html[data-theme="dark"] .p2-play.is-on,
 html[data-theme="dark"] .p2-play.is-resume,
-html[data-theme="dark"] .p2-restart:hover {
+html[data-theme="dark"] .p2-restart:hover,
+html[data-theme="dark"] .p2-intro.is-in .p2-play.is-on,
+html[data-theme="dark"] .p2-intro.is-in .p2-play.is-resume {
   background: #ede8df;
   color: #1c1814;
 }
