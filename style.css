@@ -1443,9 +1443,10 @@ html, body { height: 100%; margin: 0; }
 .p2-pin-info {
   position: absolute;
   display: none;
-  width: max-content;
-  max-width: 13.2rem;
-  padding: 0.5rem 0.68rem 0.55rem;
+  width: 12.6rem;
+  max-width: 12.6rem;
+  padding: 0;
+  overflow: hidden;
   border-radius: 0.8rem;
   background: color-mix(in srgb, #fff 92%, transparent);
   border: 1px solid rgba(26, 25, 21, 0.1);
@@ -1456,6 +1457,19 @@ html, body { height: 100%; margin: 0; }
   pointer-events: none;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+}
+
+.p2-pin-info-photo {
+  display: block;
+  width: 100%;
+  height: 4.7rem;
+  object-fit: cover;
+  background: #d8cbb6;
+}
+
+.p2-pin-info-copy {
+  display: block;
+  padding: 0.48rem 0.68rem 0.55rem;
 }
 
 .p2-pin.is-on .p2-pin-info {
@@ -1488,7 +1502,7 @@ html, body { height: 100%; margin: 0; }
 
 .p2-pin-info-idx {
   display: block;
-  margin: 0 0 0.22rem;
+  margin: 0 0 0.18rem;
   font-family: "DM Mono", monospace;
   font-size: 0.62rem;
   letter-spacing: 0.14em;
@@ -1530,7 +1544,8 @@ html, body { height: 100%; margin: 0; }
 .p2-intro h2,
 .p2-body,
 .p2-hint,
-.p2-play {
+.p2-play,
+.p2-restart {
   opacity: 0;
   transform: translateY(0.55rem);
   transition: opacity 0.9s ease, transform 0.9s cubic-bezier(0.22, 1, 0.32, 1);
@@ -1560,7 +1575,8 @@ html, body { height: 100%; margin: 0; }
   transition-delay: 0.52s;
 }
 
-.p2-intro.is-in .p2-play {
+.p2-intro.is-in .p2-play,
+.p2-intro.is-in .p2-restart {
   opacity: 1;
   transform: none;
   transition:
@@ -1621,7 +1637,16 @@ html, body { height: 100%; margin: 0; }
   margin: 0.55rem auto 0;
 }
 
-.p2-play {
+.p2-walk-btns {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.p2-play,
+.p2-restart {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1648,13 +1673,20 @@ html, body { height: 100%; margin: 0; }
     border-color 0.22s ease;
 }
 
+.p2-restart[hidden] {
+  display: none !important;
+}
+
 .p2-play:hover,
-.p2-play.is-on {
+.p2-play.is-on,
+.p2-play.is-resume,
+.p2-restart:hover {
   background: #1a1915;
   color: #f4ead8;
 }
 
-.p2-play:focus-visible {
+.p2-play:focus-visible,
+.p2-restart:focus-visible {
   outline: 1px solid #1a1915;
   outline-offset: 3px;
 }
@@ -1677,7 +1709,11 @@ html, body { height: 100%; margin: 0; }
   }
   .p2-body { display: none; }
   .p2-pin-name { display: none; }
-  .p2-pin-info { max-width: 10.2rem; }
+  .p2-pin-info {
+    width: 10.4rem;
+    max-width: 10.4rem;
+  }
+  .p2-pin-info-photo { height: 4.05rem; }
 }
 
 /* ════════════════════════════════════════════════
@@ -4120,19 +4156,27 @@ html[data-theme="dark"] .p2-hint {
   color: #9a9084;
 }
 
-html[data-theme="dark"] .p2-play {
+html[data-theme="dark"] .p2-play,
+html[data-theme="dark"] .p2-restart {
   border-color: #ede8df;
   color: #ede8df;
 }
 
 html[data-theme="dark"] .p2-play:hover,
-html[data-theme="dark"] .p2-play.is-on {
+html[data-theme="dark"] .p2-play.is-on,
+html[data-theme="dark"] .p2-play.is-resume,
+html[data-theme="dark"] .p2-restart:hover {
   background: #ede8df;
   color: #1c1814;
 }
 
-html[data-theme="dark"] .p2-play:focus-visible {
+html[data-theme="dark"] .p2-play:focus-visible,
+html[data-theme="dark"] .p2-restart:focus-visible {
   outline-color: #ede8df;
+}
+
+html[data-theme="dark"] .p2-pin-info-photo {
+  background: #3a3228;
 }
 
 html[data-theme="dark"] .p2-pin-info {
@@ -4266,6 +4310,8 @@ html[data-theme="dark"] .p6-photo {
 .p2-body,
 .p2-hint,
 .p2-play,
+.p2-restart,
+.p2-pin-info,
 #page3,
 .p3-title,
 .p3-article,
