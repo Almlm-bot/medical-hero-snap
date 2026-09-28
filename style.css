@@ -1340,8 +1340,6 @@ html, body { height: 100%; margin: 0; }
 }
 
 .p2-pin-hit {
-  position: relative;
-  z-index: 3;
   display: flex;
   align-items: center;
   margin: 0;
@@ -1469,48 +1467,16 @@ html, body { height: 100%; margin: 0; }
   display: none;
 }
 
-.p2-pin-leads {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 720px;
-  height: 720px;
-  margin: 0;
-  overflow: visible;
-  pointer-events: none;
-  display: none;
-  z-index: 1;
-  transform: translate(-50%, -50%);
-}
-
-.p2-pin.is-on .p2-pin-leads {
-  display: block;
-}
-
-.p2-lead {
-  fill: none;
-  stroke: #c45a2a;
-  stroke-width: 1.7;
-  stroke-linecap: round;
-  opacity: 0.92;
-}
-
-.p2-pin-copy,
-.p2-pin-disc {
+.p2-pin-info {
   position: absolute;
   display: none;
-  --mod-dx: 0px;
-  --mod-dy: 0px;
-  z-index: 2;
-}
-
-.p2-pin-copy {
-  box-sizing: border-box;
-  width: 17.2rem;
-  max-width: min(17.2rem, 46cqw);
-  padding: 1.05rem 1.15rem 1.12rem;
-  overflow: visible;
-  border-radius: 1rem;
+  flex-direction: column;
+  align-items: stretch;
+  width: 15.6rem;
+  max-width: min(15.6rem, 48cqw);
+  padding: 0;
+  overflow: hidden;
+  border-radius: 0.85rem;
   background: color-mix(in srgb, #fffaf2 94%, transparent);
   border: 1px solid rgba(26, 25, 21, 0.1);
   box-shadow: 0 12px 32px rgba(16, 14, 12, 0.16);
@@ -1522,96 +1488,79 @@ html, body { height: 100%; margin: 0; }
   -webkit-backdrop-filter: blur(10px);
 }
 
-.p2-pin-disc {
+.p2-pin-info-photo-btn {
+  display: flex;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  width: 9.7rem;
-  height: 9.7rem;
-  padding: 0.58rem;
+  width: 100%;
+  flex: none;
   margin: 0;
-  border: 1px solid rgba(26, 25, 21, 0.1);
-  border-radius: 50%;
-  background: color-mix(in srgb, #fffaf2 96%, transparent);
-  box-shadow:
-    0 12px 32px rgba(16, 14, 12, 0.16),
-    inset 0 0 0 1px rgba(255, 248, 236, 0.7);
-  color: inherit;
-  font: inherit;
-  appearance: none;
+  padding: 0.55rem 0.7rem 0;
+  border: 0;
+  background: transparent;
   cursor: zoom-in;
   pointer-events: auto;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
-.p2-pin-disc:focus-visible {
+.p2-pin-info-photo-btn:focus-visible {
   outline: 2px solid #c45a2a;
-  outline-offset: 3px;
+  outline-offset: -2px;
 }
 
-.p2-pin-disc img {
+.p2-pin-info-photo {
   display: block;
+  float: none;
   width: auto;
   height: auto;
   max-width: 100%;
-  max-height: 100%;
+  max-height: 5.2rem;
+  margin: 0 auto;
   object-fit: contain;
   object-position: center;
   background: transparent;
-  border-radius: 0.22rem;
-  pointer-events: none;
 }
 
-.p2-pin.is-on .p2-pin-copy {
+.p2-pin-info-copy {
   display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.72rem 0.9rem 0.82rem;
 }
 
-.p2-pin.is-on .p2-pin-disc {
+.p2-pin.is-on .p2-pin-info {
   display: flex;
 }
 
-.p2-pin-copy[data-side="right"],
-.p2-pin-disc[data-side="right"] {
-  left: calc(100% + 0.78rem);
-  right: auto;
+.p2-pin[data-side="right"] .p2-pin-info {
+  left: calc(100% + 0.42rem);
   top: 50%;
-  bottom: auto;
-  transform: translate(var(--mod-dx), calc(-50% + var(--mod-dy)));
+  transform: translate(var(--info-dx, 0px), calc(-50% + var(--info-dy, 0px)));
 }
 
-.p2-pin-copy[data-side="left"],
-.p2-pin-disc[data-side="left"] {
-  right: calc(100% + 0.78rem);
-  left: auto;
+.p2-pin[data-side="left"] .p2-pin-info {
+  right: calc(100% + 0.42rem);
   top: 50%;
-  bottom: auto;
-  transform: translate(var(--mod-dx), calc(-50% + var(--mod-dy)));
+  transform: translate(var(--info-dx, 0px), calc(-50% + var(--info-dy, 0px)));
 }
 
-.p2-pin-copy[data-side="bottom"],
-.p2-pin-disc[data-side="bottom"] {
-  top: calc(100% + 0.78rem);
-  bottom: auto;
+.p2-pin[data-side="bottom"] .p2-pin-info {
+  top: calc(100% + 0.42rem);
   left: 50%;
-  right: auto;
-  transform: translate(calc(-50% + var(--mod-dx)), var(--mod-dy));
+  transform: translate(calc(-50% + var(--info-dx, 0px)), var(--info-dy, 0px));
 }
 
-.p2-pin-copy[data-side="top"],
-.p2-pin-disc[data-side="top"] {
-  bottom: calc(100% + 0.78rem);
-  top: auto;
+.p2-pin[data-side="top"] .p2-pin-info {
+  bottom: calc(100% + 0.42rem);
   left: 50%;
-  right: auto;
-  transform: translate(calc(-50% + var(--mod-dx)), var(--mod-dy));
+  transform: translate(calc(-50% + var(--info-dx, 0px)), var(--info-dy, 0px));
 }
 
 .p2-pin-info-idx {
   display: block;
-  margin: 0 0 0.34rem;
+  margin: 0 0 0.28rem;
   font-family: "DM Mono", monospace;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   letter-spacing: 0.14em;
   color: #8a8176;
 }
@@ -1619,7 +1568,7 @@ html, body { height: 100%; margin: 0; }
 .p2-pin-info-title {
   display: block;
   font-family: "Noto Serif SC", serif;
-  font-size: 1.18rem;
+  font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   line-height: 1.35;
@@ -1627,10 +1576,10 @@ html, body { height: 100%; margin: 0; }
 
 .p2-pin-info-body {
   display: block;
-  margin: 0.42rem 0 0;
+  margin: 0.38rem 0 0;
   font-family: "Noto Sans SC", sans-serif;
-  font-size: 0.86rem;
-  line-height: 1.8;
+  font-size: 0.8rem;
+  line-height: 1.72;
   letter-spacing: 0.02em;
   color: #6b6862;
 }
@@ -1878,18 +1827,14 @@ html, body { height: 100%; margin: 0; }
   }
   .p2-body { display: none; }
   .p2-pin-name { display: none; }
-  .p2-pin-copy {
-    width: 14.6rem;
-    max-width: min(14.6rem, 78vw);
-    padding: 0.88rem 0.95rem 0.92rem;
+  .p2-pin-info {
+    width: 13.2rem;
+    max-width: min(13.2rem, 72vw);
   }
-  .p2-pin-info-title { font-size: 1.05rem; }
-  .p2-pin-info-body { font-size: 0.8rem; line-height: 1.7; }
-  .p2-pin-disc {
-    width: 7.6rem;
-    height: 7.6rem;
-    padding: 0.42rem;
+  .p2-pin-info-copy {
+    padding: 0.62rem 0.78rem 0.72rem;
   }
+  .p2-pin-info-photo { max-height: 4.4rem; }
 }
 
 /* ════════════════════════════════════════════════
@@ -4353,12 +4298,11 @@ html[data-theme="dark"] .p2-restart:focus-visible {
   outline-color: #ede8df;
 }
 
-html[data-theme="dark"] .p2-pin-disc img {
+html[data-theme="dark"] .p2-pin-info-photo {
   background: transparent;
 }
 
-html[data-theme="dark"] .p2-pin-copy,
-html[data-theme="dark"] .p2-pin-disc {
+html[data-theme="dark"] .p2-pin-info {
   background: color-mix(in srgb, #1c1814 90%, transparent);
   border-color: rgba(237, 232, 223, 0.12);
   color: #ede8df;
@@ -4498,8 +4442,7 @@ html[data-theme="dark"] .p6-photo {
 .p2-hint,
 .p2-play,
 .p2-restart,
-.p2-pin-copy,
-.p2-pin-disc,
+.p2-pin-info,
 .p2-lightbox-img,
 #page3,
 .p3-title,
