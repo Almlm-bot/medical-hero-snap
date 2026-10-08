@@ -1,4 +1,4 @@
-/* cache: 20260928r10 */
+/* cache: 20261008r1 */
 :root {
   --bg: #ececef;
   --bg-2: #e4e4e8;
@@ -558,6 +558,7 @@ body.header-docked #page4 .p4-stage {
 
 body.header-docked #page6 .p6-carousel {
   padding-top: calc(var(--header-top, 20px) + 3.6rem);
+  padding-bottom: 6.4rem;
 }
 
 .logo {
@@ -2850,6 +2851,11 @@ body.tickets-open .scroll-root {
     --reveal-offset: 0.625rem;
     --reveal-duration: 0.5s;
     --z-ui: 10;
+    --p5-copy-col: min(26.5rem, 32vw);
+    --p5-copy-left: 4.75rem;
+    --p5-copy-gap: 1.35rem;
+    --p5-copy-width: min(21.75rem, calc(var(--p5-copy-col) - var(--p5-copy-left) - var(--p5-copy-gap)));
+    --p5-scene-pad-right: max(3rem, 4.5vw);
   }
 }
 
@@ -2879,6 +2885,8 @@ body.tickets-open .scroll-root {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-left: var(--p5-copy-col);
+    padding-right: var(--p5-scene-pad-right);
     perspective: 1100px;
     pointer-events: none;
   }
@@ -2891,8 +2899,9 @@ body.tickets-open .scroll-root {
   #page5 #scroll_container section {
     min-height: 100vh;
     display: flex;
-    align-items: center;
-    padding: 6rem calc(5rem + var(--ui-inset)) 6rem 5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 6.15rem var(--p5-scene-pad-right) 7.5rem var(--p5-copy-left);
   }
 
   #page5 #scroll_container section .text-card {
@@ -3017,7 +3026,7 @@ body.tickets-open .scroll-root {
   #page5 #face_caption {
     position: absolute;
     bottom: var(--ui-inset);
-    left: 50%;
+    left: calc(var(--p5-copy-col) + (100% - var(--p5-copy-col) - var(--p5-scene-pad-right)) / 2);
     translate: -50% 0;
     z-index: var(--z-ui);
     text-align: center;
@@ -3046,40 +3055,29 @@ body.tickets-open .scroll-root {
 }
 
 @layer page5-cards {
-  #page5 .text-card {
-    max-width: 23.75rem;
-    padding: 2.25rem 2rem;
+  #page5 .text-card,
+  #page5 .text-card.right,
+  #page5 .text-card.center {
+    width: var(--p5-copy-width);
+    max-width: var(--p5-copy-width);
+    margin-inline: 0;
+    padding: 1.75rem 1.5rem 1.6rem;
     background: var(--card-bg);
     border-left: var(--hairline) solid var(--card-border);
+    border-right: none;
+    border-top: none;
+    text-align: left;
     backdrop-filter: blur(6px) saturate(120%);
     -webkit-backdrop-filter: blur(6px) saturate(120%);
-    overflow: hidden;
+    overflow: visible;
     transition: background 0.65s ease, border-color 0.65s ease;
   }
 
-  #page5 .text-card.right {
-    margin-inline-start: auto;
-    border-left: none;
-    border-right: var(--hairline) solid var(--card-border);
-    text-align: right;
-  }
-
-  #page5 .text-card.right .h-line {
-    transform-origin: right;
-    margin-inline-start: auto;
-  }
-
-  #page5 .text-card.center {
-    margin-inline: auto;
-    border-left: none;
-    border-top: var(--hairline) solid var(--card-border);
-    text-align: center;
-    max-width: 28.75rem;
-  }
-
+  #page5 .text-card.right .h-line,
   #page5 .text-card.center .h-line {
-    transform-origin: center;
-    margin-inline: auto;
+    transform-origin: left;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
   }
 
   #page5 .tag {
@@ -3114,15 +3112,10 @@ body.tickets-open .scroll-root {
     margin-block-start: 1.25rem;
   }
 
-  #page5 #s0 .text-card {
-    max-width: 28rem;
-    overflow: visible;
-  }
-
   #page5 #s0 h1 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
-    font-size: clamp(2.3rem, 5.5vw, 3.8rem);
+    font-size: clamp(2.05rem, 4.4vw, 2.85rem);
     letter-spacing: 0.08em;
     line-height: 1.18;
   }
@@ -3141,30 +3134,17 @@ body.tickets-open .scroll-root {
     text-transform: none;
   }
 
-  #page5 #s1 {
-    justify-content: flex-end;
-    align-items: center;
-    padding-bottom: 7.5rem;
-  }
-
-  #page5 #s1 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 8.5rem)));
-    padding: 1.75rem 1.5rem 1.6rem;
-    overflow: visible;
-    text-align: left;
-  }
-
-  #page5 #s1 .h-line {
+  #page5 :is(#s1, #s2, #s3, #s4, #s5) .h-line {
     margin-block-end: 1rem;
     margin-inline-start: 0;
     transform-origin: left;
   }
 
-  #page5 #s1 .tag {
+  #page5 :is(#s1, #s2, #s3, #s4, #s5) .tag {
     margin-block-end: 0.9rem;
   }
 
-  #page5 #s1 h2 {
+  #page5 :is(#s1, #s2, #s3, #s4, #s5) h2 {
     font-family: "Noto Serif SC", serif;
     font-weight: 700;
     font-size: clamp(1.5rem, 2.75vw, 1.9rem);
@@ -3172,209 +3152,21 @@ body.tickets-open .scroll-root {
     line-height: 1.32;
   }
 
-  #page5 #s1 .body-text {
+  #page5 :is(#s1, #s2, #s3, #s4, #s5) .body-text {
     font-family: "Noto Sans SC", sans-serif;
     font-size: 0.88rem;
     line-height: 1.85;
     letter-spacing: 0.02em;
     margin-block-start: 1rem;
-  }
-
-  #page5 #s1 .body-text + .body-text {
-    margin-block-start: 0.95rem;
-  }
-
-  #page5 #s1 .cta-row {
-    margin-block-start: 1.35rem;
-    justify-content: flex-start;
-  }
-
-  #page5 #s2 {
-    padding-bottom: 7.5rem;
-  }
-
-  #page5 #s2 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 6.5rem)));
-    padding: 1.75rem 1.5rem 1.6rem;
-    overflow: visible;
     text-align: left;
-  }
-
-  #page5 #s2 .h-line {
-    margin-block-end: 1rem;
-  }
-
-  #page5 #s2 .tag {
-    margin-block-end: 0.9rem;
-  }
-
-  #page5 #s2 h2 {
-    font-family: "Noto Serif SC", serif;
-    font-weight: 700;
-    font-size: clamp(1.5rem, 2.75vw, 1.9rem);
-    letter-spacing: 0.04em;
-    line-height: 1.32;
-  }
-
-  #page5 #s2 .body-text {
-    font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.88rem;
-    line-height: 1.85;
-    letter-spacing: 0.02em;
-    margin-block-start: 1rem;
-  }
-
-  #page5 #s2 .body-text + .body-text {
-    margin-block-start: 0.95rem;
-  }
-
-  #page5 #s2 .cta-row {
-    margin-block-start: 1.35rem;
-  }
-
-  #page5 #s3 {
-    justify-content: flex-end;
-    align-items: center;
-    padding-bottom: 7.5rem;
-  }
-
-  #page5 #s3 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 8.5rem)));
-    padding: 1.75rem 1.5rem 1.6rem;
-    overflow: visible;
-    text-align: left;
-  }
-
-  #page5 #s3 .h-line {
-    margin-block-end: 1rem;
-    margin-inline-start: 0;
-    transform-origin: left;
-  }
-
-  #page5 #s3 .tag {
-    margin-block-end: 0.9rem;
-  }
-
-  #page5 #s3 h2 {
-    font-family: "Noto Serif SC", serif;
-    font-weight: 700;
-    font-size: clamp(1.5rem, 2.75vw, 1.9rem);
-    letter-spacing: 0.04em;
-    line-height: 1.32;
-  }
-
-  #page5 #s3 .body-text {
-    font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.88rem;
-    line-height: 1.85;
-    letter-spacing: 0.02em;
-    margin-block-start: 1rem;
-  }
-
-  #page5 #s3 .body-text + .body-text {
-    margin-block-start: 0.95rem;
-  }
-
-  #page5 #s3 .cta-row {
-    margin-block-start: 1.35rem;
-    justify-content: flex-start;
-  }
-
-  #page5 #s4 {
-    padding-bottom: 7.5rem;
-  }
-
-  #page5 #s4 .text-card {
-    max-width: min(25.5rem, max(20rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 3.25rem)));
-    padding: 1.6rem 1.45rem 1.45rem;
-    overflow: visible;
-    text-align: left;
-  }
-
-  #page5 #s4 .h-line {
-    margin-block-end: 0.85rem;
-  }
-
-  #page5 #s4 .tag {
-    margin-block-end: 0.75rem;
-  }
-
-  #page5 #s4 h2 {
-    font-family: "Noto Serif SC", serif;
-    font-weight: 700;
-    font-size: clamp(1.6rem, 2.9vw, 2.05rem);
-    letter-spacing: 0.06em;
-    line-height: 1.28;
-    text-transform: none;
-  }
-
-  #page5 #s4 .body-text {
-    font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.95rem;
-    line-height: 1.92;
-    letter-spacing: 0.03em;
-    margin-block-start: 0.85rem;
     text-wrap: pretty;
-    text-align: justify;
-    text-justify: inter-ideograph;
   }
 
-  #page5 #s4 .body-text + .body-text {
-    margin-block-start: 0.7rem;
+  #page5 :is(#s1, #s2, #s3, #s4, #s5) .body-text + .body-text {
+    margin-block-start: 0.95rem;
   }
 
-  #page5 #s4 .cta-row {
-    margin-block-start: 1.35rem;
-  }
-
-  #page5 #s5 {
-    justify-content: flex-end;
-    align-items: center;
-    padding-bottom: 7.5rem;
-  }
-
-  #page5 #s5 .text-card {
-    max-width: min(24rem, max(19.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 5.5rem)));
-    padding: 1.6rem 1.45rem 1.45rem;
-    overflow: visible;
-    text-align: left;
-  }
-
-  #page5 #s5 .h-line {
-    margin-block-end: 0.85rem;
-    margin-inline-start: 0;
-    transform-origin: left;
-  }
-
-  #page5 #s5 .tag {
-    margin-block-end: 0.75rem;
-  }
-
-  #page5 #s5 h2 {
-    font-family: "Noto Serif SC", serif;
-    font-weight: 700;
-    font-size: clamp(1.6rem, 2.9vw, 2.05rem);
-    letter-spacing: 0.06em;
-    line-height: 1.28;
-    text-transform: none;
-  }
-
-  #page5 #s5 .body-text {
-    font-family: "Noto Sans SC", sans-serif;
-    font-size: 0.95rem;
-    line-height: 1.92;
-    letter-spacing: 0.03em;
-    margin-block-start: 0.85rem;
-    text-wrap: pretty;
-    text-align: justify;
-    text-justify: inter-ideograph;
-  }
-
-  #page5 #s5 .body-text + .body-text {
-    margin-block-start: 0.7rem;
-  }
-
-  #page5 #s5 .cta-row {
+  #page5 :is(#s1, #s2, #s3, #s4, #s5) .cta-row {
     margin-block-start: 1.35rem;
     justify-content: flex-start;
   }
@@ -3427,7 +3219,7 @@ body.tickets-open .scroll-root {
   }
 
   #page5 .text-card.right .cta-row {
-    justify-content: flex-end;
+    justify-content: flex-start;
   }
 
   #page5 .cta {
@@ -3594,29 +3386,31 @@ body.tickets-open .scroll-root {
       padding: 0 1.5rem 3.5rem;
     }
 
+    #page5 {
+      --p5-copy-col: 0px;
+      --p5-copy-left: 1.5rem;
+      --p5-copy-gap: 0px;
+      --p5-copy-width: 100%;
+      --p5-scene-pad-right: 1.5rem;
+    }
+
+    #page5 #scene {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    #page5 #face_caption {
+      left: 50%;
+    }
+
     #page5 #s0 {
       min-height: 100vh;
       align-items: center;
       padding: 4rem 1.5rem;
     }
 
-    #page5 #s1 {
-      padding: 0 1.5rem 5rem;
-    }
-
-    #page5 #s1 .text-card {
-      max-width: 100%;
-    }
-
-    #page5 #s3 {
-      padding: 0 1.5rem 5rem;
-    }
-
-    #page5 #s3 .text-card {
-      max-width: 100%;
-    }
-
     #page5 :is(.text-card, .text-card.right, .text-card.center) {
+      width: 100%;
       max-width: 100%;
       padding: 1.5rem 1.25rem;
     }
@@ -3658,7 +3452,7 @@ body.tickets-open .scroll-root {
   height: 100%;
   min-height: 0;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) minmax(13.5rem, 30vh);
+  grid-template-rows: minmax(0, 1fr) auto;
 }
 
 .p6-carousel {
@@ -3667,7 +3461,7 @@ body.tickets-open .scroll-root {
   min-height: 0;
   display: grid;
   place-items: center;
-  padding: 1.5vh 0 4.8rem;
+  padding: 2.2vh 0 6.4rem;
   overflow: visible;
   clip-path: inset(0 -50vw 0 -50vw);
   background: var(--p6-cream);
@@ -3755,7 +3549,7 @@ body.tickets-open .scroll-root {
 .p6-controls {
   position: absolute;
   left: 50%;
-  bottom: 1.15rem;
+  bottom: 2.15rem;
   z-index: 3;
   display: flex;
   align-items: center;
@@ -3819,9 +3613,9 @@ body.tickets-open .scroll-root {
   position: relative;
   z-index: 2;
   min-height: 0;
-  height: 100%;
-  padding: 1.65rem 4.5vw 1.35rem;
-  overflow: hidden;
+  height: auto;
+  padding: 1.2rem 4.5vw 1.15rem;
+  overflow: visible;
   isolation: isolate;
   background: var(--p6-ink);
   color: #ede8df;
@@ -3831,7 +3625,7 @@ body.tickets-open .scroll-root {
 
 .p6-top {
   position: absolute;
-  top: 0.7rem;
+  top: 0.85rem;
   left: 4.5vw;
   z-index: 4;
   display: inline-flex;
@@ -3858,19 +3652,20 @@ body.tickets-open .scroll-root {
 }
 
 .p6-footer-grid {
-  height: 100%;
+  height: auto;
   display: grid;
   grid-template-columns: 1.15fr 0.9fr 1.15fr;
-  gap: 1.5rem;
-  align-items: stretch;
+  gap: 1.25rem;
+  align-items: start;
 }
 
 .p6-brand {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 0.85rem;
   min-width: 0;
-  padding-top: 2.35rem;
+  padding-top: 2.05rem;
 }
 
 .p6-logo {
@@ -3893,8 +3688,8 @@ body.tickets-open .scroll-root {
 .p6-sitemap {
   display: flex;
   gap: 2.4rem;
-  align-items: flex-end;
-  padding: 0.4rem 0 0.2rem;
+  align-items: flex-start;
+  padding: 0.15rem 0 0;
 }
 
 .p6-sitemap ul {
@@ -3921,7 +3716,7 @@ body.tickets-open .scroll-root {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 0.45rem 0 0 1.4rem;
+  padding: 0.35rem 0 0 1.4rem;
   border-left: 1px solid var(--p6-line);
   border-right: 1px solid var(--p6-line);
 }
@@ -3966,7 +3761,7 @@ body.tickets-open .scroll-root {
 .p6-signup {
   display: grid;
   align-content: start;
-  gap: 0.28rem;
+  gap: 0.22rem;
   min-width: 0;
   padding-left: 0.4rem;
 }
@@ -4011,9 +3806,15 @@ body.tickets-open .scroll-root {
   font-size: 0.86rem;
 }
 
+.p6-signup-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
 .p6-signup-btn {
   justify-self: start;
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -4033,11 +3834,16 @@ body.tickets-open .scroll-root {
 
 @media (max-width: 56.25em) {
   .p6-shell {
-    grid-template-rows: minmax(0, 1fr) minmax(11rem, 34vh);
+    grid-template-rows: minmax(16rem, 1fr) minmax(10.5rem, 36vh);
+  }
+
+  .p6-carousel {
+    padding-bottom: 5.5rem;
   }
 
   .p6-footer {
     overflow: auto;
+    max-height: 36vh;
     padding: 1.4rem 1.1rem 1rem;
   }
 
