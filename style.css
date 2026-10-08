@@ -2899,9 +2899,9 @@ body.tickets-open .scroll-root {
   #page5 #scroll_container section {
     min-height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
-    padding: 6rem var(--p5-scene-pad-right) 7.5rem var(--p5-copy-left);
+    padding: 6.15rem var(--p5-scene-pad-right) 7.5rem var(--p5-copy-left);
   }
 
   #page5 #scroll_container section .text-card {
