@@ -3134,6 +3134,7 @@ body.tickets-open .scroll-root {
     font-size: clamp(2.3rem, 5.5vw, 3.8rem);
     letter-spacing: 0.08em;
     line-height: 1.18;
+    white-space: nowrap;
   }
 
   #page5 #s0 .body-text {
@@ -3179,6 +3180,7 @@ body.tickets-open .scroll-root {
     font-size: clamp(1.5rem, 2.75vw, 1.9rem);
     letter-spacing: 0.04em;
     line-height: 1.32;
+    white-space: nowrap;
   }
 
   #page5 #s1 .body-text {
@@ -3223,6 +3225,7 @@ body.tickets-open .scroll-root {
     font-size: clamp(1.5rem, 2.75vw, 1.9rem);
     letter-spacing: 0.04em;
     line-height: 1.32;
+    white-space: nowrap;
   }
 
   #page5 #s2 .body-text {
@@ -3270,6 +3273,7 @@ body.tickets-open .scroll-root {
     font-size: clamp(1.5rem, 2.75vw, 1.9rem);
     letter-spacing: 0.04em;
     line-height: 1.32;
+    white-space: nowrap;
   }
 
   #page5 #s3 .body-text {
@@ -3315,12 +3319,13 @@ body.tickets-open .scroll-root {
     letter-spacing: 0.06em;
     line-height: 1.28;
     text-transform: none;
+    white-space: nowrap;
   }
 
   #page5 #s4 .body-text {
     font-family: "Noto Sans SC", sans-serif;
     font-size: 0.95rem;
-    line-height: 1.92;
+    line-height: 1.78;
     letter-spacing: 0.03em;
     margin-block-start: 0.85rem;
     text-wrap: pretty;
@@ -3366,17 +3371,17 @@ body.tickets-open .scroll-root {
     letter-spacing: 0.06em;
     line-height: 1.28;
     text-transform: none;
+    white-space: nowrap;
   }
 
   #page5 #s5 .body-text {
     font-family: "Noto Sans SC", sans-serif;
     font-size: 0.95rem;
-    line-height: 1.92;
+    line-height: 1.78;
     letter-spacing: 0.03em;
     margin-block-start: 0.85rem;
     text-wrap: pretty;
-    text-align: justify;
-    text-justify: inter-ideograph;
+    text-align: start;
   }
 
   #page5 #s5 .body-text + .body-text {
@@ -3387,11 +3392,6 @@ body.tickets-open .scroll-root {
     margin-block-start: 1.35rem;
     justify-content: flex-start;
     flex-wrap: wrap;
-  }
-
-  #page5 #s5 .cta {
-    max-width: 100%;
-    white-space: normal;
   }
 
   #page5 .nowrap {
@@ -3599,6 +3599,28 @@ body.tickets-open .scroll-root {
     #page5 {
       --p5-cube: min(54vw, 64vh, 460px);
       --p5-plate-gap: 2.2rem;
+    }
+  }
+
+  @media (height <= 54em) {
+    #page5 #s4,
+    #page5 #s5 {
+      padding-bottom: 5.5rem;
+    }
+
+    #page5 #s4 .body-text,
+    #page5 #s5 .body-text {
+      margin-block-start: 0.6rem;
+    }
+
+    #page5 #s4 .body-text + .body-text,
+    #page5 #s5 .body-text + .body-text {
+      margin-block-start: 0.48rem;
+    }
+
+    #page5 #s4 .cta-row,
+    #page5 #s5 .cta-row {
+      margin-block-start: 1rem;
     }
   }
 
