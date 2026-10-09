@@ -1,4 +1,4 @@
-/* cache: 20261009r2 */
+/* cache: 20261009r3 */
 :root {
   --bg: #ececef;
   --bg-2: #e4e4e8;
@@ -557,7 +557,8 @@ body.header-docked #page4 .p4-stage {
 }
 
 body.header-docked #page6 .p6-carousel {
-  padding-top: calc(var(--header-top, 20px) + 3.6rem);
+  padding-top: calc(var(--header-top, 20px) + 2.6rem);
+  padding-bottom: 3.6rem;
 }
 
 .logo {
@@ -3721,7 +3722,7 @@ body.tickets-open .scroll-root {
   height: 100%;
   min-height: 0;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) minmax(13.5rem, 30vh);
+  grid-template-rows: minmax(0, 1fr) auto;
 }
 
 .p6-carousel {
@@ -3730,7 +3731,7 @@ body.tickets-open .scroll-root {
   min-height: 0;
   display: grid;
   place-items: center;
-  padding: 1.5vh 0 4.8rem;
+  padding: 1.1vh 0 3.6rem;
   overflow: visible;
   clip-path: inset(0 -50vw 0 -50vw);
   background: var(--p6-cream);
@@ -3882,9 +3883,9 @@ body.tickets-open .scroll-root {
   position: relative;
   z-index: 2;
   min-height: 0;
-  height: 100%;
-  padding: 1.65rem 4.5vw 1.35rem;
-  overflow: hidden;
+  height: auto;
+  padding: 1.2rem 4.5vw 1.05rem;
+  overflow: visible;
   isolation: isolate;
   background: var(--p6-ink);
   color: #ede8df;
@@ -3894,7 +3895,7 @@ body.tickets-open .scroll-root {
 
 .p6-top {
   position: absolute;
-  top: 0.7rem;
+  top: 0.55rem;
   left: 4.5vw;
   z-index: 4;
   display: inline-flex;
@@ -3921,19 +3922,20 @@ body.tickets-open .scroll-root {
 }
 
 .p6-footer-grid {
-  height: 100%;
+  height: auto;
   display: grid;
   grid-template-columns: 1.15fr 0.9fr 1.15fr;
   gap: 1.5rem;
-  align-items: stretch;
+  align-items: start;
 }
 
 .p6-brand {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 1.35rem;
   min-width: 0;
-  padding-top: 2.35rem;
+  padding-top: 2.05rem;
 }
 
 .p6-logo {
@@ -3984,7 +3986,7 @@ body.tickets-open .scroll-root {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 0.45rem 0 0 1.4rem;
+  padding: 0.2rem 0 0 1.4rem;
   border-left: 1px solid var(--p6-line);
   border-right: 1px solid var(--p6-line);
 }
@@ -3994,13 +3996,32 @@ body.tickets-open .scroll-root {
   font-family: "Noto Serif SC", "Instrument Serif", serif;
   font-size: 1.22rem;
   font-weight: 700;
+  font-style: normal;
   letter-spacing: 0.04em;
 }
 
-.p6-social-kicker em {
-  font-style: italic;
-  font-family: "Instrument Serif", serif;
+.p6-credits {
+  margin-top: 1.15rem;
+  display: grid;
+  gap: 0.22rem;
+  color: rgba(237, 232, 223, 0.88);
+}
+
+.p6-credits p {
+  margin: 0;
+  font-family: "Noto Sans SC", Inter, sans-serif;
+  font-size: 0.82rem;
   font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0.04em;
+}
+
+.p6-credits p.p6-credits-title {
+  font-family: "Noto Serif SC", "Instrument Serif", serif;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #ede8df;
 }
 
 .p6-social-row {
@@ -4029,7 +4050,7 @@ body.tickets-open .scroll-root {
 .p6-signup {
   display: grid;
   align-content: start;
-  gap: 0.28rem;
+  gap: 0.22rem;
   min-width: 0;
   padding-left: 0.4rem;
 }
@@ -4074,9 +4095,15 @@ body.tickets-open .scroll-root {
   font-size: 0.86rem;
 }
 
+.p6-signup-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
 .p6-signup-btn {
   justify-self: start;
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -4096,12 +4123,16 @@ body.tickets-open .scroll-root {
 
 @media (max-width: 56.25em) {
   .p6-shell {
-    grid-template-rows: minmax(0, 1fr) minmax(11rem, 34vh);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .p6-carousel {
+    padding-bottom: 3.4rem;
   }
 
   .p6-footer {
-    overflow: auto;
-    padding: 1.4rem 1.1rem 1rem;
+    overflow: visible;
+    padding: 1.15rem 1.1rem 1rem;
   }
 
   .p6-footer-grid {
