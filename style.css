@@ -1,4 +1,4 @@
-/* cache: 20261009r1 */
+/* cache: 20261009r2 */
 :root {
   --bg: #ececef;
   --bg-2: #e4e4e8;
@@ -2850,6 +2850,15 @@ body.tickets-open .scroll-root {
     --reveal-offset: 0.625rem;
     --reveal-duration: 0.5s;
     --z-ui: 10;
+    /* Cube size token — copy plates measure gutters from this, per face. */
+    --p5-cube: min(74vw, 74vh, 560px);
+    --p5-plate-gap: 2.75rem;
+    --p5-plate-max-left: calc(
+      (100vw - var(--p5-cube)) / 2 - 5rem - var(--p5-plate-gap)
+    );
+    --p5-plate-max-right: calc(
+      (100vw - var(--p5-cube)) / 2 - 5rem - var(--ui-inset) - var(--p5-plate-gap)
+    );
   }
 }
 
@@ -2914,7 +2923,7 @@ body.tickets-open .scroll-root {
 
 @layer page5-cube {
   #page5 #cube {
-    --s: min(74vw, 74vh, 560px);
+    --s: var(--p5-cube);
     width: var(--s);
     height: var(--s);
     position: relative;
@@ -3115,7 +3124,7 @@ body.tickets-open .scroll-root {
   }
 
   #page5 #s0 .text-card {
-    max-width: 28rem;
+    max-width: min(28rem, var(--p5-plate-max-left));
     overflow: visible;
   }
 
@@ -3148,7 +3157,7 @@ body.tickets-open .scroll-root {
   }
 
   #page5 #s1 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 8.5rem)));
+    max-width: min(21.5rem, var(--p5-plate-max-right));
     padding: 1.75rem 1.5rem 1.6rem;
     overflow: visible;
     text-align: left;
@@ -3194,7 +3203,7 @@ body.tickets-open .scroll-root {
   }
 
   #page5 #s2 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 6.5rem)));
+    max-width: min(21.5rem, var(--p5-plate-max-left));
     padding: 1.75rem 1.5rem 1.6rem;
     overflow: visible;
     text-align: left;
@@ -3239,7 +3248,7 @@ body.tickets-open .scroll-root {
   }
 
   #page5 #s3 .text-card {
-    max-width: min(21.5rem, max(18.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 8.5rem)));
+    max-width: min(21.5rem, var(--p5-plate-max-right));
     padding: 1.75rem 1.5rem 1.6rem;
     overflow: visible;
     text-align: left;
@@ -3285,8 +3294,8 @@ body.tickets-open .scroll-root {
   }
 
   #page5 #s4 .text-card {
-    max-width: min(25.5rem, max(20rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 3.25rem)));
-    padding: 1.6rem 1.45rem 1.45rem;
+    max-width: min(21.25rem, var(--p5-plate-max-left));
+    padding: 1.6rem 1.7rem 1.45rem 1.45rem;
     overflow: visible;
     text-align: left;
   }
@@ -3334,8 +3343,8 @@ body.tickets-open .scroll-root {
   }
 
   #page5 #s5 .text-card {
-    max-width: min(24rem, max(19.5rem, calc((100vw - min(74vw, 74vh, 560px)) / 2 - 5.5rem)));
-    padding: 1.6rem 1.45rem 1.45rem;
+    max-width: min(21.5rem, var(--p5-plate-max-right));
+    padding: 1.6rem 1.45rem 1.45rem 1.6rem;
     overflow: visible;
     text-align: left;
   }
@@ -3377,6 +3386,12 @@ body.tickets-open .scroll-root {
   #page5 #s5 .cta-row {
     margin-block-start: 1.35rem;
     justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  #page5 #s5 .cta {
+    max-width: 100%;
+    white-space: normal;
   }
 
   #page5 .nowrap {
@@ -3578,6 +3593,15 @@ body.tickets-open .scroll-root {
 }
 
 @layer page5-responsive {
+  /* Laptop gutters are tight with a 560px cube; shrink the mesh so
+     caption plates keep air without sharing one left coordinate. */
+  @media (width <= 80em) and (width > 56.25em) {
+    #page5 {
+      --p5-cube: min(54vw, 64vh, 460px);
+      --p5-plate-gap: 2.2rem;
+    }
+  }
+
   @media (width <= 56.25em) {
     #page5 #hud {
       top: 1rem;
